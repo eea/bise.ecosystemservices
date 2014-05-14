@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<rolemap>
+  <permissions>
+    <!-- -*- extra stuff goes here -*- -->
+    <permission name="bise.ecosystemservices: Add Service" acquire="False">
+      <role name="Manager" />
+      <role name="Site Administrator" /> 
+      <role name="Contributor" />      
+    </permission>
+    <permission name="bise.ecosystemservices: Add Ecosystem" acquire="False">
+      <role name="Manager" />
+      <role name="Site Administrator" /> 
+      <role name="Contributor" />      
+    </permission>
+  </permissions>
+</rolemap>

@@ -5,5 +5,15 @@
 <object>
     <difftypes>
     <!-- -*- extra stuff goes here -*- -->
+
+  <type portal_type="Service">
+   <field name="any" difftype="Compound Diff for Dexterity types"/>
+  </type>
+
+
+  <type portal_type="Ecosystem">
+   <field name="any" difftype="Compound Diff for Dexterity types"/>
+  </type>
+
     </difftypes>
 </object>

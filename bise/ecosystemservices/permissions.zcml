@@ -5,5 +5,17 @@
 
     
       <!-- -*- extra stuff goes here -*- -->
+       <permission
+          id="bise.ecosystemservices.AddService"
+	  title="bise.ecosystemservices: Add Service"
+	  />       
+
+
+       <permission
+          id="bise.ecosystemservices.AddEcosystem"
+	  title="bise.ecosystemservices: Add Ecosystem"
+	  />       
+
+
 
 </configure>
