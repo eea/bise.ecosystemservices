@@ -11,13 +11,13 @@ class AtlasView(grok.View):
 
     def get_ecosystems(self):
         context = aq_inner(self.context)
-        ecosystems = context.getFolderContens({'portal_type': 'Ecosystem'},
+        ecosystems = context.getFolderContents({'portal_type': 'Ecosystem'},
             full_objects=True)
         ret = []
         for ecosystem in ecosystems:
             data = {}
             data['item'] = ecosystem
-            data['services'] = ecosystem.getFolderContens(
+            data['services'] = ecosystem.getFolderContents(
                 {'portal_type': 'Service'},
                 full_objects=True,
             )
