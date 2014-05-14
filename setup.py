@@ -5,7 +5,7 @@ version = '1.0'
 
 setup(name='bise.ecosystemservices',
       version=version,
-      description="Example Dexterity Product",
+      description="Ecosystem Services Maps",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
@@ -16,9 +16,9 @@ setup(name='bise.ecosystemservices',
         "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='',
-      author='',
-      author_email='',
-      url='http://svn.plone.org/svn/collective/',
+      author='Mikel Larreategi',
+      author_email='mlarreategi@codesyntax.com',
+      url='https://github.com/eea/bise.ecosystemservices',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['bise'],
@@ -40,6 +40,6 @@ setup(name='bise.ecosystemservices',
       # addcontent support from paster and before you distribute
       # your package.
       setup_requires=["PasteScript"],
-      paster_plugins = ["ZopeSkel"],
+      paster_plugins=["ZopeSkel"],
 
       )
