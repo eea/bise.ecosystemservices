@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="cs.folderishpage.folderishpage"
+   meta_type="Dexterity FTI"
+   i18n:domain="cs.folderishpage" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+
+  <property name="view_methods" purge="False">
+   <element value="atlasview"/>
+  </property>
+
+</object>
