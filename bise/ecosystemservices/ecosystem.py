@@ -31,7 +31,11 @@ class IEcosystem(form.Schema, IImageScaleTraversable):
     # If you want a model-based interface, edit
     # models/ecosystem.xml to define the content type
     # and add directives here as necessary.
-    form.model("models/ecosystem.xml")
+    text = RichText(
+        title=_(u'Text'),
+        description=_(u'Text of this fact'),
+        required=False,
+        )
 
 
 # Custom content-type class; objects created for this content type will

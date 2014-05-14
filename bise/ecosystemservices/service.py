@@ -31,7 +31,12 @@ class IService(form.Schema, IImageScaleTraversable):
     # If you want a model-based interface, edit
     # models/service.xml to define the content type
     # and add directives here as necessary.
-    form.model("models/service.xml")
+    text = RichText(
+        title=_(u'Text'),
+        description=_(u'Text of this fact'),
+        required=False,
+        )
+
 
 
 # Custom content-type class; objects created for this content type will
