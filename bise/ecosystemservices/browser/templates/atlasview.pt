@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="bise.ecosystemservices">
+<body>
+
+<metal:main fill-slot="content-core">
+  <metal:content-core define-macro="content-core">
+
+  <div class="ecosystem" tal:repeat="ecosystem view/get_ecosystems">
+    <h2 tal:content="ecosystem/item/Title">
+      Here goes the title
+    </h2>
+    <div class="services">
+      <div class="service" tal:repeat="service ecosystem/services">
+        <h2 tal:content="service/Title">
+          Here goes the service title
+        </h2>
+        <div class="service-content"
+          tal:content="structure service/text/output|nothing">
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  </metal:content-core>
+</metal:main>
+
+</body>
+</html>
+
