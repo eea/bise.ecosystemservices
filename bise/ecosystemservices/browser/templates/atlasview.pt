@@ -53,7 +53,31 @@
     <div>
       <select>
         <option>Select service</option>
-        <optgroup label="Provisioning">
+        <tal:block tal:repeat="service view/get_services">
+          <optgroup label="Provisioning">
+            <option tal:define="section service/item/section" 
+              tal:condition="python:section == 1"  
+              tal:attributes="data-webmap service/item/webmapid"
+              tal:content="service/item/title"></option>
+          </optgroup>    
+        </tal:block>  
+        <tal:block tal:repeat="service view/get_services">
+          <optgroup label="Regulation and maintenance">
+            <option tal:define="section service/item/section" 
+              tal:condition="python:section == 2"  
+              tal:attributes="data-webmap service/item/webmapid"
+              tal:content="service/item/title"></option>
+          </optgroup>    
+        </tal:block>  
+        <tal:block tal:repeat="service view/get_services">
+          <optgroup label="Cultural">
+            <option tal:define="section service/item/section" 
+              tal:condition="python:section == 3"  
+              tal:attributes="data-webmap service/item/webmapid"
+              tal:content="service/item/title"></option>
+          </optgroup>    
+        </tal:block>                    
+        <!--optgroup label="Provisioning">
           <option>Nutrition</option>
           <option>Materials</option>
           <option>Energy</option>
@@ -66,27 +90,8 @@
         <optgroup label="Cultural">
           <option>Physical and experiential interactions</option>
           <option>Spiritual, symbolic and other interactions</option>
-        </optgroup>
+        </optgroup-->
       </select>      
-    </div>
-
-  </div>
-
-
-  <div class="ecosystem" tal:repeat="ecosystem view/get_ecosystems">
-    <h2 tal:content="ecosystem/item/Title">
-      Here goes the title
-    </h2>
-    <div class="services">
-      <div class="service" tal:repeat="service ecosystem/services">
-        <h2 tal:content="service/Title">
-          Here goes the service title
-        </h2>
-        <div class="service-content"
-          tal:content="structure service/text/output|nothing">
-
-        </div>
-      </div>
     </div>
 
   </div>
