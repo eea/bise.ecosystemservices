@@ -24,7 +24,7 @@ from bise.ecosystemservices import MessageFactory as _
 # Interface class; used to define content-type schema.
 class IEcosystem(form.Schema, IImageScaleTraversable):
     """
-    Ecossystems
+    Ecosystems
     """
     # If you want a schema-defined interface, delete the form.model
     # line below and delete the matching file in the models sub-directory.
@@ -36,7 +36,27 @@ class IEcosystem(form.Schema, IImageScaleTraversable):
         description=_(u'Text of this fact'),
         required=False,
         )
-
+    category = schema.Choice(
+        title = _(u'Category'),
+        description = _(u'Major ecosystem category (level 1)'),
+        required=True,
+        vocabulary = SimpleVocabulary([
+            SimpleTerm(1, title=u"Terrestrial"),
+            SimpleTerm(2, title=u"Fresh water"),
+            SimpleTerm(3, title=u"Marine"),
+        ])
+        )
+    scale = schema.Choice(
+        title = _(u'Category'),
+        description = _(u'Scale level'),
+        required=True,
+        vocabulary = SimpleVocabulary([
+            SimpleTerm(1, title=u"Global"),
+            SimpleTerm(2, title=u"European"),
+            SimpleTerm(3, title=u"National"),
+            SimpleTerm(4, title=u"Subnational"),
+        ])
+        )  
 
 # Custom content-type class; objects created for this content type will
 # be instances of this class. Use this class to add content-type specific
