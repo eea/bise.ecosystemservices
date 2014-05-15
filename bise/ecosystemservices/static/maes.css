@@ -88,3 +88,10 @@
   border-bottom-right-radius: 10px;
   border-right: 1px solid #CCCCCC;
 } 
+
+#locateDiv{
+  position: absolute;
+  z-index: 2;
+  top: 88px;
+  left: 19px;
+}

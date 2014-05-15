@@ -3,6 +3,7 @@ $(document).ready(function() {
   dojo.require('esri.map');
   dojo.require("esri.dijit.Attribution");
   dojo.require("esri.dijit.Legend");
+  dojo.require("esri.dijit.LocateButton");
 
   var webmaps = [], map, currentMap = 0;
 
@@ -34,7 +35,12 @@ $(document).ready(function() {
         dojo.byId('legendContainer')));
 
       legendDijit.startup();
-
+      var geoLocate = new esri.dijit.LocateButton({
+        map: map
+      }, dojo.create('div', 
+        {id: 'locate'+id},
+        dojo.byId('locateDiv')));
+      geoLocate.startup();
       
     }, function(error){
       alert("error");
@@ -57,12 +63,14 @@ $(document).ready(function() {
       anim.play();
       updateDetails(myMap);
       esri.show(dojo.byId("legend"+currentMap));
+      esri.show(dojo.byId("locate"+currentMap));
     }else{
       createMap(id);
     }
     
   }
   function init(){
+
     createMap("49b66cfb3b8f48dbb62e72d76f479c60");
     $(document).on('change', '#ecosystemSelector', onEcosystemChange);
     $(document).on('change', '#serviceSelector', onServiceChange);
@@ -81,6 +89,7 @@ $(document).ready(function() {
     });
     anim.play();
     esri.hide(dojo.byId("legend"+currentMap));
+    esri.hide(dojo.byId("locate"+currentMap));
   }
   function updateDetails(item){
     dojo.byId("title").innerHTML = item.title;
