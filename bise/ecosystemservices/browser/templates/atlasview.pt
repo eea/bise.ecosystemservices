@@ -129,7 +129,7 @@
     <div id="title" style="font-weight:bold; margin: 10px 0; font-size:22px;display:none"></div>
     <div id="locateDiv"></div>
     <div id="geocodeDiv"></div>
-    <div id="mainMap" style="width:80%;float:left;height: 400px"></div>
+    <div id="mainMap"></div>
     <div id="legendContainer" style="width:20%; float:left;height:400px;overflow:auto"></div>
     <div id="attribution" style="clear:both"></div>
   </div>
