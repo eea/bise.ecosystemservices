@@ -49,7 +49,7 @@
       <select id="serviceSelector">
         <option value="empty" disabled selected>Select service</option>
           <optgroup label="Provisioning">
-            <optgroup label="&nbsp;&nbsp;&nbsp;Nutrition" style="margin-left:15px">
+            <optgroup label="&nbsp;&nbsp;Nutrition" style="margin-left:15px">
               <tal:block tal:repeat="service view/get_services">
                 <option tal:define="division service/item/division" 
                   tal:condition="python:division == 1"  
@@ -57,7 +57,7 @@
                   tal:content="service/item/title"></option>
               </tal:block>
             </optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;Materials">
+            <optgroup label="&nbsp;&nbsp;Materials">
               <tal:block tal:repeat="service view/get_services">
                 <option tal:define="division service/item/division" 
                   tal:condition="python:division == 2"  
@@ -65,7 +65,7 @@
                   tal:content="service/item/title"></option>
               </tal:block>
             </optgroup>    
-            <optgroup label="&nbsp;&nbsp;&nbsp;Energy">
+            <optgroup label="&nbsp;&nbsp;Energy">
               <tal:block tal:repeat="service view/get_services">
                 <option tal:define="division service/item/division" 
                   tal:condition="python:division == 3"  
@@ -75,7 +75,7 @@
             </optgroup>                     
           </optgroup>     
           <optgroup label="Regulation and maintenance">
-            <optgroup label="&nbsp;&nbsp;&nbsp;Mediation of waste, toxics and other nuisances">
+            <optgroup label="&nbsp;&nbsp;Mediation of waste, toxics and other nuisances">
               <tal:block tal:repeat="service view/get_services">
                 <option tal:define="division service/item/division" 
                   tal:condition="python:division == 4"  
@@ -83,7 +83,7 @@
                   tal:content="service/item/title"></option>
               </tal:block>
             </optgroup>
-            <optgroup label="&nbsp;&nbsp;&nbsp;Mediation of flows">
+            <optgroup label="&nbsp;&nbsp;Mediation of flows">
               <tal:block tal:repeat="service view/get_services">
                 <option tal:define="division service/item/division" 
                   tal:condition="python:division == 5"  
@@ -91,7 +91,7 @@
                   tal:content="service/item/title"></option>
               </tal:block>
             </optgroup>   
-            <optgroup label="&nbsp;&nbsp;&nbsp;Maintenance of physical, chemical, biological conditions">
+            <optgroup label="&nbsp;&nbsp;Maintenance of physical, chemical, biological conditions">
               <tal:block tal:repeat="service view/get_services">
                 <option tal:define="division service/item/division" 
                   tal:condition="python:division == 6"  
@@ -102,7 +102,7 @@
           </optgroup>  
         
           <optgroup label="Cultural">
-            <optgroup label="&nbsp;&nbsp;&nbsp;Physical and experiential interactions">
+            <optgroup label="&nbsp;&nbsp;Physical and experiential interactions">
               <tal:block tal:repeat="service view/get_services">
                 <option tal:define="division service/item/division" 
                   tal:condition="python:division == 7"  
@@ -110,7 +110,7 @@
                   tal:content="service/item/title"></option>
               </tal:block>
             </optgroup> 
-            <optgroup label="&nbsp;&nbsp;&nbsp;Spiritual, symbolic and other interactions">
+            <optgroup label="&nbsp;&nbsp;Spiritual, symbolic and other interactions">
               <tal:block tal:repeat="service view/get_services">
                 <option tal:define="division service/item/division" 
                   tal:condition="python:division == 8"  
