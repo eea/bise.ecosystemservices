@@ -9,7 +9,7 @@
     i18n:translate="">Services</property>
   <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
   <property name="factory">bise.ecosystemservices.service</property>
-  <property name="global_allow">False</property>
+  <property name="global_allow">True</property>
   <property name="filter_content_types">False</property>
   <property name="allowed_content_types" />
   <property name="allow_discussion">False</property>

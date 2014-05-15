@@ -6,14 +6,12 @@
   <!-- Basic metadata -->
   <property name="title" i18n:translate="">Ecosystem</property>
   <property name="description"
-    i18n:translate="">Ecossystems</property>
+    i18n:translate="">Ecosystems</property>
   <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
   <property name="factory">bise.ecosystemservices.ecosystem</property>
   <property name="global_allow">True</property>
   <property name="filter_content_types">True</property>
-  <property name="allowed_content_types">
-    <element value="Service" />
-  </property>
+  <property name="allowed_content_types" />
   <property name="allow_discussion">False</property>
 
   <!-- schema and class used for content items -->
