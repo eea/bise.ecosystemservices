@@ -10,6 +10,63 @@
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
+  <div id="scale">
+    <div>Global</div>
+    <div class="selected">European</div>
+    <div>National</div>
+    <div>Subnational</div>
+  </div>
+
+
+  <div id="mapSelector">
+    <div>Ecosystem: </div>
+    <div>
+      <select>
+        <option>Select ecosytem</option>
+        <optgroup label="Terrestrial">
+          <option>Urban</option>
+          <option>Cropland</option>
+          <option>Grassland</option>
+          <option>Woodland and forest</option>
+          <option>Heathland and shrub</option>
+          <option>Sparsely vegetated land</option>
+          <option>Wetlands</option>
+        </optgroup>
+        <optgroup label="Fresh water">
+          <option>Rivers and lakes</option>
+        </optgroup>
+        <optgroup label="Marine">
+          <option>Marine inlets and transitional waters</option>
+          <option>Coastal</option>
+          <option>Shelft</option>
+          <option>Open ocean</option>
+        </optgroup>
+      </select>
+    </div>
+    <div>Service: </div>
+    <div>
+      <select>
+        <option>Select service</option>
+        <optgroup label="Provisioning">
+          <option>Nutrition</option>
+          <option>Materials</option>
+          <option>Energy</option>
+        </optgroup>
+        <optgroup label="Regulation and maintenance">
+          <option>Mediation of waste, toxics and other nuisances</option>
+          <option>Mediation of flows</option>
+          <option>Maintenance of physical, chemical, biological conditions</option>
+        </optgroup>
+        <optgroup label="Cultural">
+          <option>Physical and experiential interactions</option>
+          <option>Spiritual, symbolic and other interactions</option>
+        </optgroup>
+      </select>      
+    </div>
+
+  </div>
+
+
   <div class="ecosystem" tal:repeat="ecosystem view/get_ecosystems">
     <h2 tal:content="ecosystem/item/Title">
       Here goes the title
@@ -28,7 +85,14 @@
 
   </div>
 
-
+  <div style="clear:both" style="display:none">
+  <div id="mapSection" style="height:457px;display:none">
+    <div id="title" style="font-weight:bold; margin: 10px 0; font-size:22px"></div>
+    <div id="mainMap" style="width:80%;float:left;height: 400px"></div>
+    <div id="legendContainer" style="width:20%; float:left"></div>
+    <div id="attribution" style="clear:both"></div>
+  </div>
+  
   </metal:content-core>
 </metal:main>
 
