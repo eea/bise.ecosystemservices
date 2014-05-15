@@ -1,3 +1,4 @@
+$(document).ready(function() {
   dojo.require("esri.arcgis.utils");
   dojo.require('esri.map');
   dojo.require("esri.dijit.Attribution");
@@ -62,7 +63,15 @@
     
   }
   function init(){
-    createMap("f075328577a243ea8f18a7f0ab82cab4");
+    createMap("49b66cfb3b8f48dbb62e72d76f479c60");
+    $(document).on('change', '#ecosystemSelector', onEcosystemChange);
+    $(document).on('change', '#serviceSelector', onServiceChange);
+
+    /**var select = dijit.byId('ecosystemSelector');
+
+    select.on('change', function(evt) {
+        alert('myselect_event');
+    });*/
   }
   function hideCurrentMap(){
     var node = dojo.byId(currentMap);
@@ -78,3 +87,14 @@
     dojo.byId("attribution").innerHTML = item.owner;
   }
   dojo.ready(init);
+  function onEcosystemChange(event){
+    var webmapId = $(this).find(':selected').data('webmap');
+    showMap(webmapId);
+    $("#serviceSelector").val("empty");
+  }
+  function onServiceChange(event){
+    var webmapId = $(this).find(':selected').data('webmap');
+    showMap(webmapId);
+    $("#ecosystemSelector").val("empty");
+  }  
+});
