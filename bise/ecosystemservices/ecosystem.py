@@ -31,11 +31,7 @@ class IEcosystem(form.Schema, IImageScaleTraversable):
     # If you want a model-based interface, edit
     # models/ecosystem.xml to define the content type
     # and add directives here as necessary.
-    text = RichText(
-        title=_(u'Text'),
-        description=_(u'Text of this fact'),
-        required=False,
-        )
+
     category = schema.Choice(
         title = _(u'Category'),
         description = _(u'Major ecosystem category (level 1)'),
@@ -47,7 +43,7 @@ class IEcosystem(form.Schema, IImageScaleTraversable):
         ])
         )
     scale = schema.Choice(
-        title = _(u'Category'),
+        title = _(u'Scale level'),
         description = _(u'Scale level'),
         required=True,
         vocabulary = SimpleVocabulary([
@@ -57,7 +53,16 @@ class IEcosystem(form.Schema, IImageScaleTraversable):
             SimpleTerm(4, title=u"Subnational"),
         ])
         )  
-
+    webmapid = schema.Text(
+        title=_(u'Webmap ID'),
+        description=_(u'Webmap id'),
+        required=True,
+        )
+    text = RichText(
+        title=_(u'Description'),
+        description=_(u'Description of the ecoystem type/ecosystem service'),
+        required=False,
+        )    
 # Custom content-type class; objects created for this content type will
 # be instances of this class. Use this class to add content-type specific
 # methods and properties. Put methods that are mainly useful for rendering
