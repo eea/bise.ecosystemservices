@@ -23,24 +23,30 @@
     <div>
       <select>
         <option>Select ecosytem</option>
-        <optgroup label="Terrestrial">
-          <option>Urban</option>
-          <option>Cropland</option>
-          <option>Grassland</option>
-          <option>Woodland and forest</option>
-          <option>Heathland and shrub</option>
-          <option>Sparsely vegetated land</option>
-          <option>Wetlands</option>
-        </optgroup>
-        <optgroup label="Fresh water">
-          <option>Rivers and lakes</option>
-        </optgroup>
-        <optgroup label="Marine">
-          <option>Marine inlets and transitional waters</option>
-          <option>Coastal</option>
-          <option>Shelft</option>
-          <option>Open ocean</option>
-        </optgroup>
+        <tal:block tal:repeat="ecosystem view/get_ecosystems">
+          <optgroup label="Terrestrial">
+            <option tal:define="category ecosystem/item/category" 
+              tal:condition="python:category == 1"  
+              tal:attributes="data-webmap ecosystem/item/webmapid"
+              tal:content="ecosystem/item/title"></option>
+          </optgroup>
+        </tal:block>
+        <tal:block tal:repeat="ecosystem view/get_ecosystems">
+          <optgroup label="Fresh water">
+            <option tal:define="category ecosystem/item/category" 
+              tal:condition="python:category == 2"  
+              tal:attributes="data-webmap ecosystem/item/webmapid"
+              tal:content="ecosystem/item/title"></option>
+          </optgroup>
+        </tal:block>        
+        <tal:block tal:repeat="ecosystem view/get_ecosystems">
+          <optgroup label="Marine">
+            <option tal:define="category ecosystem/item/category" 
+              tal:condition="python:category == 3"  
+              tal:attributes="data-webmap ecosystem/item/webmapid"
+              tal:content="ecosystem/item/title"></option>
+          </optgroup>
+        </tal:block> 
       </select>
     </div>
     <div>Service: </div>
@@ -85,8 +91,8 @@
 
   </div>
 
-  <div style="clear:both" style="display:none">
-  <div id="mapSection" style="height:457px;display:none">
+  <div style="clear:both">
+  <div id="mapSection" style="height:457px">
     <div id="title" style="font-weight:bold; margin: 10px 0; font-size:22px"></div>
     <div id="mainMap" style="width:80%;float:left;height: 400px"></div>
     <div id="legendContainer" style="width:20%; float:left"></div>
