@@ -7,6 +7,7 @@ $(document).ready(function() {
   dojo.require("esri.dijit.Geocoder");
 
   var webmaps = [], map, currentMap = 0;
+  var extent = null;
 
   function createMap(id){
     var mapDeferred = esri.arcgis.utils.createMap(id, 
@@ -20,6 +21,9 @@ $(document).ready(function() {
     });
     mapDeferred.then(function (response) {
       map = response.map;
+      if (extent){
+        map.setExtent(extent);
+      }
       map.id = response.itemInfo.item.id;
       map.title = response.itemInfo.item.title;
       map.owner = response.itemInfo.item.accessInformation;
@@ -63,6 +67,7 @@ $(document).ready(function() {
     currentMap = id;
     var myMap = webmaps[id];
     if (myMap && myMap.id){
+      myMap.setExtent(extent)
       var node = dojo.byId(myMap.id);
       esri.show(node);
       var anim = dojo.fadeIn({
@@ -103,11 +108,13 @@ $(document).ready(function() {
   dojo.ready(init);
   function onEcosystemChange(event){
     var webmapId = $(this).find(':selected').data('webmap');
+    extent = map.extent;
     showMap(webmapId);
     $("#serviceSelector").val("empty");
   }
   function onServiceChange(event){
     var webmapId = $(this).find(':selected').data('webmap');
+    extent = map.extent;
     showMap(webmapId);
     $("#ecosystemSelector").val("empty");
   }  
