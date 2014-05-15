@@ -1,0 +1,47 @@
+#scale{
+  margin:0 auto;
+}
+#scale div{
+  float: left;
+  width: 150px;
+  background-color: #F5F1EC;
+  text-align: center;
+  color: #666666;
+  border: 1px solid #D4D0CD;
+  padding: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+#scale div:hover {
+  background-color: #999999;
+  color: white;
+}  
+#scale div:active {
+  position:relative;
+  top:1px;
+}
+#scale div.selected {
+  background-color: #999999;
+  color: white;
+}
+#scale div.disabled{
+  color: lightgrey;
+  background-color: white;
+  cursor: default;
+}
+#scale div:first-child{
+  -webkit-border-top-left-radius: 15px;
+  -webkit-border-bottom-left-radius: 15px;
+  -moz-border-radius-topleft: 15px;
+  -moz-border-radius-bottomleft: 15px;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+#scale div:nth-child(4){
+  -webkit-border-top-right-radius: 15px;
+  -webkit-border-bottom-right-radius: 15px;
+  -moz-border-radius-topright: 15px;
+  -moz-border-radius-bottomright: 15px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}  
