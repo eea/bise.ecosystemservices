@@ -51,7 +51,8 @@ class IEcosystem(form.Schema, IImageScaleTraversable):
             SimpleTerm(2, title=u"European"),
             SimpleTerm(3, title=u"National"),
             SimpleTerm(4, title=u"Subnational"),
-        ])
+        ]),
+        default=2
         )  
     webmapid = schema.Text(
         title=_(u'Webmap ID'),
@@ -60,7 +61,7 @@ class IEcosystem(form.Schema, IImageScaleTraversable):
         )
     text = RichText(
         title=_(u'Description'),
-        description=_(u'Description of the ecoystem type/ecosystem service'),
+        description=_(u'Description of the ecoystem type'),
         required=False,
         )    
 # Custom content-type class; objects created for this content type will
