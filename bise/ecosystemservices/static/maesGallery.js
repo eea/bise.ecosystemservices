@@ -1,4 +1,14 @@
 $(document).ready(function() {
+  $("#owl-example").owlCarousel({
+    navigation: true,
+    lazyLoad : true,
+    navigationText: [
+      "<i class='icon-chevron-left icon-white'></i>",
+      "<i class='icon-chevron-right icon-white'></i>"
+    ],
+    rewindNav: false,
+    items: 4
+  }); 
   dojo.require("esri.arcgis.utils");
   dojo.require('esri.map');
   dojo.require("esri.dijit.Attribution");
