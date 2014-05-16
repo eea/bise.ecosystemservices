@@ -10,6 +10,7 @@
   <!-- -*- extra stuff goes here -*- -->
   <object name="Service" meta_type="Dexterity FTI" />
   <object name="Ecosystem" meta_type="Dexterity FTI" />
+  <object name="Study" meta_type="Dexterity FTI" />
   <object name="FolderishPage" meta_type="Dexterity FTI" />
   <object name="Folder" meta_type="Dexterity FTI" />
 </object>

@@ -16,6 +16,9 @@
 	  title="bise.ecosystemservices: Add Ecosystem"
 	  />       
 
-
+       <permission
+          id="bise.ecosystemservices.AddStudy"
+    title="bise.ecosystemservices: Add Study"
+    /> 
 
 </configure>
