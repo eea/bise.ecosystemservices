@@ -29,7 +29,9 @@
 			<tal:block tal:repeat="study view/get_studies">
 	        	<div class="study">
 	        		<a tal:attributes="href study/item/document;">
-	            		<img tal:attributes="src study/item/thumbnail;" style="height:130px"/>
+	        			<div style="height: 144px;">
+	            			<img tal:attributes="src study/item/thumbnail;" style="max-height: 130px;max-width: 195px;"/>
+	            		</div>
 	            	</a>
 	            	<div tal:content="study/item/title">MAES Study</div>
 	          	</div>				
