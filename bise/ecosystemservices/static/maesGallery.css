@@ -1,0 +1,34 @@
+#gallery{
+  background-color: #cccccc;
+  padding: 10px;
+}
+#owl-example{
+  width: 100%;
+}
+.study img{
+  border: 5px solid white;
+}
+.study {
+  padding: 5px;
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;  
+  width: 215px;
+}
+.study div{
+  width: 100%;
+  background-color: white;
+  text-align: center;
+  margin-top: -2px;
+}
+#owl-example .owl-controls .owl-buttons div {
+  position: absolute;
+}
+#owl-example .owl-controls .owl-buttons .owl-next {
+  right: -45px;
+  top: 55px;
+}     
+#owl-example .owl-controls .owl-buttons .owl-prev {
+  left: -45px;
+  top: 55px;
+} 
