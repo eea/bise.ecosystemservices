@@ -7,8 +7,89 @@
       i18n:domain="bise.ecosystemservices">
 <body>
 
+<metal:js fill-slot="javascript_head_slot">
+  <script type="text/javascript" src="/++resource++bise.ecosystemservices/maesGallery.js"></script>
+  <script type="text/javascript" src="http://js.arcgis.com/3.9/"></script>
+  <script type="text/javascript" src="/++resource++bise.ecosystemservices/owl.carousel.min.js"></script>
+  <script>
+  	jQuery(function($){
+	  	$("#owl-example").owlCarousel({
+	    	navigation: true,
+	    	lazyLoad : true,
+	    	navigationText: [
+	      		"<i class='icon-chevron-left icon-white'></i>",
+	      		"<i class='icon-chevron-right icon-white'></i>"
+	      	],
+	    	rewindNav: false,
+	    	items: 4
+	 	});            
+    });
+  </script>
+</metal:js>
+
+<metal:js fill-slot="style_slot">
+  <link rel="stylesheet" type="text/css" href="/++resource++bise.ecosystemservices/maesGallery.css" />
+  <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/esri/css/esri.css"/>
+  <link rel="stylesheet" type="text/css" href="/++resource++bise.ecosystemservices/owl.carousel.css" />
+  <link rel="stylesheet" type="text/css" href="/++resource++bise.ecosystemservices/owl.theme.css" />
+</metal:js>
+
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
-  </metal:content>
+
+	<span>Click on studies of ecosystem services in dedicated areas</span>
+    <div id="gallery">
+		<div id="owl-example" class="owl-carousel">
+        	<div class="study">
+            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
+            	<div>Carbon sequestration in the Basque Country</div>
+          	</div>
+        	<div class="study">
+            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
+            	<div>Carbon sequestration in the Basque Country</div>
+          	</div>   
+        	<div class="study">
+            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
+            	<div>Carbon sequestration in the Basque Country</div>
+          	</div> 
+        	<div class="study">
+            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
+            	<div>Carbon sequestration in the Basque Country</div>
+          	</div> 
+        	<div class="study">
+            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
+            	<div>Carbon sequestration in the Basque Country</div>
+          	</div>           	          	          	       	
+		</div>
+	</div>
+	<div>
+  		<div id="mapSection" style="height:457px;">
+    		<div id="title" style="font-weight:bold; margin: 10px 0; font-size:22px"></div>
+    		<div id="mainMap" style="width:100%;float:left;height: 400px"></div>
+    		<div id="legendContainer" style="width:20%; float:left;display:none"></div>
+    		<div id="attribution" style="clear:both"></div>
+  		</div>
+  		<!--div style="background-color:black;color:white;float:right;width:150px;font-weight: bold;">Map Details</div>
+	  	<div style="clear:both;border:1px solid black;">
+		    <table>
+		    	<tr>
+		      		<td style="font-weight:bold;font-size:14px;vertical-align: top; padding:20px">Ecosytem</td>
+		      		<td style="padding:20px">
+		        		<span style="font-weight:bold;font-size:14px">Grassland</span><br/>
+		        		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		      		</td>
+		      	</tr>
+		      	<tr>
+		      		<td style="font-weight:bold;font-size:14px;vertical-align: top; padding:20px">Service</td>
+		      		<td style="padding:20px">
+		        		<span style="font-weight:bold;font-size:14px">Carbon sequestration</span><br/>
+		        		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+		      		</td>
+		      	</tr>
+		    </table>
+	  	</div-->
+	</div>
+  </metal:content-core>
 </metal:main>
 </body>
+</html>

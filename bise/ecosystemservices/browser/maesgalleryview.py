@@ -9,14 +9,14 @@ class MAESGalleryView(grok.View):
     grok.context(Interface)
     grok.require('zope2.View')
 
-    def get_ecosystems(self):
+    def get_studies(self):
         context = aq_inner(self.context)
-        ecosystems = context.getFolderContents({'portal_type': 'Ecosystem'},
+        studies = context.getFolderContents({'portal_type': 'Study'},
             full_objects=True)
         ret = []
-        for ecosystem in ecosystems:
+        for study in studies:
             data = {}
-            data['item'] = ecosystem
+            data['item'] = study
             ret.append(data)
 
         return ret
