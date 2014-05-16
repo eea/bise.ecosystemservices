@@ -36,8 +36,16 @@ class IStudy(form.Schema, IImageScaleTraversable):
         description=_(u'Description of the ecosystem service'),
         required=False,
         )
-
-
+    thumbnail = schema.Text(
+        title=_(u'Study thumbnail'),
+        description=_(u'Study thumbnail'),
+        required=True,
+        ) 
+    document = schema.Text(
+        title=_(u'Study document'),
+        description=_(u'Study document'),
+        required=True,
+        ) 
 
 # Custom content-type class; objects created for this content type will
 # be instances of this class. Use this class to add content-type specific
