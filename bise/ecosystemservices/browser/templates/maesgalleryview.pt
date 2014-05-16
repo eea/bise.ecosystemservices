@@ -40,26 +40,12 @@
 	<span>Click on studies of ecosystem services in dedicated areas</span>
     <div id="gallery">
 		<div id="owl-example" class="owl-carousel">
-        	<div class="study">
-            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
-            	<div>Carbon sequestration in the Basque Country</div>
-          	</div>
-        	<div class="study">
-            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
-            	<div>Carbon sequestration in the Basque Country</div>
-          	</div>   
-        	<div class="study">
-            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
-            	<div>Carbon sequestration in the Basque Country</div>
-          	</div> 
-        	<div class="study">
-            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
-            	<div>Carbon sequestration in the Basque Country</div>
-          	</div> 
-        	<div class="study">
-            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
-            	<div>Carbon sequestration in the Basque Country</div>
-          	</div>           	          	          	       	
+			<tal:block tal:repeat="study view/get_studies">
+	        	<div class="study">
+	            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
+	            	<div tal:content="study/item/title">MAES Study</div>
+	          	</div>				
+			</tal:block>   	          	          	       	
 		</div>
 	</div>
 	<div>

@@ -7,6 +7,16 @@
       i18n:domain="bise.ecosystemservices">
 <body>
 
+<metal:js fill-slot="javascript_head_slot">
+  <script type="text/javascript" src="/++resource++bise.ecosystemservices/maes.js"></script>
+  <script type="text/javascript" src="http://js.arcgis.com/3.9/"></script>
+</metal:js>
+
+<metal:js fill-slot="style_slot">
+  <link rel="stylesheet" type="text/css" href="/++resource++bise.ecosystemservices/maes.css" />
+  <link rel="stylesheet" type="text/css" href="http://js.arcgis.com/3.9/js/esri/css/esri.css"/>
+</metal:js>
+
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
