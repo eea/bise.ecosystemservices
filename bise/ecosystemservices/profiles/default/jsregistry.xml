@@ -3,7 +3,7 @@
   <javascript
     id="http://js.arcgis.com/3.9/"
     cacheable="False" compression="none" cookable="False"
-    enabled="True" expression=""  inline="False"/>       
+    enabled="False" expression=""  inline="False"/>       
   <javascript
     id="++resource++bise.ecosystemservices/maes.js"
     cacheable="True" compression="safe" cookable="False"
