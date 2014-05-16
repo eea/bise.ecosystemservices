@@ -42,7 +42,9 @@
 		<div id="owl-example" class="owl-carousel">
 			<tal:block tal:repeat="study view/get_studies">
 	        	<div class="study">
-	            	<img src="http://eea.maps.arcgis.com/sharing/rest/content/items/70ff9819de9e476091ae73f52d6565e5/info/thumbnail/ago_downloaded.png"  style="height:130px"/>
+	        		<a tal:attributes="href study/item/document;">
+	            		<img tal:attributes="src study/item/thumbnail;" style="height:130px"/>
+	            	</a>
 	            	<div tal:content="study/item/title">MAES Study</div>
 	          	</div>				
 			</tal:block>   	          	          	       	
@@ -50,7 +52,7 @@
 	</div>
 	<div>
   		<div id="mapSection" style="height:457px;">
-    		<div id="title" style="font-weight:bold; margin: 10px 0; font-size:22px"></div>
+    		<!--div id="title" style="font-weight:bold; margin: 10px 0; font-size:22px"></div-->
     		<div id="mainMap" style="width:100%;float:left;height: 400px"></div>
     		<div id="legendContainer" style="width:20%; float:left;display:none"></div>
     		<div id="attribution" style="clear:both"></div>

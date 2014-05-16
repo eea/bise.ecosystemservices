@@ -1,6 +1,9 @@
 #gallery{
   background-color: #cccccc;
   padding: 10px;
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
 }
 #owl-example{
   width: 100%;
@@ -20,6 +23,12 @@
   background-color: white;
   text-align: center;
   margin-top: -2px;
+}
+.study a{
+  border: 0px !important;
+}
+#mapSection {
+  margin-top: 15px;
 }
 #owl-example .owl-controls .owl-buttons div {
   position: absolute;
@@ -51,4 +60,7 @@
 }
 .owl-wrapper-outer {
   margin-left: 5px;
+}
+#mainMap{
+  border: 3px solid #CCCCCC;
 }
