@@ -71,6 +71,7 @@
 #mapSelector select{
   background: transparent;
   font-size: 14px;
+  font-weight: bold;
 }
 #mapSelector>div:first-child{
   -webkit-border-top-left-radius: 10px;
@@ -96,6 +97,7 @@
   z-index: 2;
   top: 88px;
   left: 19px;
+  display:none;
 }
 #geocodeDiv{
   position: absolute;

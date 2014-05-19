@@ -64,3 +64,6 @@
 #mainMap{
   border: 3px solid #CCCCCC;
 }
+#locateDiv{
+  display: none;
+}
