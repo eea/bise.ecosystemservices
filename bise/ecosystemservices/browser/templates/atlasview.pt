@@ -29,14 +29,14 @@
       <div class="disabled">Subnational</div>
     </div>
   </div>
-  
+
   <div style="clear:both"></div>
 
   <div id="mapSelector">
     <div>Ecosystem: </div>
     <div>
       <select id="ecosystemSelector">
-        <option value="empty" disabled selected>Select ecosytem</option>
+        <option value="empty" disabled selected>Select ecosystem</option>
         <optgroup label="Terrestrial">
           <tal:block tal:repeat="ecosystem view/get_ecosystems">
             <option tal:define="category ecosystem/item/category" 
