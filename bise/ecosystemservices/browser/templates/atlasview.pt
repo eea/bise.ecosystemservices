@@ -20,7 +20,16 @@
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
-
+  <div style="margin:0 auto;width:690px">
+    <div style="text-align:center">Select what should be visible in the map</div>
+    <div id="scale">
+      <div class="disabled">Global</div>
+      <div class="selected">European</div>
+      <div class="disabled">National</div>
+      <div class="disabled">Subnational</div>
+    </div>
+  </div>
+  
   <div style="clear:both"></div>
 
   <div id="mapSelector">
@@ -145,15 +154,7 @@
   </div>
 
   <div style="clear:both"></div>
-  <div style="margin:0 auto;width:690px">
-    <div style="text-align:center">Select what should be visible in the map</div>
-    <div id="scale">
-      <div class="disabled">Global</div>
-      <div class="selected">European</div>
-      <div class="disabled">National</div>
-      <div class="disabled">Subnational</div>
-    </div>
-  </div>
+
   
   </metal:content-core>
 </metal:main>
