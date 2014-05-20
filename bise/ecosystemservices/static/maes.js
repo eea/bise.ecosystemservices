@@ -159,13 +159,16 @@ $(document).ready(function() {
       extent = new esri.geometry.Extent(initExtent.xmin,initExtent.ymin,initExtent.xmax,initExtent.ymax, initExtent.spatialReference);
       console.log("setExtent(scalechange)");
       console.log(extent); 
-      showMap("49b66cfb3b8f48dbb62e72d76f479c60");
+      
 
       if ($(this).data("scale") == "European"){
+        showMap("49b66cfb3b8f48dbb62e72d76f479c60");
         $("#serviceSelectorEurope").show();
       }else if ($(this).data("scale") == "National"){
+        showMap("d0e8c87d45b145a9b8b6a61adc63945a");
         $("#serviceSelectorNational").show();
       }else if ($(this).data("scale") == "Subnational"){
+        showMap("d0e8c87d45b145a9b8b6a61adc63945a");
         $("#serviceSelectorSubnational").show();
       }
     }
