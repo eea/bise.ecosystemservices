@@ -140,7 +140,7 @@ $(document).ready(function() {
       $("#serviceSelectorSubnational").val("empty");
 
       //extent = initExtent;
-      extent = new new esri.geometry.Extent(initExtent.xmin,initExtent.ymin,initExtent.xmax,initExtent.ymax, initExtent.spatialReference);
+      extent = new esri.geometry.Extent(initExtent.xmin,initExtent.ymin,initExtent.xmax,initExtent.ymax, initExtent.spatialReference);
       showMap("49b66cfb3b8f48dbb62e72d76f479c60");
 
       if ($(this).data("scale") == "European"){
