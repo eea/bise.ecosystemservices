@@ -142,7 +142,7 @@
           </optgroup>   
       </select>  
 
-      <select class="serviceSelector" id="serviceSelectorNational">
+      <select class="serviceSelector" id="serviceSelectorNational" style="display:none">
         <option value="empty" disabled selected>Select service</option>
           <optgroup label="Provisioning">
             <optgroup label="&nbsp;&nbsp;Nutrition" style="margin-left:15px">
@@ -218,7 +218,7 @@
       </select>  
 
 
-      <select  class="serviceSelector" id="serviceSelectorSubnational">
+      <select  class="serviceSelector" id="serviceSelectorSubnational" style="display:none">
         <option value="empty" disabled selected>Select service</option>
           <optgroup label="Provisioning">
             <optgroup label="&nbsp;&nbsp;Nutrition" style="margin-left:15px">
