@@ -23,7 +23,7 @@
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 	<tal:content replace="structure here/text/output|nothing" />
-	<span>Click on studies of ecosystem services in dedicated areas</span>
+	<span style="font-style:italic;font-weight:bold">Click on studies of ecosystem services in dedicated areas</span>
     <div id="gallery">
 		<div id="owl-example" class="owl-carousel">
 			<tal:block tal:repeat="study view/get_studies">
