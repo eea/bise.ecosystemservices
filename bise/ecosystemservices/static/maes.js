@@ -134,7 +134,11 @@ $(document).ready(function() {
   }
   function onServiceChange(event){
     var webmapId = $(this).find(':selected').data('webmap');
-    extent = new esri.geometry.Extent(map.extent.xmin, map.extent.ymin, map.extent.xmax, map.extent.ymax, map.extent.spatialReference);
+    if ($("#serviceSelectorEurope").is(':visible')){
+      extent = new esri.geometry.Extent(map.extent.xmin, map.extent.ymin, map.extent.xmax, map.extent.ymax, map.extent.spatialReference);
+    }else{
+      extent = new esri.geometry.Extent(initExtent.xmin, initExtent.ymin, initExtent.xmax, initExtent.ymax, initExtent.spatialReference);
+    }
     console.log("setExtent(serChange)");
     console.log(extent);     
     showMap(webmapId);
