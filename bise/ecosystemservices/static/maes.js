@@ -5,7 +5,7 @@ $(document).ready(function() {
   dojo.require("esri.dijit.Legend");
   dojo.require("esri.dijit.LocateButton");
   dojo.require("esri.dijit.Geocoder");
-  dojo.require("esri.geometry.extent");
+  dojo.require("esri.geometry.Extent");
 
   var webmaps = [], map, currentMap = 0;
   var extent = null;
