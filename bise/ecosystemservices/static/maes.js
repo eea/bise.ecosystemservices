@@ -138,7 +138,8 @@ $(document).ready(function() {
       $("#serviceSelectorNational").val("empty");
       $("#serviceSelectorSubnational").val("empty");
 
-      extent = initExtent;
+      //extent = initExtent;
+      extent = jQuery.extend(true, {}, initExtent);
       showMap("49b66cfb3b8f48dbb62e72d76f479c60");
 
       if ($(this).data("scale") == "European"){
