@@ -5,6 +5,7 @@ $(document).ready(function() {
   dojo.require("esri.dijit.Legend");
   dojo.require("esri.dijit.LocateButton");
   dojo.require("esri.dijit.Geocoder");
+  dojo.require("esri.geometry.extent");
 
   var webmaps = [], map, currentMap = 0;
   var extent = null;
@@ -139,7 +140,7 @@ $(document).ready(function() {
       $("#serviceSelectorSubnational").val("empty");
 
       //extent = initExtent;
-      extent = jQuery.extend(true, {}, initExtent);
+      extent = new new esri.geometry.Extent(initExtent.xmin,initExtent.ymin,initExtent.xmax,initExtent.ymax, initExtent.spatialReference);
       showMap("49b66cfb3b8f48dbb62e72d76f479c60");
 
       if ($(this).data("scale") == "European"){
