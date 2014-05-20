@@ -163,12 +163,15 @@ $(document).ready(function() {
 
       if ($(this).data("scale") == "European"){
         showMap("49b66cfb3b8f48dbb62e72d76f479c60");
+        $("#ecosystemSelector").children().attr("disabled", false);
         $("#serviceSelectorEurope").show();
       }else if ($(this).data("scale") == "National"){
         showMap("d0e8c87d45b145a9b8b6a61adc63945a");
+        $("#ecosystemSelector").children().attr("disabled", true);
         $("#serviceSelectorNational").show();
       }else if ($(this).data("scale") == "Subnational"){
         showMap("d0e8c87d45b145a9b8b6a61adc63945a");
+        $("#ecosystemSelector").children().attr("disabled", true);
         $("#serviceSelectorSubnational").show();
       }
     }

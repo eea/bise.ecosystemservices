@@ -38,7 +38,7 @@
     <div>Ecosystem: </div>
     <div>
       <select id="ecosystemSelector">
-        <option value="empty" disabled selected>Select ecosystem</option>
+        <option value="empty" selected data-webmap="49b66cfb3b8f48dbb62e72d76f479c60">Select ecosystem</option>
         <optgroup label="Terrestrial">
           <tal:block tal:repeat="ecosystem view/get_ecosystems">
             <option tal:define="category ecosystem/item/category" 
@@ -68,7 +68,7 @@
     <div>Service: </div>
     <div>
       <select class="serviceSelector" id="serviceSelectorEurope">
-        <option value="empty" disabled selected>Select service</option>
+        <option value="empty" selected data-webmap="49b66cfb3b8f48dbb62e72d76f479c60">Select service</option>
           <optgroup label="Provisioning">
             <optgroup label="&nbsp;&nbsp;Nutrition" style="margin-left:15px">
               <tal:block tal:repeat="service view/get_services">
@@ -143,7 +143,7 @@
       </select>  
 
       <select class="serviceSelector" id="serviceSelectorNational" style="display:none">
-        <option value="empty" disabled selected>Select service</option>
+        <option value="empty" selected data-webmap="d0e8c87d45b145a9b8b6a61adc63945a">Select service</option>
           <optgroup label="Provisioning">
             <optgroup label="&nbsp;&nbsp;Nutrition" style="margin-left:15px">
               <tal:block tal:repeat="service view/get_services">
@@ -219,7 +219,7 @@
 
 
       <select  class="serviceSelector" id="serviceSelectorSubnational" style="display:none">
-        <option value="empty" disabled selected>Select service</option>
+        <option value="empty" selected data-webmap="d0e8c87d45b145a9b8b6a61adc63945a">Select service</option>
           <optgroup label="Provisioning">
             <optgroup label="&nbsp;&nbsp;Nutrition" style="margin-left:15px">
               <tal:block tal:repeat="service view/get_services">
