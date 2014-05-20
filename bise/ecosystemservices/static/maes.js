@@ -8,6 +8,7 @@ $(document).ready(function() {
 
   var webmaps = [], map, currentMap = 0;
   var extent = null;
+  var initExtent = null;
 
   function createMap(id){
     var mapDeferred = esri.arcgis.utils.createMap(id, 
@@ -23,6 +24,9 @@ $(document).ready(function() {
       map = response.map;
       if (extent){
         map.setExtent(extent);
+      }
+      if (!initExtent){
+        initExtent = map.extent;
       }
       map.id = response.itemInfo.item.id;
       map.title = response.itemInfo.item.title;
@@ -87,7 +91,10 @@ $(document).ready(function() {
 
     createMap("49b66cfb3b8f48dbb62e72d76f479c60");
     $(document).on('change', '#ecosystemSelector', onEcosystemChange);
-    $(document).on('change', '#serviceSelector', onServiceChange);
+    $(document).on('change', '#serviceSelectorEurope', onServiceChange);
+    $(document).on('change', '#serviceSelectorNational', onServiceChange);
+    $(document).on('change', '#serviceSelectorSubnational', onServiceChange);
+    $(document).on('click', '#scale div', onScaleChange);
 
   }
   function hideCurrentMap(){
@@ -110,7 +117,9 @@ $(document).ready(function() {
     var webmapId = $(this).find(':selected').data('webmap');
     extent = map.extent;
     showMap(webmapId);
-    $("#serviceSelector").val("empty");
+    $("#serviceSelectorEurope").val("empty");
+    $("#serviceSelectorNational").val("empty");
+    $("#serviceSelectorSubnational").val("empty");
   }
   function onServiceChange(event){
     var webmapId = $(this).find(':selected').data('webmap');
@@ -118,4 +127,27 @@ $(document).ready(function() {
     showMap(webmapId);
     $("#ecosystemSelector").val("empty");
   }  
+  function onScaleChange(event){
+    if (!$(this).hasClass("disabled")){
+      $(this).parent().children().removeClass("selected");
+      $(this).toggleClass("selected");
+      $(".serviceSelector").hide();
+
+      $("#ecosystemSelector").val("empty"); 
+      $("#serviceSelectorEurope").val("empty");
+      $("#serviceSelectorNational").val("empty");
+      $("#serviceSelectorSubnational").val("empty");
+
+      extent = initExtent;
+      showMap("49b66cfb3b8f48dbb62e72d76f479c60");
+
+      if ($(this).data("scale") == "European"){
+        $("#serviceSelectorEurope").show();
+      }else if ($(this).data("scale") == "National"){
+        $("#serviceSelectorNational").show();
+      }else if ($(this).data("scale") == "Subnational"){
+        $("#serviceSelectorSubnational").show();
+      }
+    }
+  }
 });

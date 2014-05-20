@@ -20,13 +20,15 @@
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
+  <tal:content replace="structure here/text/output|nothing" />
+
   <div style="margin:0 auto;width:690px">
     <div style="text-align:center">Select what should be visible in the map</div>
     <div id="scale">
-      <div class="disabled">Global</div>
-      <div class="selected">European</div>
-      <div class="disabled">National</div>
-      <div class="disabled">Subnational</div>
+      <div data-scale="Global" class="disabled">Global</div>
+      <div data-scale="European" class="selected">European</div>
+      <div data-scale="National">National</div>
+      <div data-scale="Subnational" >Subnational</div>
     </div>
   </div>
 
@@ -65,29 +67,29 @@
     </div>
     <div>Service: </div>
     <div>
-      <select id="serviceSelector">
+      <select class="serviceSelector" id="serviceSelectorEurope">
         <option value="empty" disabled selected>Select service</option>
           <optgroup label="Provisioning">
             <optgroup label="&nbsp;&nbsp;Nutrition" style="margin-left:15px">
               <tal:block tal:repeat="service view/get_services">
-                <option tal:define="division service/item/division" 
-                  tal:condition="python:division == 1"  
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 1 and scale == 2"  
                   tal:attributes="value service/item/id; data-webmap service/item/webmapid"
                   tal:content="service/item/title"></option>
               </tal:block>
             </optgroup>
             <optgroup label="&nbsp;&nbsp;Materials">
               <tal:block tal:repeat="service view/get_services">
-                <option tal:define="division service/item/division" 
-                  tal:condition="python:division == 2"  
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 2 and scale == 2"  
                   tal:attributes="value service/item/id; data-webmap service/item/webmapid"
                   tal:content="service/item/title"></option>
               </tal:block>
             </optgroup>    
             <optgroup label="&nbsp;&nbsp;Energy">
               <tal:block tal:repeat="service view/get_services">
-                <option tal:define="division service/item/division" 
-                  tal:condition="python:division == 3"  
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 3 and scale == 2"  
                   tal:attributes="value service/item/id; data-webmap service/item/webmapid"
                   tal:content="service/item/title"></option>
               </tal:block>
@@ -96,24 +98,24 @@
           <optgroup label="Regulation and maintenance">
             <optgroup label="&nbsp;&nbsp;Mediation of waste, toxics and other nuisances">
               <tal:block tal:repeat="service view/get_services">
-                <option tal:define="division service/item/division" 
-                  tal:condition="python:division == 4"  
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 4 and scale == 2"  
                   tal:attributes="value service/item/id; data-webmap service/item/webmapid"
                   tal:content="service/item/title"></option>
               </tal:block>
             </optgroup>
             <optgroup label="&nbsp;&nbsp;Mediation of flows">
               <tal:block tal:repeat="service view/get_services">
-                <option tal:define="division service/item/division" 
-                  tal:condition="python:division == 5"  
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 5 and scale == 2"  
                   tal:attributes="value service/item/id; data-webmap service/item/webmapid"
                   tal:content="service/item/title"></option>
               </tal:block>
             </optgroup>   
             <optgroup label="&nbsp;&nbsp;Maintenance of physical, chemical, biological conditions">
               <tal:block tal:repeat="service view/get_services">
-                <option tal:define="division service/item/division" 
-                  tal:condition="python:division == 6"  
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 6 and scale == 2"  
                   tal:attributes="value service/item/id; data-webmap service/item/webmapid"
                   tal:content="service/item/title"></option>
               </tal:block>
@@ -123,22 +125,173 @@
           <optgroup label="Cultural">
             <optgroup label="&nbsp;&nbsp;Physical and experiential interactions">
               <tal:block tal:repeat="service view/get_services">
-                <option tal:define="division service/item/division" 
-                  tal:condition="python:division == 7"  
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 7 and scale == 2"  
                   tal:attributes="value service/item/id; data-webmap service/item/webmapid"
                   tal:content="service/item/title"></option>
               </tal:block>
             </optgroup> 
             <optgroup label="&nbsp;&nbsp;Spiritual, symbolic and other interactions">
               <tal:block tal:repeat="service view/get_services">
-                <option tal:define="division service/item/division" 
-                  tal:condition="python:division == 8"  
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 8 and scale == 2"  
                   tal:attributes="value service/item/id; data-webmap service/item/webmapid"
                   tal:content="service/item/title"></option>
                 </tal:block>
             </optgroup>             
           </optgroup>   
-      </select>      
+      </select>  
+
+      <select class="serviceSelector" id="serviceSelectorNational">
+        <option value="empty" disabled selected>Select service</option>
+          <optgroup label="Provisioning">
+            <optgroup label="&nbsp;&nbsp;Nutrition" style="margin-left:15px">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 1 and scale == 3"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>
+            <optgroup label="&nbsp;&nbsp;Materials">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 2 and scale == 3"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>    
+            <optgroup label="&nbsp;&nbsp;Energy">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 3 and scale == 3"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>                     
+          </optgroup>     
+          <optgroup label="Regulation and maintenance">
+            <optgroup label="&nbsp;&nbsp;Mediation of waste, toxics and other nuisances">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 4 and scale == 3"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>
+            <optgroup label="&nbsp;&nbsp;Mediation of flows">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 5 and scale == 3"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>   
+            <optgroup label="&nbsp;&nbsp;Maintenance of physical, chemical, biological conditions">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 6 and scale == 3"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>                      
+          </optgroup>  
+        
+          <optgroup label="Cultural">
+            <optgroup label="&nbsp;&nbsp;Physical and experiential interactions">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 7 and scale == 3"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup> 
+            <optgroup label="&nbsp;&nbsp;Spiritual, symbolic and other interactions">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 8 and scale == 3"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+                </tal:block>
+            </optgroup>             
+          </optgroup>   
+      </select>  
+
+
+      <select  class="serviceSelector" id="serviceSelectorSubnational">
+        <option value="empty" disabled selected>Select service</option>
+          <optgroup label="Provisioning">
+            <optgroup label="&nbsp;&nbsp;Nutrition" style="margin-left:15px">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 1 and scale == 4"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>
+            <optgroup label="&nbsp;&nbsp;Materials">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 2 and scale == 4"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>    
+            <optgroup label="&nbsp;&nbsp;Energy">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 3 and scale == 4"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>                     
+          </optgroup>     
+          <optgroup label="Regulation and maintenance">
+            <optgroup label="&nbsp;&nbsp;Mediation of waste, toxics and other nuisances">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 4 and scale == 4"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>
+            <optgroup label="&nbsp;&nbsp;Mediation of flows">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 5 and scale == 4"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>   
+            <optgroup label="&nbsp;&nbsp;Maintenance of physical, chemical, biological conditions">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 6 and scale == 4"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup>                      
+          </optgroup>  
+        
+          <optgroup label="Cultural">
+            <optgroup label="&nbsp;&nbsp;Physical and experiential interactions">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 7 and scale == 4"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+              </tal:block>
+            </optgroup> 
+            <optgroup label="&nbsp;&nbsp;Spiritual, symbolic and other interactions">
+              <tal:block tal:repeat="service view/get_services">
+                <option tal:define="division service/item/division; scale service/item/scale;" 
+                  tal:condition="python:division == 8 and scale == 4"  
+                  tal:attributes="value service/item/id; data-webmap service/item/webmapid"
+                  tal:content="service/item/title"></option>
+                </tal:block>
+            </optgroup>             
+          </optgroup>   
+      </select>          
     </div>
 
   </div>
