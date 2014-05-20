@@ -25,9 +25,13 @@ $(document).ready(function() {
       map = response.map;
       if (extent){
         map.setExtent(extent);
+        console.log("setExtent");
+        console.log(extent);
       }
       if (!initExtent){
         initExtent = map.extent;
+        console.log("initExtent");
+        console.log(initExtent);
       }
       map.id = response.itemInfo.item.id;
       map.title = response.itemInfo.item.title;
@@ -72,7 +76,9 @@ $(document).ready(function() {
     currentMap = id;
     var myMap = webmaps[id];
     if (myMap && myMap.id){
-      myMap.setExtent(extent)
+      myMap.setExtent(extent);
+        console.log("setExtent(show)");
+        console.log(extent);      
       var node = dojo.byId(myMap.id);
       esri.show(node);
       var anim = dojo.fadeIn({
@@ -117,6 +123,8 @@ $(document).ready(function() {
   function onEcosystemChange(event){
     var webmapId = $(this).find(':selected').data('webmap');
     extent = map.extent;
+    console.log("setExtent(ecoChange)");
+    console.log(extent); 
     showMap(webmapId);
     $("#serviceSelectorEurope").val("empty");
     $("#serviceSelectorNational").val("empty");
@@ -125,6 +133,8 @@ $(document).ready(function() {
   function onServiceChange(event){
     var webmapId = $(this).find(':selected').data('webmap');
     extent = map.extent;
+    console.log("setExtent(serChange)");
+    console.log(extent);     
     showMap(webmapId);
     $("#ecosystemSelector").val("empty");
   }  
@@ -141,6 +151,8 @@ $(document).ready(function() {
 
       //extent = initExtent;
       extent = new esri.geometry.Extent(initExtent.xmin,initExtent.ymin,initExtent.xmax,initExtent.ymax, initExtent.spatialReference);
+      console.log("setExtent(scalechange)");
+      console.log(extent); 
       showMap("49b66cfb3b8f48dbb62e72d76f479c60");
 
       if ($(this).data("scale") == "European"){
