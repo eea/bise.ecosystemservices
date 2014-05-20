@@ -29,7 +29,8 @@ $(document).ready(function() {
         console.log(extent);
       }
       if (!initExtent){
-        initExtent = map.extent;
+        //initExtent = map.extent;
+        initExtent = new esri.geometry.Extent(map.extent.xmin, map.extent.ymin, map.extent.xmax, map.extent.ymax, map.extent.spatialReference);
         console.log("initExtent");
         console.log(initExtent);
       }
@@ -122,7 +123,8 @@ $(document).ready(function() {
   dojo.ready(init);
   function onEcosystemChange(event){
     var webmapId = $(this).find(':selected').data('webmap');
-    extent = map.extent;
+    //extent = map.extent;
+    extent = new esri.geometry.Extent(map.extent.xmin, map.extent.ymin, map.extent.xmax, map.extent.ymax, map.extent.spatialReference);
     console.log("setExtent(ecoChange)");
     console.log(extent); 
     showMap(webmapId);
@@ -132,7 +134,7 @@ $(document).ready(function() {
   }
   function onServiceChange(event){
     var webmapId = $(this).find(':selected').data('webmap');
-    extent = map.extent;
+    extent = new esri.geometry.Extent(map.extent.xmin, map.extent.ymin, map.extent.xmax, map.extent.ymax, map.extent.spatialReference);
     console.log("setExtent(serChange)");
     console.log(extent);     
     showMap(webmapId);
