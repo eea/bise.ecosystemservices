@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
-<object name="bise.ecosystemservices.service"
+<object name="bise.ecosystemservices.study"
    meta_type="Dexterity FTI"
    i18n:domain="bise.ecosystemservices" xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
   <!-- Basic metadata -->
-  <property name="title" i18n:translate="">Service</property>
+  <property name="title" i18n:translate="">Study</property>
   <property name="description"
-    i18n:translate="">Services</property>
+    i18n:translate="">MAES Study</property>
   <property name="icon_expr">string:${portal_url}/folder_icon.png</property>
-  <property name="factory">bise.ecosystemservices.service</property>
+  <property name="factory">bise.ecosystemservices.study</property>
   <property name="global_allow">True</property>
   <property name="filter_content_types">False</property>
   <property name="allowed_content_types" />
   <property name="allow_discussion">False</property>
 
   <!-- schema and class used for content items -->
-  <property name="schema">bise.ecosystemservices.service.IService</property>
-  <property name="klass">bise.ecosystemservices.service.Service</property>
+  <property name="schema">bise.ecosystemservices.study.IStudy</property>
+  <property name="klass">bise.ecosystemservices.study.Study</property>
 
   <property name="behaviors">
     <element value="plone.app.content.interfaces.INameFromTitle" />
@@ -41,7 +41,7 @@
    <element value="view"/>
   </property>
   <property name="default_view_fallback">False</property>
-  <property name="add_permission">bise.ecosystemservices.AddService</property>
+  <property name="add_permission">bise.ecosystemservices.AddStudy</property>
 
 
   <!-- Method aliases -->

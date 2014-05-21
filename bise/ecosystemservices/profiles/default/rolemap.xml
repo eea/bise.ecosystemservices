@@ -12,5 +12,10 @@
       <role name="Site Administrator" /> 
       <role name="Contributor" />      
     </permission>
+    <permission name="bise.ecosystemservices: Add Study" acquire="False">
+      <role name="Manager" />
+      <role name="Site Administrator" /> 
+      <role name="Contributor" />      
+    </permission>    
   </permissions>
 </rolemap>

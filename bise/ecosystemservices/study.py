@@ -22,78 +22,43 @@ from bise.ecosystemservices import MessageFactory as _
 
 
 # Interface class; used to define content-type schema.
-class IService(form.Schema, IImageScaleTraversable):
+class IStudy(form.Schema, IImageScaleTraversable):
     """
-    Services
+    Studies
     """
     # If you want a schema-defined interface, delete the form.model
     # line below and delete the matching file in the models sub-directory.
     # If you want a model-based interface, edit
-    # models/service.xml to define the content type
-    # and add directives here as necessary.
-    section = schema.Choice(
-        title = _(u'Section'),
-        description = _(u'Section'),
-        required=True,
-        vocabulary = SimpleVocabulary([
-            SimpleTerm(1, title=u"Provisioning"),
-            SimpleTerm(2, title=u"Regulation and maintenance"),
-            SimpleTerm(3, title=u"Cultural"),
-        ])
-        ) 
-    division = schema.Choice(
-        title = _(u'Division'),
-        description = _(u'Division'),
-        required=True,
-        vocabulary = SimpleVocabulary([
-            SimpleTerm(1, title=u"Nutrition"),
-            SimpleTerm(2, title=u"Materials"),
-            SimpleTerm(3, title=u"Energy"),
-            SimpleTerm(4, title=u"Mediation of waste, toxics and other nuisances"),
-            SimpleTerm(5, title=u"Mediation of flows"),
-            SimpleTerm(6, title=u"Maintenance of physical, chemical, biological conditions"),
-            SimpleTerm(7, title=u"Physical and experiential interactions"),
-            SimpleTerm(8, title=u"Spiritual, symbolic and other interactions"),
-        ])
-        )     
-
-    scale = schema.Choice(
-        title = _(u'Scale level'),
-        description = _(u'Scale level'),
-        required=True,
-        vocabulary = SimpleVocabulary([
-            SimpleTerm(1, title=u"Global"),
-            SimpleTerm(2, title=u"European"),
-            SimpleTerm(3, title=u"National"),
-            SimpleTerm(4, title=u"Subnational"),
-        ]),
-        default=2
-        )  
-    webmapid = schema.Text(
-        title=_(u'Webmap ID'),
-        description=_(u'Webmap id'),
-        required=True,
-        )            
+    # models/study.xml to define the content type
+    # and add directives here as necessary.            
     text = RichText(
         title=_(u'Description'),
         description=_(u'Description of the ecosystem service'),
         required=False,
         )
-
-
+    thumbnail = schema.Text(
+        title=_(u'Study thumbnail'),
+        description=_(u'Study thumbnail'),
+        required=True,
+        ) 
+    document = schema.Text(
+        title=_(u'Study document'),
+        description=_(u'Study document'),
+        required=True,
+        ) 
 
 # Custom content-type class; objects created for this content type will
 # be instances of this class. Use this class to add content-type specific
 # methods and properties. Put methods that are mainly useful for rendering
 # in separate view classes.
-class Service(dexterity.Container):
-    grok.implements(IService)
+class Study(dexterity.Container):
+    grok.implements(IStudy)
     # Add your class methods and properties here
 
 
 # View class
 # The view will automatically use a similarly named template in
-# templates called serviceview.pt .
+# templates called studyview.pt .
 # Template filenames should be all lower case.
 # The view will render when you request a content object with this
 # interface with "/@@view" appended unless specified otherwise
@@ -102,7 +67,7 @@ class Service(dexterity.Container):
 grok.templatedir('templates')
 
 
-class ServiceView(grok.View):
-    grok.context(IService)
+class StudyView(grok.View):
+    grok.context(IStudy)
     grok.require('zope2.View')
     grok.name('view')
