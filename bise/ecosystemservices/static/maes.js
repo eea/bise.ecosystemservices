@@ -47,14 +47,6 @@ $(document).ready(function() {
 
       legendDijit.startup();
 
-      if ($("#serviceSelectorNational").is(':visible') || $("#serviceSelectorSubnational").is(':visible')){
-        if (id == "d0e8c87d45b145a9b8b6a61adc63945a"){
-          $("#legend"+id+"_msg").html("Select ecosystem");
-        }else{
-          $("#legend"+id+"_msg").html("Zoom to");
-        }
-      }
-
       var geoLocate = new esri.dijit.LocateButton({
         map: map
       }, dojo.create('div', 
@@ -68,7 +60,14 @@ $(document).ready(function() {
         {id: 'geocoder'+id},
         dojo.byId('geocodeDiv')));
       geocoder.startup();
-      
+     
+      if ($("#serviceSelectorNational").is(':visible') || $("#serviceSelectorSubnational").is(':visible')){
+        if (id == "d0e8c87d45b145a9b8b6a61adc63945a"){
+          $("#legend"+id+"_msg").html("Select ecosystem");
+        }else{
+          $("#legend"+id+"_msg").html("Zoom to");
+        }
+      } 
     }, function(error){
       alert("error");
       if (map) {
