@@ -40,7 +40,6 @@ $(document).ready(function() {
       var legend = esri.arcgis.utils.getLegendLayers(response);
       var legendDijit = new esri.dijit.Legend({
           map:map,
-          autoUpdate: false,
           layerInfos: legend
       }, dojo.create('div', 
         {id: 'legend'+id},
