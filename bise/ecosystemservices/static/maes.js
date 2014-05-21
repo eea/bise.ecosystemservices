@@ -49,9 +49,9 @@ $(document).ready(function() {
 
       if ($("#serviceSelectorNational").is(':visible') || $("#serviceSelectorSubnational").is(':visible')){
         if (id == "d0e8c87d45b145a9b8b6a61adc63945a"){
-          $("#legend"+id+"_msg").text("Select ecosystem");
+          $("#legend"+id+"_msg").html("Select ecosystem");
         }else{
-          $("#legend"+id+"_msg").text("Zoom to");
+          $("#legend"+id+"_msg").html("Zoom to");
         }
       }
 
