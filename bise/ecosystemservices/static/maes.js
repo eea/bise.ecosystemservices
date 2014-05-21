@@ -63,11 +63,17 @@ $(document).ready(function() {
     
       if ($("#serviceSelectorNational").is(':visible') || $("#serviceSelectorSubnational").is(':visible')){     
         if (id == "d0e8c87d45b145a9b8b6a61adc63945a"){
-          $("#legend"+id+"_msg").html("Select ecosystem");
+          $("#legend"+id+"_msg").html("");
         }else{
-          window.setTimeout(function(){
-            $("#legend"+id+"_msg").html("Zoom to");
-          }, 1000);
+          if ($("#serviceSelectorNational").is(':visible'){
+            window.setTimeout(function(){
+              $("#legend"+id+"_msg").html("Zoom to the country to visualise the selected ecosystem service");
+            }, 600);
+          }else{
+            window.setTimeout(function(){
+              $("#legend"+id+"_msg").html("Zoom to the area to visualise the selected ecosystem service");
+            }, 600);            
+          }
         }     
       }
     }, function(error){
