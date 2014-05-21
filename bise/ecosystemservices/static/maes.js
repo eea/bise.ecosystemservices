@@ -67,7 +67,7 @@ $(document).ready(function() {
         }else{
           window.setTimeout(function(){
             $("#legend"+id+"_msg").html("Zoom to");
-          }, 2000);
+          }, 1000);
         }     
       }
     }, function(error){
