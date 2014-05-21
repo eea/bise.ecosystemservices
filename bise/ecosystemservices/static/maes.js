@@ -60,8 +60,16 @@ $(document).ready(function() {
         {id: 'geocoder'+id},
         dojo.byId('geocodeDiv')));
       geocoder.startup();
-     
- 
+    
+      if ($("#serviceSelectorNational").is(':visible') || $("#serviceSelectorSubnational").is(':visible')){     
+        if (id == "d0e8c87d45b145a9b8b6a61adc63945a"){
+          $("#legend"+id+"_msg").html("Select ecosystem");
+        }else{
+          window.setTimeout(function(){
+            $("#legend"+id+"_msg").html("Zoom to");
+          }, 2000);
+        }     
+      }
     }, function(error){
       alert("error");
       if (map) {
@@ -89,13 +97,7 @@ $(document).ready(function() {
     }else{
       createMap(id);
     }
-    if ($("#serviceSelectorNational").is(':visible') || $("#serviceSelectorSubnational").is(':visible')){
-      if (id == "d0e8c87d45b145a9b8b6a61adc63945a"){
-        $("#legend"+id+"_msg").html("Select ecosystem");
-      }else{
-        $("#legend"+id+"_msg").html("Zoom to");
-      }
-    }    
+    
   }
   function init(){
 
@@ -158,17 +160,17 @@ $(document).ready(function() {
       
 
       if ($(this).data("scale") == "European"){
-        showMap("49b66cfb3b8f48dbb62e72d76f479c60");
         $("#ecosystemSelector").children().attr("disabled", false);
-        $("#serviceSelectorEurope").show();
+        $("#serviceSelectorEurope").show();        
+        showMap("49b66cfb3b8f48dbb62e72d76f479c60");
       }else if ($(this).data("scale") == "National"){
-        showMap("d0e8c87d45b145a9b8b6a61adc63945a");
         $("#ecosystemSelector").children().attr("disabled", true);
-        $("#serviceSelectorNational").show();
+        $("#serviceSelectorNational").show();        
+        showMap("d0e8c87d45b145a9b8b6a61adc63945a");
       }else if ($(this).data("scale") == "Subnational"){
-        showMap("d0e8c87d45b145a9b8b6a61adc63945a");
         $("#ecosystemSelector").children().attr("disabled", true);
-        $("#serviceSelectorSubnational").show();
+        $("#serviceSelectorSubnational").show();        
+        showMap("d0e8c87d45b145a9b8b6a61adc63945a");
       }
     }
   }
