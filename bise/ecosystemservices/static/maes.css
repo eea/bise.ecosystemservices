@@ -117,3 +117,6 @@
   float:left;
   height: 400px;
 }
+[disabled] option {
+  color: gray !important;
+}

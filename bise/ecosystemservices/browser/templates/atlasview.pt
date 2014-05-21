@@ -23,7 +23,7 @@
   <tal:content replace="structure here/text/output|nothing" />
 
   <div style="margin:0 auto;width:690px">
-    <div style="text-align:center">Select what should be visible in the map</div>
+    <div style="text-align:center">Select what maps should be visible in the viewer</div>
     <div id="scale">
       <div data-scale="Global" class="disabled">Global</div>
       <div data-scale="European" class="selected">European</div>
