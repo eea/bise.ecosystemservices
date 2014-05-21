@@ -65,7 +65,7 @@ $(document).ready(function() {
         if (id == "d0e8c87d45b145a9b8b6a61adc63945a"){
           $("#legend"+id+"_msg").html("");
         }else{
-          if ($("#serviceSelectorNational").is(':visible'){
+          if ($("#serviceSelectorNational").is(':visible')){
             window.setTimeout(function(){
               $("#legend"+id+"_msg").html("Zoom to the country to visualise the selected ecosystem service");
             }, 600);
