@@ -25,14 +25,10 @@ $(document).ready(function() {
       map = response.map;
       if (extent){
         map.setExtent(extent);
-        console.log("setExtent");
-        console.log(extent);
       }
       if (!initExtent){
         //initExtent = map.extent;
         initExtent = new esri.geometry.Extent(map.extent.xmin, map.extent.ymin, map.extent.xmax, map.extent.ymax, map.extent.spatialReference);
-        console.log("initExtent");
-        console.log(initExtent);
       }
       map.id = response.itemInfo.item.id;
       map.title = response.itemInfo.item.title;
@@ -77,9 +73,7 @@ $(document).ready(function() {
     currentMap = id;
     var myMap = webmaps[id];
     if (myMap && myMap.id){
-      myMap.setExtent(extent);
-        console.log("setExtent(show)");
-        console.log(extent);      
+      myMap.setExtent(extent);     
       var node = dojo.byId(myMap.id);
       esri.show(node);
       var anim = dojo.fadeIn({
@@ -124,9 +118,7 @@ $(document).ready(function() {
   function onEcosystemChange(event){
     var webmapId = $(this).find(':selected').data('webmap');
     //extent = map.extent;
-    extent = new esri.geometry.Extent(map.extent.xmin, map.extent.ymin, map.extent.xmax, map.extent.ymax, map.extent.spatialReference);
-    console.log("setExtent(ecoChange)");
-    console.log(extent); 
+    extent = new esri.geometry.Extent(map.extent.xmin, map.extent.ymin, map.extent.xmax, map.extent.ymax, map.extent.spatialReference); 
     showMap(webmapId);
     $("#serviceSelectorEurope").val("empty");
     $("#serviceSelectorNational").val("empty");
@@ -138,9 +130,7 @@ $(document).ready(function() {
       extent = new esri.geometry.Extent(map.extent.xmin, map.extent.ymin, map.extent.xmax, map.extent.ymax, map.extent.spatialReference);
     }else{
       extent = new esri.geometry.Extent(initExtent.xmin, initExtent.ymin, initExtent.xmax, initExtent.ymax, initExtent.spatialReference);
-    }
-    console.log("setExtent(serChange)");
-    console.log(extent);     
+    }   
     showMap(webmapId);
     $("#ecosystemSelector").val("empty");
   }  
@@ -157,8 +147,6 @@ $(document).ready(function() {
 
       //extent = initExtent;
       extent = new esri.geometry.Extent(initExtent.xmin,initExtent.ymin,initExtent.xmax,initExtent.ymax, initExtent.spatialReference);
-      console.log("setExtent(scalechange)");
-      console.log(extent); 
       
 
       if ($(this).data("scale") == "European"){
