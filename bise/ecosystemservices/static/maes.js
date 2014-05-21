@@ -46,6 +46,15 @@ $(document).ready(function() {
         dojo.byId('legendContainer')));
 
       legendDijit.startup();
+
+      if ($("#serviceSelectorNational").is(':visible') || $("#serviceSelectorSubnational").is(':visible')){
+        if (id == "d0e8c87d45b145a9b8b6a61adc63945a"){
+          $("#legend"+id+"_msg").text("Select ecosystem");
+        }else{
+          $("#legend"+id+"_msg").text("Zoom to");
+        }
+      }
+
       var geoLocate = new esri.dijit.LocateButton({
         map: map
       }, dojo.create('div', 
