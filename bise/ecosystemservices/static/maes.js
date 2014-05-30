@@ -106,14 +106,16 @@ $(document).ready(function() {
     
   }
   function init(){
-
-    createMap("49b66cfb3b8f48dbb62e72d76f479c60");
-    $(document).on('change', '#ecosystemSelector', onEcosystemChange);
-    $(document).on('change', '#serviceSelectorEurope', onServiceChange);
-    $(document).on('change', '#serviceSelectorNational', onServiceChange);
-    $(document).on('change', '#serviceSelectorSubnational', onServiceChange);
-    $(document).on('click', '#scale div', onScaleChange);
-
+    if ($("body").hasClass("template-atlasview")){ 
+      createMap("49b66cfb3b8f48dbb62e72d76f479c60");
+      $(document).on('change', '#ecosystemSelector', onEcosystemChange);
+      $(document).on('change', '#serviceSelectorEurope', onServiceChange);
+      $(document).on('change', '#serviceSelectorNational', onServiceChange);
+      $(document).on('change', '#serviceSelectorSubnational', onServiceChange);
+      $(document).on('click', '#scale div', onScaleChange);         
+    }else if ($("body").hasClass("portaltype-ecosystem")){
+      createMap($("#webmapid").val());
+    }
   }
   function hideCurrentMap(){
     var node = dojo.byId(currentMap);
@@ -127,7 +129,7 @@ $(document).ready(function() {
     esri.hide(dojo.byId("geocoder"+currentMap));
   }
   function updateDetails(item){
-    dojo.byId("title").innerHTML = item.title;
+    //dojo.byId("title").innerHTML = item.title;
     dojo.byId("attribution").innerHTML = item.owner;
   }
   dojo.ready(init);
