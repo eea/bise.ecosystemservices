@@ -1,14 +1,12 @@
 Changelog
 =========
 
-1.0.1 (2014-05-21)
+1.0.1 - (2014-05-21)
 ---------------------
-
 - Brown bag release with the real content of the package
   [erral]
 
-1.0 (2014-05-21)
+1.0 - (2014-05-21)
 -------------------
-
 - Initial release
   [erral]

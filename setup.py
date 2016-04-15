@@ -1,10 +1,12 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.1'
+NAME = 'bise.ecosystemservices'
+PATH = NAME.split('.') + ['version.txt']
+VERSION = open(os.path.join(*PATH)).read().strip()
 
-setup(name='bise.ecosystemservices',
-      version=version,
+setup(name=NAME,
+      version=VERSION,
       description="Ecosystem Services Maps",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
