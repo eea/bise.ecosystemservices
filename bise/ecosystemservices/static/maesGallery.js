@@ -108,8 +108,8 @@ $(document).ready(function() {
     esri.hide(dojo.byId("geocoder"+currentMap));
   }
   function updateDetails(item){
-    dojo.byId("title").innerHTML = item.title;
-    dojo.byId("attribution").innerHTML = item.owner;
+    // dojo.byId("title").innerHTML = item.title;
+    // dojo.byId("attribution").innerHTML = item.owner;
   }
   dojo.ready(init);
 });

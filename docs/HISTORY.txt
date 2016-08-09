@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.1-dev - (unreleased)
+-----------------------
+* Bug fix: fix javascript error in maesgallery_view
+[tiberich #74914]
+
 1.0.1 - (2014-05-21)
 ---------------------
 - Brown bag release with the real content of the package
