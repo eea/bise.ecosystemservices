@@ -1,0 +1,12 @@
+<div tal:define="daviz options/daviz; href daviz/item_url; title daviz/item_title" tal:omit-tag="">
+  <a href="" tal:attributes="href href" tal:content="title">Title</a>
+  <a href="" tal:attributes="href daviz/item_url">
+    <img tal:attributes="src string:${href}/image_preview; alt title" />
+  </a>
+  <div>
+    <!-- <iframe width='988' height='730'  -->
+      <!--   tal:attributes="src string:${href}/embed&#45;chart?chart=chart_1&#38;chartWidth=975&#38;chartHeight=600&#38;padding=fixed" -->
+      <!--   src=''> -->
+      <!-- </iframe> -->
+  </div>
+</div>
