@@ -19,6 +19,18 @@
         for="*"
         />
 
+TODO: remove this after development, it is duplicate
+    <plone:tile
+        name="bise.daviz_listing"
+        title="Daviz Grid Listing"
+        description="A tile to list Daviz in a grid"
+        add_permission="cmf.ModifyPortalContent"
+        schema=".listing.IListingTile"
+        class=".listing.DavizGridListingTile"
+        permission="zope2.View"
+        for="*"
+        />
+
     <plone:tile
         name="bise.daviz_grid_listing"
         title="Daviz Grid Listing"
