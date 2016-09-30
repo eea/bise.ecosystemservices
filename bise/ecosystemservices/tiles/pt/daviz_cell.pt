@@ -1,12 +1,21 @@
-<div tal:define="daviz options/daviz; href daviz/item_url; title daviz/item_title" tal:omit-tag="">
-  <a href="" tal:attributes="href href" tal:content="title">Title</a>
-  <a href="" tal:attributes="href daviz/item_url">
+<div class="card [ is-collapsed ]" 
+  tal:define="daviz options/daviz; href daviz/item_url; title daviz/item_title">
+  <div class="card__inner [ js-expander ]">
+    <h5 class="card-title" tal:content="title">Title</h5>
     <img tal:attributes="src string:${href}/image_preview; alt title" />
-  </a>
-  <div>
-    <!-- <iframe width='988' height='730'  -->
-      <!--   tal:attributes="src string:${href}/embed&#45;chart?chart=chart_1&#38;chartWidth=975&#38;chartHeight=600&#38;padding=fixed" -->
-      <!--   src=''> -->
-      <!-- </iframe> -->
+  </div>
+  <div class="card__expander">
+    <i class="fa fa-close [ js-collapser ]"></i>
+
+    <div class="iframe-wrapper" 
+      tal:attributes="data-iframe-url string:${href}/embed-chart?chart=chart_1&chartWidth=600&chartHeight=450&padding=fixed;"
+      data-iframe-width="600" 
+      data-iframe-height="400">
+    </div>
+    <div class="card-desc">
+      <a href="" tal:attributes="href daviz/item_url" tal:content="title">Title</a>
+      <p tal:replace="nothing">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+      <a href="" tal:attributes="href daviz/item_url" target="_blank" class="btn btn-yellow">Go to source</a>
+    </div>
   </div>
 </div>
