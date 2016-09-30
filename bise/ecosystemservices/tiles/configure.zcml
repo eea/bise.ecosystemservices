@@ -30,4 +30,26 @@
         for="*"
         />
 
+    <plone:tile
+        name="bise.es_teaser"
+        title="ES Results Teaser"
+        description="A tile to tease ES results"
+        add_permission="cmf.ModifyPortalContent"
+        schema=".listing.IElasticSearchTile"
+        class=".listing.ElasticSearchTeaserTile"
+        permission="zope2.View"
+        for="*"
+        />
+
+    <plone:tile
+        name="bise.es_listing"
+        title="ES Results Listing"
+        description="A tile to tease ES results"
+        add_permission="cmf.ModifyPortalContent"
+        schema=".listing.IElasticSearchTile"
+        class=".listing.ElasticSearchListingTile"
+        permission="zope2.View"
+        for="*"
+        />
+
 </configure>

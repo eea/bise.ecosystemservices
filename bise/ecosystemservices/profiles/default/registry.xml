@@ -5,6 +5,8 @@
         <value purge="false">
             <element>bise.folder_contents_listing</element>
             <element>bise.daviz_listing</element>
+            <element>bise.es_teaser</element>
+            <element>bise.es_listing</element>
         </value>
     </record>
     
@@ -12,6 +14,8 @@
         <value purge="false">
             <element>bise.folder_contents_listing</element>
             <element>bise.daviz_listing</element>
+            <element>bise.es_teaser</element>
+            <element>bise.es_listing</element>
         </value>
     </record>
 

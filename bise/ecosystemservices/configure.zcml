@@ -8,33 +8,45 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="bise.ecosystemservices">
 
-  <!-- Include configuration for dependencies listed in setup.py -->
-  <includeDependencies package="." />
+    <!-- Include configuration for dependencies listed in setup.py -->
+    <includeDependencies package="." />
 
-  <include file="permissions.zcml" />
-  <include package=".browser" />
-  <include package=".tiles" />
+    <include file="permissions.zcml" />
+    <include package=".browser" />
+    <include package=".tiles" />
 
-  <!-- Grok the package to initialise schema interfaces and content classes -->
-  <grok:grok package="." />
+    <!-- Grok the package to initialise schema interfaces and content classes -->
+    <grok:grok package="." />
 
-  <i18n:registerTranslations directory="locales" />
+    <i18n:registerTranslations directory="locales" />
 
-  <browser:resourceDirectory
-      name="bise.ecosystemservices"
-      directory="static"
-      />
+    <browser:resourceDirectory
+        name="bise.ecosystemservices"
+        directory="static"
+        />
 
-  <!-- Register an extension profile to make the product installable
-       in Plone -->
-  <genericsetup:registerProfile
-      name="default"
-      title="bise.ecosystemservices: Content-types"
-      directory="profiles/default"
-      description="Content-types for bise.ecosystemservices. Example Dexterity Product"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
+    <!-- Register an extension profile to make the product installable in Plone -->
 
-  <!-- -*- extra stuff goes here -*- -->
+    <genericsetup:registerProfile
+        name="default"
+        title="bise.ecosystemservices: Content-types"
+        directory="profiles/default"
+        description="Content-types for bise.ecosystemservices. Example Dexterity Product"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <!-- -*- extra stuff goes here -*- -->
+
+    <subscriber
+        for=".elasticsearch.IElasticSearch
+        zope.lifecycleevent.interfaces.IObjectAddedEvent"
+        handler=".elasticsearch.handle_es_change"
+        />
+
+    <subscriber
+        for=".elasticsearch.IElasticSearch
+        zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+        handler=".elasticsearch.handle_es_change"
+        />
 
 </configure>

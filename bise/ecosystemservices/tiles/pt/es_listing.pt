@@ -6,18 +6,22 @@
 
   <body tal:define="is_empty view/is_empty">
     <p tal:condition="python: is_empty and view.is_compose_mode()" i18n:translate="">
-      Please drag&amp;drop a folder here.
+      Please drag&amp;drop an ElasticSearch object here.
     </p>
 
-    <div tal:condition="not: is_empty" class="cover-foldercontentslisting-tile tile-content">
-      <div class="cover-foldercontentslisting-tile-title">
+    <div tal:condition="not: is_empty" class="cover-elasticsearchlisting-tile tile-content">
+      <div class="cover-elasticsearchlisting-tile-title">
         <span tal:content="view/title" />
       </div>
       <ul>
         <li tal:repeat="obj view/children">
-          <a href="" tal:attributes="href obj/absolute_url" tal:content="obj/Title">Sublocation</a>
+          <a href="" tal:attributes="href obj/source_url" tal:content="obj/title">Something</a>
         </li>
       </ul>
+      <div class="cover-elasticsearchlisting-tile-footer">
+        <a href="" tal:attributes="href python: view.data.get('view_more_url', '')">View More</a>
+      </div>
     </div>
   </body>
 </html>
+

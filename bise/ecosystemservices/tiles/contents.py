@@ -48,6 +48,9 @@ class FolderContentsListingTile(PersistentCoverTile):
             return []
         return obj.getFolderContents()
 
+    def title(self):
+        return self.data.get('title', 'Missing tile title')
+
     def is_empty(self):
         return not (self.data.get('uuid', None))
 

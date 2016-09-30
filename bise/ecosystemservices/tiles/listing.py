@@ -11,8 +11,8 @@ from plone.uuid.interfaces import IUUID
 from zope.interface import implements
 from zope.schema import TextLine
 import logging
+import json
 
-# from bise.ecosystemservices.tiles.base import AssignItemsMixin
 
 logger = logging.getLogger('eea.climateadapt')
 
@@ -28,6 +28,11 @@ class IListingTile(IPersistentCoverTile):
         title=u'UUID',
         required=False,
         readonly=True,
+    )
+
+    view_more_url = TextLine(
+        title=u'View More URL',
+        required=False,
     )
 
 
@@ -78,15 +83,12 @@ class DavizListingTile(PersistentCoverTile):
 
         return self._to_dict(rows, cols)
 
-    def is_empty(self):
-        return not (self.data.get('uuid', None))
-
     def accepted_ct(self):
         """Return an empty list as no content types are accepted."""
         return ['Sparql']
 
     def populate_with_object(self, obj):
-        super(DavizListingTile, self).populate_with_object(obj)
+        PersistentCoverTile.populate_with_object(self, obj)
 
         if obj.portal_type not in self.accepted_ct():
             return
@@ -97,3 +99,65 @@ class DavizListingTile(PersistentCoverTile):
         }
         data_mgr = ITileDataManager(self)
         data_mgr.set(data)
+
+    def is_empty(self):
+        return not (self.data.get('uuid', None))
+
+
+class IElasticSearchTile(IListingTile):
+    """
+    """
+
+
+class ElasticSearchBaseTile(PersistentCoverTile):
+    """ ElasticSearch / Bise Catalogue Teaser tile
+    """
+    implements(IElasticSearchTile)
+
+    def title(self):
+        return self.data.get('title', 'Missing tile title')
+
+    def children(self):
+        source = uuidToObject(self.data['uuid'])
+        if not source:
+            return []
+
+        data = json.loads(source.cached_results.data)
+
+        rows = [x['_source'] for x in data['hits']['hits']]
+
+        return rows
+
+    def accepted_ct(self):
+        """Return an empty list as no content types are accepted."""
+        return ['ElasticSearch']
+
+    def populate_with_object(self, obj):
+        PersistentCoverTile.populate_with_object(self, obj)
+
+        if obj.portal_type not in self.accepted_ct():
+            return
+
+        data = {
+            'title': safe_unicode(obj.Title()),
+            'uuid': IUUID(obj),
+        }
+        data_mgr = ITileDataManager(self)
+        data_mgr.set(data)
+
+    def is_empty(self):
+        return not (self.data.get('uuid', None))
+
+
+class ElasticSearchTeaserTile(ElasticSearchBaseTile):
+    """ ElasticSearch / Bise Catalogue Teaser tile
+    """
+
+    index = ViewPageTemplateFile('pt/es_teaser.pt')
+
+
+class ElasticSearchListingTile(ElasticSearchBaseTile):
+    """ ElasticSearch / Bise Catalogue Teaser tile
+    """
+
+    index = ViewPageTemplateFile('pt/es_listing.pt')
