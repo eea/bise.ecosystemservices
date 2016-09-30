@@ -4,18 +4,26 @@
     <record name="plone.app.tiles">
         <value purge="false">
             <element>bise.folder_contents_listing</element>
-            <element>bise.daviz_listing</element>
             <element>bise.es_teaser</element>
             <element>bise.es_listing</element>
+            <element>bise.daviz_singlerow_listing</element>
+            <element>bise.daviz_grid_listing</element>
+        </value>
+        <value purge="true">
+            <element>bise.daviz_listing</element>
         </value>
     </record>
     
     <record name="collective.cover.controlpanel.ICoverSettings.available_tiles">
+        <value purge="true">
+            <element>bise.daviz_listing</element>
+        </value>
         <value purge="false">
             <element>bise.folder_contents_listing</element>
-            <element>bise.daviz_listing</element>
             <element>bise.es_teaser</element>
             <element>bise.es_listing</element>
+            <element>bise.daviz_singlerow_listing</element>
+            <element>bise.daviz_grid_listing</element>
         </value>
     </record>
 

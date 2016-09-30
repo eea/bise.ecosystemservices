@@ -8,9 +8,9 @@
     <i class="fa fa-close [ js-collapser ]"></i>
 
     <div class="iframe-wrapper" 
-      tal:attributes="data-iframe-url string:${href}/embed-chart?chart=chart_1&chartWidth=600&chartHeight=450&padding=fixed;"
+      tal:attributes="data-iframe-url string:${href}/embed-chart?chart=chart_1&chartWidth=600&padding=fixed;"
       data-iframe-width="600" 
-      data-iframe-height="400">
+      data-iframe-height="600">
     </div>
     <div class="card-desc">
       <a href="" tal:attributes="href daviz/item_url" tal:content="title">Title</a>

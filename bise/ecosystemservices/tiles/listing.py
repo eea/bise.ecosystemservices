@@ -37,33 +37,17 @@ class IListingTile(IPersistentCoverTile):
 
 
 class DavizListingTile(PersistentCoverTile):
-    """ Folder listing tile
+    """ Base class for Daviz listing tiles
     """
-
-    implements(IListingTile)
-
-    index = ViewPageTemplateFile('pt/daviz_listing.pt')
-    cell_tpl = ViewPageTemplateFile('pt/daviz_cell.pt')
 
     is_configurable = False
     is_editable = True
     is_droppable = True
-    short_name = u'Daviz Listing'
+
+    implements(IListingTile)
 
     def render_cell(self, info):
         return self.cell_tpl(daviz=info)
-
-    def _to_dict(self, rows, cols):
-        """ Packs a sparql result into a listing of dicts
-        """
-        res = []
-        for row in rows:
-            l = {}
-            for i, c in enumerate(cols):
-                l[c] = row[i]
-            res.append(l)
-
-        return res
 
     def children(self):
         source = uuidToObject(self.data['uuid'])
@@ -102,6 +86,38 @@ class DavizListingTile(PersistentCoverTile):
 
     def is_empty(self):
         return not (self.data.get('uuid', None))
+
+    def _to_dict(self, rows, cols):
+        """ Packs a sparql result into a listing of dicts
+        """
+        res = []
+        for row in rows:
+            l = {}
+            for i, c in enumerate(cols):
+                l[c] = row[i]
+            res.append(l)
+
+        return res
+
+
+class DavizGridListingTile(DavizListingTile):
+    """ Daviz-in-a-grid listing tile
+    """
+
+    index = ViewPageTemplateFile('pt/daviz_grid_listing.pt')
+    cell_tpl = ViewPageTemplateFile('pt/daviz_cell.pt')
+
+    short_name = u'Daviz Grid Listing Tile'
+
+
+class DavizSingleRowListingTile(DavizListingTile):
+    """ Daviz in a singele row listing tile
+    """
+
+    index = ViewPageTemplateFile('pt/daviz_singlerow_listing.pt')
+    cell_tpl = ViewPageTemplateFile('pt/daviz_cell.pt')
+
+    short_name = u'Daviz Grid Listing Tile'
 
 
 class IElasticSearchTile(IListingTile):
