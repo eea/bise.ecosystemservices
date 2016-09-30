@@ -1,1 +1,132 @@
-#
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="collective.cover">
+
+  <body tal:define="is_empty view/is_empty">
+    <p tal:condition="python: is_empty and view.is_compose_mode()" i18n:translate="">
+      Please drag&amp;drop a Sparql object here.
+    </p>
+
+    <div tal:condition="not: is_empty" class="cover-daviz-singlerow-tile tile-content">
+
+      <h1> Daviz single row tile </h1>
+
+
+
+      <style>
+
+    .indicator-cards-container {
+       position: relative;
+       padding: 1rem;
+       margin: 0 auto;
+       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.06);
+    }
+
+    .expand {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      color: #1f8cc9;
+      cursor: pointer;
+    }
+
+    .indicator-cards-wrapper {
+        position: relative;
+        max-width: 1000px;
+        background-color: #fff;
+        overflow: auto;
+    }
+    
+    .flex-row-warp {
+      flex-flow: row wrap!important;
+      max-height: 1000px!important;
+    }
+
+    .indicator-cards {
+        padding: 15px;
+        display: flex;
+        flex-flow: column wrap;
+        max-height:350px;
+    }
+    
+    .indicator-card {
+        min-height: 250px;
+        width: 300px;
+        margin: .5rem;
+    }
+
+    .indicator-title {
+      margin: 1rem;
+      font-weight: 400;
+    }
+
+    .indicator-card__inner {
+        margin: 1rem;
+        border: 1px solid #ddd;
+        width: 100%;
+        padding: .5em;
+        position: relative;
+        cursor: pointer;
+        font-size: 1em;
+        padding-bottom: 1rem;
+    }
+
+    .indicator-card-date {
+      color: #aaa;
+    }
+    
+
+    #right-button,
+    #left-button {
+      background: transparent;
+      border: none;
+        position: absolute;
+        top: 44%;
+        z-index: 999;
+        padding: 2rem;
+        border: 1px solid #eee;
+    }
+
+
+    #right-button {
+      right: -2rem;
+    }
+
+    #left-button {
+    
+      left: -2rem;
+    }
+
+    .buttons-hide {
+      display: none;
+    }
+
+
+    </style>
+
+      <div class="indicator-cards-container">
+        <h4 class="indicator-title" tal:content="python: view.data.get('title', 'Untitled')">Relevant indicators</h4>
+	<span class="expand"> <a href="" tal:attributes="href python:view.data.get('view_more_url', '')">Show more</a> </span>
+        <button type="button" id="right-button"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+        <button type="button" id="left-button"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+        <div class="indicator-cards-wrapper">
+          <div class="indicator-cards">
+
+            <div tal:repeat="obj view/children" class="indicator-card">
+              <div class="indicator-card__inner">
+                <img tal:attributes="src string:${obj/item_url}/image_preview"/>
+                <p class="indicator-desc" tal:content="obj/item_title"></p>
+                <span class="indicator-card-date">Published 26 Jan 2016</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </body>
+</html>
