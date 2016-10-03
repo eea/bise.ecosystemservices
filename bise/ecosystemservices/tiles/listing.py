@@ -107,7 +107,7 @@ class DavizGridListingTile(DavizListingTile):
     index = ViewPageTemplateFile('pt/daviz_grid_listing.pt')
     cell_tpl = ViewPageTemplateFile('pt/daviz_cell.pt')
 
-    short_name = u'Daviz Grid Listing Tile'
+    short_name = u'Daviz Grid'
 
 
 class DavizSingleRowListingTile(DavizListingTile):
@@ -117,7 +117,7 @@ class DavizSingleRowListingTile(DavizListingTile):
     index = ViewPageTemplateFile('pt/daviz_singlerow_listing.pt')
     cell_tpl = ViewPageTemplateFile('pt/daviz_cell.pt')
 
-    short_name = u'Daviz Grid Listing Tile'
+    short_name = u'Daviz Row'
 
 
 class IElasticSearchTile(IListingTile):
