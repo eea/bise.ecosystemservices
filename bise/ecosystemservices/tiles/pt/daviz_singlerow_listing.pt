@@ -34,9 +34,8 @@
 
     .indicator-cards-wrapper {
         position: relative;
-        max-width: 1000px;
         background-color: #fff;
-        overflow: auto;
+        overflow: hidden;
     }
     
     .flex-row-warp {
@@ -54,7 +53,7 @@
     .indicator-card {
         min-height: 250px;
         width: 300px;
-        margin: .5rem;
+        margin: 1.5rem;
     }
 
     .indicator-title {
@@ -63,10 +62,10 @@
     }
 
     .indicator-card__inner {
-        margin: 1rem;
         border: 1px solid #ddd;
         width: 100%;
         padding: .5em;
+        height: 280px;
         position: relative;
         cursor: pointer;
         font-size: 1em;
@@ -80,7 +79,7 @@
 
     #right-button,
     #left-button {
-      background: transparent;
+      background: rgba(255,255,255,0.8);
       border: none;
         position: absolute;
         top: 44%;
