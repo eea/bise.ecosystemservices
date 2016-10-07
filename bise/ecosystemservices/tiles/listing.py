@@ -12,6 +12,7 @@ from zope.interface import implements
 from zope.schema import TextLine
 import logging
 import json
+from DateTime import DateTime
 
 
 logger = logging.getLogger('eea.climateadapt')
@@ -98,6 +99,17 @@ class DavizListingTile(PersistentCoverTile):
             res.append(l)
 
         return res
+
+    def format_date(self, ds):
+        """ Convert a (possible) sparql literal to DateTime
+        """
+        if str(ds) == "None":
+            return None
+        try:
+            return DateTime(str(ds))
+        except Exception:
+            logger.exception("Error while parsing date from sparql")
+            return None
 
 
 class DavizGridListingTile(DavizListingTile):

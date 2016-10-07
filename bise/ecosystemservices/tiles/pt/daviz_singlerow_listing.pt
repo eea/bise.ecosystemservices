@@ -11,10 +11,6 @@
 
     <div tal:condition="not: is_empty" class="cover-daviz-singlerow-tile tile-content">
 
-      <h1> Daviz single row tile </h1>
-
-
-
       <style>
 
     .indicator-cards-container {
@@ -24,7 +20,7 @@
        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.06);
     }
 
-    .expand {
+    .show_more {
       position: absolute;
       right: 1rem;
       top: 1rem;
@@ -94,7 +90,6 @@
     }
 
     #left-button {
-    
       left: -2rem;
     }
 
@@ -102,22 +97,28 @@
       display: none;
     }
 
-
     </style>
 
       <div class="indicator-cards-container">
         <h4 class="indicator-title" tal:content="python: view.data.get('title', 'Untitled')">Relevant indicators</h4>
-	<span class="expand"> <a href="" tal:attributes="href python:view.data.get('view_more_url', '')">Show more</a> </span>
+        <span class="show_more"> 
+            <a href="" tal:attributes="href python:view.data.get('view_more_url', '')">Show more</a>
+        </span>
         <button type="button" id="right-button"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
         <button type="button" id="left-button"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
+
         <div class="indicator-cards-wrapper">
           <div class="indicator-cards">
 
             <div tal:repeat="obj view/children" class="indicator-card">
-              <div class="indicator-card__inner">
+              <div class="indicator-card__inner" tal:define="published python: view.format_date(obj['item_published'])">
                 <img tal:attributes="src string:${obj/item_url}/image_preview"/>
-                <p class="indicator-desc" tal:content="obj/item_title"></p>
-                <span class="indicator-card-date">Published 26 Jan 2016</span>
+                <p class="indicator-desc">
+                <a href="" tal:attributes="href obj/item_url" tal:content="obj/item_title">Item Title</a>
+                </p>
+                <span class="indicator-card-date" tal:condition="published">
+                    Published on <span tal:replace="python: context.toLocalizedTime(published)">Aug</span>
+                </span>
               </div>
             </div>
 

@@ -11,9 +11,7 @@
 
     <div tal:condition="not: is_empty" class="cover-foldercontentslisting-tile tile-content">
 
-
       <style>
-
 
     .cards-wrapper {
         margin: 5em auto;
@@ -116,6 +114,7 @@
     }
 
     .card__expander .iframe-wrapper {
+        overflow: auto;
           padding: 2rem;
             max-width: 60%;
         display: inline-block;
@@ -130,9 +129,8 @@
     
     .card__expander .fa {
         font-size: 1.75em;
-        position: absolute;
-        top: 2rem;
-        right: 4rem;
+        position: relative;
+        padding: .5rem;
         cursor: pointer;
     }
     
@@ -204,6 +202,9 @@
 
 <script>
 /* <[CDATA[ */
+
+$(document).ready(function(){
+
     var $cell = $('.card');
     $cell.find('.js-expander').click(function() {
 
@@ -220,8 +221,6 @@
             var height = $ifw.data('iframe-height');
             $ifw.html("<iframe src='" + iurl + "' width=" + width + " height=" + height + " />");
 
-            // console.log($ifw);
-
             if ($cell.not($thisCell).hasClass('is-inactive')) {
                 //do nothing
             } else {
@@ -235,71 +234,54 @@
     });
 
     $cell.find('.js-collapser').click(function() {
-
         var $thisCell = $(this).closest('.card');
-
         $thisCell.removeClass('is-expanded').addClass('is-collapsed');
         $cell.not($thisCell).removeClass('is-inactive');
-
     });
-/* ]]> */
-
-
-$(document).ready(function(){
 
     $(".card").on('click', function(e){
         e.stopPropagation();
-    var body=$('body')[0].getBoundingClientRect();
-    var card=$(this)[0].getBoundingClientRect(),
+        var body=$('body')[0].getBoundingClientRect();
+        var card=$(this)[0].getBoundingClientRect(),
 
-                cardleft=card.left+($(this).outerWidth()-$(this).width())/2;
-                bodywidth=body.width+($(this).outerWidth()-$(this).width())/2-14;
+        cardleft=card.left+($(this).outerWidth()-$(this).width())/2;
+        bodywidth=body.width+($(this).outerWidth()-$(this).width())/2-14;
 
-            $('.card__expander').css({
-                'left' : -cardleft,
-                'width': bodywidth
-            });
-            console.log($(e.target).parent());
-            if($(e.target).parent().hasClass('card__inner')){
-                console.log('yep');
-                var bodytop = $('body').scrollTop();
-               $('body').animate({ scrollTop: bodytop + 350 }, 300);
-           }
+        $('.card__expander').css({
+            'left' : -cardleft,
+            'width': bodywidth
+        });
+        //console.log($(e.target).parent());
+        if($(e.target).parent().hasClass('card__inner')){
+            var bodytop = $('body').scrollTop();
+            $('body').animate({ scrollTop: bodytop + 350 }, 300);
+        }
     });
 
-
-      $(".fa-close").on('click', function(){
-          var bodytop = $('body').scrollTop();
-               $('body').animate({ scrollTop: bodytop - 350 }, 300);
-      });
+    $(".fa-close").on('click', function(){
+        var bodytop = $('body').scrollTop();
+        $('body').animate({ scrollTop: bodytop - 350 }, 300);
+    });
 
     $('.expand').on('click', function(){
-    $('.indicator-cards').toggleClass('flex-row-warp');
-    $('#left-button, #right-button').toggleClass('buttons-hide')
+        $('.indicator-cards').toggleClass('flex-row-warp');
+        $('#left-button, #right-button').toggleClass('buttons-hide')
     });
 
-     var outer = $('.indicator-cards-wrapper');
+    var outer = $('.indicator-cards-wrapper');
 
-            $('#left-button').click(function () {
-               var leftPos = outer.scrollLeft();
-               outer.animate({ scrollLeft: leftPos - 300 }, 300);
-            });
+    $('#left-button').click(function () {
+       var leftPos = outer.scrollLeft();
+       outer.animate({ scrollLeft: leftPos - 300 }, 300);
+    });
 
-            $('#right-button').click(function () {
-               var leftPos = outer.scrollLeft();
-               outer.animate({ scrollLeft: leftPos + 300 }, 300);
-            });
-
-
-
+    $('#right-button').click(function () {
+       var leftPos = outer.scrollLeft();
+       outer.animate({ scrollLeft: leftPos + 300 }, 300);
+    });
 
 });
-
-
-
-
-
-
+/* ]]> */
     </script>
 </div>
   </body>
