@@ -34,8 +34,7 @@ class ElasticSearch(dexterity.Item):
     implements(IElasticSearch)
 
     def get_cached_results(self):
-        import pdb; pdb.set_trace()
-
+        # TODO:
         return self.cached_results
 
     def precache_data(self):

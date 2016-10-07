@@ -11,11 +11,11 @@
 
     <div tal:condition="not: is_empty" class="cover-elasticsearchlisting-tile tile-content">
       <div class="cover-elasticsearchlisting-tile-title">
-        <span tal:content="view/title" />
+        <h4 tal:content="view/title" >Title here</h4>
       </div>
       <ul>
         <li tal:repeat="obj view/children">
-          <a href="" tal:attributes="href obj/source_url" tal:content="obj/title">Something</a>
+          <a href="" tal:attributes="href obj/source_url | nothing" tal:content="obj/title">Something</a>
         </li>
       </ul>
       <div class="cover-elasticsearchlisting-tile-footer">
