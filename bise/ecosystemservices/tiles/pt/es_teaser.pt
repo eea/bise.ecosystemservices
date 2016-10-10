@@ -10,12 +10,37 @@
     </p>
 
     <div tal:condition="not: is_empty" class="cover-elasticsearchteaser-tile tile-content" 
-      tal:define="results view/children">
-      <div class="cover-elasticsearchteaser-tile-title">
+      tal:define="results view/children; text python: view.data.get('text', '')">
+
+      <style>
+        .cover-elasticsearchteaser-tile {
+          padding: 2em;
+          border: 1px solid #CCC;
+          margin-top: 1em;
+        }
+        .cover-elasticsearchteaser-tile .title {
+          text-align: center;
+          font-weight: bold;
+          text-size: 110%;
+        }
+        .cover-elasticsearchteaser-tile .logo {
+          text-align: center;
+        }
+      </style>
+
+      <div class="title">
         <span tal:content="python: len(results)" /> Records on
         <span tal:content="view/title" />
       </div>
-      <a href="" tal:attributes="href python: view.data.get('view_more_url', '')">Bise Catalogue</a>
+
+      <div class="logo">
+        <a href="" tal:attributes="href python: view.data.get('view_more_url', '')">
+          <img src="++resource++bise.ecosystemservices/bise-catalogue.png" />
+        </a>
+      </div>
+
+      <div class="text" tal:condition="text" tal:content="structure text/output | nothing">Text</div>
+
     </div>
   </body>
 </html>

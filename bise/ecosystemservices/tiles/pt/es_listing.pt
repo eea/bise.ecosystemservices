@@ -18,9 +18,9 @@
           <a href="" tal:attributes="href obj/source_url | nothing" tal:content="obj/title">Something</a>
         </li>
       </ul>
-      <div class="cover-elasticsearchlisting-tile-footer">
-        <a href="" tal:attributes="href python: view.data.get('view_more_url', '')">View More</a>
-      </div>
+      <!-- <div class="cover&#45;elasticsearchlisting&#45;tile&#45;footer"> -->
+      <!--   <a href="" tal:attributes="href python: view.data.get('view_more_url', '')">View More</a> -->
+      <!-- </div> -->
     </div>
   </body>
 </html>

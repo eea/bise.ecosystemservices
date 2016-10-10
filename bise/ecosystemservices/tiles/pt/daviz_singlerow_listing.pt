@@ -13,110 +13,109 @@
 
       <style>
 
-    .indicator-cards-container {
-       position: relative;
-       padding: 1rem;
-       margin: 0 auto;
-       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.06);
-    }
+        .singlerow-cards-container {
+          position: relative;
+          /* padding: 1rem; */
+          margin: 0 auto;
+          /* box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.06); */
+        }
 
-    .show_more {
-      position: absolute;
-      right: 1rem;
-      top: 1rem;
-      color: #1f8cc9;
-      cursor: pointer;
-    }
+        .show_more {
+          position: absolute;
+          right: 1rem;
+          top: 0rem;
+          color: #1f8cc9;
+          cursor: pointer;
+        }
 
-    .indicator-cards-wrapper {
-        position: relative;
-        background-color: #fff;
-        overflow: hidden;
-    }
-    
-    .flex-row-warp {
-      flex-flow: row wrap!important;
-      max-height: 1000px!important;
-    }
+        .singlerow-cards-wrapper {
+          position: relative;
+          background-color: #fff;
+          overflow: hidden;
+        }
 
-    .indicator-cards {
-        padding: 15px;
-        display: flex;
-        flex-flow: column wrap;
-        max-height:350px;
-    }
-    
-    .indicator-card {
-        min-height: 250px;
-        width: 300px;
-        margin: 1.5rem;
-    }
+        .flex-row-warp {
+          flex-flow: row wrap!important;
+          max-height: 1000px!important;
+        }
 
-    .indicator-title {
-      margin: 1rem;
-      font-weight: 400;
-    }
+        .singlerow-cards {
+          /* padding: 15px; */
+          display: flex;
+          flex-flow: column wrap;
+          max-height:350px;
+        }
 
-    .indicator-card__inner {
-        border: 1px solid #ddd;
-        width: 100%;
-        padding: .5em;
-        height: 280px;
-        position: relative;
-        cursor: pointer;
-        font-size: 1em;
-        padding-bottom: 1rem;
-    }
+        .singlerow-card {
+          min-height: 250px;
+          width: 300px;
+          margin: 1.5rem;
+        }
 
-    .indicator-card-date {
-      color: #aaa;
-    }
-    
+        .singlerow-title {
+          margin: 1rem 0 0 0;
+          font-weight: 400;
+        }
 
-    #right-button,
-    #left-button {
-      background: rgba(255,255,255,0.8);
-      border: none;
-        position: absolute;
-        top: 44%;
-        z-index: 999;
-        padding: 2rem;
-        border: 1px solid #eee;
-    }
+        .singlerow-card__inner {
+          border: 1px solid #ddd;
+          width: 100%;
+          padding: .5em;
+          height: 280px;
+          position: relative;
+          cursor: pointer;
+          font-size: 1em;
+          padding-bottom: 1rem;
+        }
 
+        .singlerow-card-date {
+          color: #aaa;
+        }
 
-    #right-button {
-      right: -2rem;
-    }
+        #right-button,
+        #left-button {
+          background: rgba(255,255,255,0.8);
+          border: none;
+          position: absolute;
+          top: 44%;
+          z-index: 999;
+          padding: 2rem;
+          border: 1px solid #eee;
+        }
 
-    #left-button {
-      left: -2rem;
-    }
+        #right-button {
+          right: -2rem;
+        }
 
-    .buttons-hide {
-      display: none;
-    }
+        #left-button {
+          left: -2rem;
+        }
 
-    </style>
+        .buttons-hide {
+          display: none;
+        }
 
-      <div class="indicator-cards-container">
-        <h4 class="indicator-title" tal:content="python: view.data.get('title', 'Untitled')">Relevant indicators</h4>
+      </style>
+
+      <div class="singlerow-cards-container" tal:define="text python: view.data.get('text', '')">
+        <h4 class="singlerow-title" tal:content="python: view.data.get('title', 'Untitled')">Relevant singlerows</h4>
+        <div class="text" tal:condition="text" tal:content="structure text/output">Text</div>
         <span class="show_more"> 
             <a href="" tal:attributes="href python:view.data.get('view_more_url', '')">Show more</a>
         </span>
         <button type="button" id="right-button"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
         <button type="button" id="left-button"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
 
-        <div class="indicator-cards-wrapper">
-          <div class="indicator-cards">
+        <div class="singlerow-cards-wrapper">
+          <div class="singlerow-cards">
 
-            <div tal:repeat="obj view/children" class="indicator-card">
-              <div class="indicator-card__inner" tal:define="published python: view.format_date(obj['item_published'])">
+            <div tal:repeat="obj view/children" class="singlerow-card">
+              <div class="singlerow-card__inner" tal:define="published python: view.format_date(obj['item_published'])">
                 <img tal:attributes="src string:${obj/item_url}/image_preview"/>
-                <p class="indicator-desc">
+                <p class="singlerow-desc">
                 <a href="" tal:attributes="href obj/item_url" tal:content="obj/item_title">Item Title</a>
                 </p>
-                <span class="indicator-card-date" tal:condition="published">
+                <span class="singlerow-card-date" tal:condition="published">
                     Published on <span tal:replace="python: context.toLocalizedTime(published)">Aug</span>
                 </span>
               </div>

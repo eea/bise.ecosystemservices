@@ -1,6 +1,7 @@
 """ Listing tiles
 """
 
+from plone.app.textfield import RichText
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.cover.tiles.base import IPersistentCoverTile
@@ -30,6 +31,8 @@ class IListingTile(IPersistentCoverTile):
         required=False,
         readonly=True,
     )
+
+    text = RichText(title=u'Text', required=False)
 
     view_more_url = TextLine(
         title=u'View More URL',
