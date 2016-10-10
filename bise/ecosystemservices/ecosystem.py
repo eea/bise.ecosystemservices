@@ -53,7 +53,7 @@ class IEcosystem(form.Schema, IImageScaleTraversable):
             SimpleTerm(4, title=u"Subnational"),
         ]),
         default=2
-        )  
+    )
     webmapid = schema.Text(
         title=_(u'Webmap ID'),
         description=_(u'Webmap id'),
