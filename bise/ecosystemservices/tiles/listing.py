@@ -10,10 +10,12 @@ from plone.app.uuid.utils import uuidToObject
 from plone.tiles.interfaces import ITileDataManager
 from plone.uuid.interfaces import IUUID
 from zope.interface import implements
-from zope.schema import TextLine
+from zope.schema import TextLine, Int
 import logging
 import json
 from DateTime import DateTime
+from plone.autoform import directives as form
+from collective.cover.tiles.configuration_view import IDefaultConfigureForm
 
 
 logger = logging.getLogger('eea.climateadapt')
@@ -37,6 +39,12 @@ class IListingTile(IPersistentCoverTile):
     view_more_url = TextLine(
         title=u'View More URL',
         required=False,
+    )
+
+    count = Int(
+        title=u'Number of items to display',
+        required=False,
+        default=6,
     )
 
 
@@ -64,8 +72,10 @@ class DavizListingTile(PersistentCoverTile):
             logger.exception("Error in getting cached data "
                              "for sparql %s", source)
             return []
+        count = self.data.get('count', 6)
         try:
-            rows, cols = data['result']['rows'], data['result']['var_names']
+            rows, cols = (data['result']['rows'][:count], 
+                          data['result']['var_names'][:count])
         except Exception:
             logger.exception("No results in sparql %s", source)
 
@@ -192,3 +202,18 @@ class ElasticSearchListingTile(ElasticSearchBaseTile):
     """
 
     index = ViewPageTemplateFile('pt/es_listing.pt')
+
+    def get_url(self, obj):
+        # try different strategies to get the source url from the catalogue
+        # info
+        strategies = [
+            lambda o: o['source_url'],
+            lambda o: 'http://catalogue.biodiversity.europa.eu' + obj['file_name']
+        ]
+        for l in strategies:
+            try:
+                return l(obj)
+            except KeyError:
+                continue
+
+        return ""

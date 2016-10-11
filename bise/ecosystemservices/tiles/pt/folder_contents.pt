@@ -15,7 +15,7 @@
       </div>
       <ul class="folder-contents-listing" >
         <li tal:repeat="obj view/children">
-          <a href="" tal:attributes="href obj/absolute_url" tal:content="obj/Title">Sublocation</a>
+          <a href="" tal:attributes="href obj/getURL" tal:content="obj/Title">Sublocation</a>
         </li>
       </ul>
       <style>
