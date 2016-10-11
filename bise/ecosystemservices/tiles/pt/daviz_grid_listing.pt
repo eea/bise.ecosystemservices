@@ -12,7 +12,6 @@
     <div tal:condition="not: is_empty" class="cover-foldercontentslisting-tile tile-content">
 
       <style>
-
         .cards-wrapper {
           margin: 5em auto;
           max-width: 1000px;
