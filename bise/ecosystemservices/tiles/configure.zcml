@@ -1,12 +1,12 @@
 <configure
-	xmlns="http://namespaces.zope.org/zope"
-	xmlns:five="http://namespaces.zope.org/five"
-	xmlns:i18n="http://namespaces.zope.org/i18n"
-	xmlns:browser="http://namespaces.zope.org/browser"
-	xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-	xmlns:grok="http://namespaces.zope.org/grok"
-	xmlns:plone="http://namespaces.plone.org/plone"
-	i18n_domain="bise.ecosystemservices">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="bise.ecosystemservices">
 
     <plone:tile
         name="bise.folder_contents_listing"
@@ -19,7 +19,7 @@
         for="*"
         />
 
-TODO: remove this after development, it is duplicate
+    TODO: remove this after development, it is duplicate
     <plone:tile
         name="bise.daviz_listing"
         title="Daviz Grid Listing"
@@ -74,5 +74,18 @@ TODO: remove this after development, it is duplicate
         permission="zope2.View"
         for="*"
         />
+
+    <plone:tile
+        name="bise.daviz_fullwidth"
+        title="Daviz FullWidth"
+        description="A tile to show Daviz full width"
+        add_permission="cmf.ModifyPortalContent"
+        schema=".daviz.IDavizTile"
+        class=".daviz.DavizFullWidthTile"
+        permission="zope2.View"
+        for="*"
+        />
+
+    <adapter factory=".daviz.DavizTileDataManager" />
 
 </configure>

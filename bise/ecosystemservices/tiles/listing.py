@@ -1,21 +1,21 @@
 """ Listing tiles
 """
 
-from plone.app.textfield import RichText
+from DateTime import DateTime
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.cover.tiles.base import IPersistentCoverTile
 from collective.cover.tiles.base import PersistentCoverTile
+from collective.cover.tiles.configuration_view import IDefaultConfigureForm
+from plone.app.textfield import RichText
 from plone.app.uuid.utils import uuidToObject
+from plone.autoform import directives as form
 from plone.tiles.interfaces import ITileDataManager
 from plone.uuid.interfaces import IUUID
 from zope.interface import implements
 from zope.schema import TextLine, Int
-import logging
 import json
-from DateTime import DateTime
-from plone.autoform import directives as form
-from collective.cover.tiles.configuration_view import IDefaultConfigureForm
+import logging
 
 
 logger = logging.getLogger('eea.climateadapt')

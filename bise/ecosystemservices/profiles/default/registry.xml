@@ -8,6 +8,7 @@
             <element>bise.es_listing</element>
             <element>bise.daviz_singlerow_listing</element>
             <element>bise.daviz_grid_listing</element>
+            <element>bise.daviz_fullwidth</element>
         </value>
     </record>
     
@@ -18,6 +19,7 @@
             <element>bise.es_listing</element>
             <element>bise.daviz_singlerow_listing</element>
             <element>bise.daviz_grid_listing</element>
+            <element>bise.daviz_fullwidth</element>
         </value>
     </record>
 

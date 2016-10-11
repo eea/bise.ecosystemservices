@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="collective.cover">
+
+  <body tal:define="is_empty view/is_empty">
+    <p tal:condition="python: is_empty and view.is_compose_mode()" i18n:translate="">
+      Please fill in details
+    </p>
+
+    <div tal:condition="not: is_empty" class="cover-davizfullwidth-tile tile-content">
+      <style>
+        .cover-davizfullwidth-body {
+          display: flex;
+          flex-flow: row nowrap;
+          flex-grow: 1;
+        }
+        .cover-davizfullwidth-body .left {
+          width: 600px;
+        }
+        .cover-davizfullwidth-body .right {
+          padding-left: 1rem;
+        }
+        .cover-davizfullwidth-body .desc {
+          margin-top: 2rem;
+        }
+        .cover-davizfullwidth-body .foot {
+          margin-top: 2rem;
+        }
+      </style>
+      <div class="cover-davizfullwidth-body" tal:define="url python: view.data.get('daviz_url')">
+        <div class="left">
+          <iframe 
+            width='600' 
+            height='600' 
+            src='/embed-chart' tal:attributes="src python:url + '/embed-chart?chartWidth=600'">
+          </iframe>
+        </div>
+        <div class="right" tal:define="published python: view.data.get('published')" >
+          <div class="cover-davizfullwidth-tile-title">
+            <h4 tal:content="python: view.data.get('title')" >Title here</h4>
+            <div class="discreet" tal:condition="published">
+              Published <span tal:content="published">30 Feb 2011</span>
+            </div>
+          </div>
+          <div class="desc" tal:content="structure python:view.data.get('description').output">
+          </div>
+          <div class="foot">
+            <a href="" tal:attributes="href url" target="_blank" class="btn btn-yellow">Go to source</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
