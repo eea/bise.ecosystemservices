@@ -21,9 +21,9 @@ logger = logging.getLogger('bise.ecosystemservices.tiles.daviz')
 
 class IDavizTile(IPersistentCoverTile):
 
-    title = TextLine(title=u'Title', 
-                     description=u'Tile title', 
-                     required=True,)
+    title = TextLine(title=u'Title',
+                     description=u'Tile title',
+                     required=False,)
 
     daviz_url = TextLine(title=u'Daviz URL', required=True,)
     description = RichText(title=u'Description', required=False)
@@ -35,8 +35,8 @@ class IDavizTile(IPersistentCoverTile):
     form.omitted('published')
 
 
-class DavizFullWidthTile(PersistentCoverTile):
-    """ Daviz viewed in a big (fullwidth) tile
+class DavizTile(PersistentCoverTile):
+    """ Base class for Daviz tiles
     """
 
     is_configurable = True
@@ -45,15 +45,28 @@ class DavizFullWidthTile(PersistentCoverTile):
 
     implements(IDavizTile)
 
-    index = ViewPageTemplateFile('pt/daviz_fullwidth.pt')
-    short_name = u'Daviz FullWidth'
-
     def is_empty(self):
         url = self.data.get('daviz_url', None)
         # title = self.data.get('daviz_url', None)
         # description = self.data.get('description', None)
 
         return not url
+
+
+class DavizFullWidthTile(DavizTile):
+    """ Daviz viewed in a big (fullwidth) tile
+    """
+
+    short_name = u'Daviz FullWidth'
+    index = ViewPageTemplateFile('pt/daviz_fullwidth.pt')
+
+
+class DavizPreviewTile(DavizTile):
+    """ Daviz viewed in a big (fullwidth) tile
+    """
+
+    short_name = u'Daviz Preview'
+    index = ViewPageTemplateFile('pt/daviz_preview.pt')
 
 
 @adapter(IDavizTile)

@@ -9,6 +9,7 @@
             <element>bise.daviz_singlerow_listing</element>
             <element>bise.daviz_grid_listing</element>
             <element>bise.daviz_fullwidth</element>
+            <element>bise.daviz_preview</element>
         </value>
     </record>
     
@@ -20,6 +21,7 @@
             <element>bise.daviz_singlerow_listing</element>
             <element>bise.daviz_grid_listing</element>
             <element>bise.daviz_fullwidth</element>
+            <element>bise.daviz_preview</element>
         </value>
     </record>
 

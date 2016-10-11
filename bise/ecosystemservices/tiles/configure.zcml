@@ -86,6 +86,17 @@
         for="*"
         />
 
+    <plone:tile
+        name="bise.daviz_preview"
+        title="Daviz Preview"
+        description="A tile to show Daviz as preview"
+        add_permission="cmf.ModifyPortalContent"
+        schema=".daviz.IDavizTile"
+        class=".daviz.DavizPreviewTile"
+        permission="zope2.View"
+        for="*"
+        />
+
     <adapter factory=".daviz.DavizTileDataManager" />
 
 </configure>
