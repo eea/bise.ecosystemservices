@@ -20,7 +20,7 @@
           width: 600px;
         }
         .cover-davizfullwidth-body .right {
-          padding-left: 1rem;
+          padding-left: 3rem;
         }
         .cover-davizfullwidth-body .desc {
           margin-top: 2rem;
@@ -29,17 +29,19 @@
           margin-top: 2rem;
         }
       </style>
+      <h2 tal:content="python: view.data.get('title')">Tile title here</h2>
       <div class="cover-davizfullwidth-body" tal:define="url python: view.data.get('daviz_url')">
         <div class="left">
           <iframe 
             width='600' 
             height='600' 
-            src='/embed-chart' tal:attributes="src python:url + '/embed-chart?chartWidth=600'">
+            src='/embed-chart' tal:attributes="src python:url
+            + '/embed-chart?chart=chart_1&chartWidth=600&chartHeight=600'">
           </iframe>
         </div>
         <div class="right" tal:define="published python: view.data.get('published')" >
           <div class="cover-davizfullwidth-tile-title">
-            <h4 tal:content="python: view.data.get('title')" >Title here</h4>
+            <h4 tal:content="python: view.data.get('daviz_title')" >Title here</h4>
             <div class="discreet" tal:condition="published">
               Published <span tal:content="published">30 Feb 2011</span>
             </div>

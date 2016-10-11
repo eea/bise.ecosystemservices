@@ -8,6 +8,7 @@ from collective.cover.tiles.base import IPersistentCoverTile
 from collective.cover.tiles.base import PersistentCoverTile
 from collective.cover.tiles.data import PersistentCoverTileDataManager
 from plone.app.textfield import RichText
+from plone.autoform import directives as form
 from zope.component import adapter
 from zope.interface import implements
 from zope.schema import TextLine        # , Int
@@ -20,10 +21,18 @@ logger = logging.getLogger('bise.ecosystemservices.tiles.daviz')
 
 class IDavizTile(IPersistentCoverTile):
 
-    title = TextLine(title=u'Title', required=False,)
+    title = TextLine(title=u'Title', 
+                     description=u'Tile title', 
+                     required=True,)
+
     daviz_url = TextLine(title=u'Daviz URL', required=True,)
     description = RichText(title=u'Description', required=False)
+
+    daviz_title = TextLine(title=u'Daviz title', required=False,)
     published = TextLine(title=u'Published', required=False)
+
+    form.omitted('daviz_title')
+    form.omitted('published')
 
 
 class DavizFullWidthTile(PersistentCoverTile):
@@ -66,7 +75,7 @@ class DavizTileDataManager(PersistentCoverTileDataManager):
             'davizvisualization:DavizVisualization/dcterms:issued',
             namespaces=e.nsmap)[0].text
         issued = self.context.toLocalizedTime(DateTime(issued))
-        res = dict(title=title, published=issued)
+        res = dict(daviz_title=title, published=issued)
 
         return res
 
