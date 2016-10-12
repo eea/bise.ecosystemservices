@@ -11,8 +11,6 @@
 
     <div tal:condition="not: is_empty" class="cover-davizpreview-tile tile-content">
       <style>
-        .cover-davizpreview-body {
-        }
       </style>
       <h4 tal:content="python: view.data.get('title')">Tile title here</h4>
       <div class="cover-davizpreview-body" tal:define="url python: view.data.get('daviz_url')">

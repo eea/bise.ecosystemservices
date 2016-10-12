@@ -6,45 +6,18 @@
 
   <body tal:define="is_empty view/is_empty">
     <p tal:condition="python: is_empty and view.is_compose_mode()" i18n:translate="">
-      Please drag&amp;drop a folder here.
+      Please select the folder by editing this tile.
     </p>
 
     <div tal:condition="not: is_empty" class="cover-foldercontentslisting-tile tile-content">
       <div class="cover-foldercontentslisting-tile-title">
-        <span tal:content="view/title" />
+        <span tal:content="view/title" >Title</span>
       </div>
       <ul class="folder-contents-listing" >
         <li tal:repeat="obj view/children">
           <a href="" tal:attributes="href obj/getURL" tal:content="obj/Title">Sublocation</a>
         </li>
       </ul>
-      <style>
-        h2 {
-          margin-top: 1rem;
-        }
-        .folder-contents-listing {
-          display: flex;
-          flex-flow: row wrap;
-        }
-        .folder-contents-listing li {
-          border-left: 1px solid #CCC;
-          padding: 0 1rem;
-          min-width: 160px;
-          margin: 0 !important;
-          list-style-type: none;
-        }
-        .cover-foldercontentslisting-tile-title {
-          width: 140px;
-          float: left;
-          color: #AAA;
-          font-size: 110%;
-        }
-        .border-at-top {
-          margin-top: 2rem;
-          padding-top: 2rem;
-          border-top: 1px solid #CCC;
-        }
-      </style>
     </div>
   </body>
 </html>

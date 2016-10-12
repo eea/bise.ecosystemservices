@@ -10,31 +10,12 @@
     </p>
 
     <div tal:condition="not: is_empty" class="cover-davizfullwidth-tile tile-content">
-      <style>
-        .cover-davizfullwidth-body {
-          display: flex;
-          flex-flow: row nowrap;
-          flex-grow: 1;
-        }
-        .cover-davizfullwidth-body .left {
-          width: 600px;
-        }
-        .cover-davizfullwidth-body .right {
-          padding-left: 3rem;
-        }
-        .cover-davizfullwidth-body .desc {
-          margin-top: 2rem;
-        }
-        .cover-davizfullwidth-body .foot {
-          margin-top: 2rem;
-        }
-      </style>
       <h2 tal:content="python: view.data.get('title')">Tile title here</h2>
       <div class="cover-davizfullwidth-body" tal:define="url python: view.data.get('daviz_url')">
         <div class="left">
-          <iframe 
-            width='600' 
-            height='600' 
+          <iframe
+            width='600'
+            height='600'
             src='/embed-chart' tal:attributes="src python:url
             + '/embed-chart?chart=chart_1&chartWidth=600&chartHeight=600'">
           </iframe>
