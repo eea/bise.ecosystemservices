@@ -26,7 +26,7 @@ class IFolderContentsListingTile(IPersistentCoverTile):
 
     uuid = RelationChoice(
         title=u"Folder Root",
-        source=UUIDSourceBinder(),
+        source=UUIDSourceBinder(portal_type=['Folder', 'FolderishPage']),
         required=False,
     )
 

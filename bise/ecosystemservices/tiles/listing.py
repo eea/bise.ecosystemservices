@@ -30,9 +30,8 @@ class IListingTile(IPersistentCoverTile):
 
     uuid = RelationChoice(
         title=u"Linked Source",
-        source=UUIDSourceBinder(),
+        source=UUIDSourceBinder(portal_type="Sparql"),
         required=False,
-        portal_type="Sparql",
     )
 
     text = RichText(title=u'Text', required=False)
@@ -62,6 +61,10 @@ class DavizListingTile(PersistentCoverTile):
     def render_cell(self, info):
         return self.cell_tpl(daviz=info)
 
+    def accepted_ct(self):
+        """Return an empty list as no content types are accepted."""
+        return ['Sparql']
+
     def children(self):
         uuid = self.data.get('uuid')
         if not uuid:
@@ -84,10 +87,6 @@ class DavizListingTile(PersistentCoverTile):
             logger.exception("No results in sparql %s", source)
 
         return self._to_dict(rows, cols)
-
-    def accepted_ct(self):
-        """Return an empty list as no content types are accepted."""
-        return ['Sparql']
 
     def populate_with_object(self, obj):
         PersistentCoverTile.populate_with_object(self, obj)
@@ -221,9 +220,10 @@ class ElasticSearchListingTile(ElasticSearchBaseTile):
     def get_url(self, obj):
         # try different strategies to get the source url from the catalogue
         # info
+        base = 'http://catalogue.biodiversity.europa.eu'
         strategies = [
             lambda o: o['source_url'],
-            lambda o: 'http://catalogue.biodiversity.europa.eu' + obj['file_name']
+            lambda o: base + obj['file_name']
         ]
         for l in strategies:
             try:
