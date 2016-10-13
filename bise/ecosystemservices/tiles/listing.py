@@ -8,12 +8,14 @@ from collective.cover.tiles.base import IPersistentCoverTile
 from collective.cover.tiles.base import PersistentCoverTile
 from plone.app.textfield import RichText
 from plone.app.uuid.utils import uuidToObject
+# from plone.app.vocabularies.catalog import CatalogVocabulary
+# from plone.app.vocabularies.catalog import CatalogSource
 from plone.formwidget.contenttree import UUIDSourceBinder
 from plone.tiles.interfaces import ITileDataManager
 from plone.uuid.interfaces import IUUID
 from z3c.relationfield.schema import RelationChoice
 from zope.interface import implements
-from zope.schema import TextLine, Int
+from zope.schema import TextLine, Int, Choice
 import json
 import logging
 
@@ -28,9 +30,14 @@ class IListingTile(IPersistentCoverTile):
         required=False,
     )
 
-    uuid = RelationChoice(
+    # uuid = RelationChoice(
+    #     title=u"Linked Source",
+    #     source=UUIDSourceBinder(portal_type="Sparql"),
+    #     required=False,
+    # )
+    uuid = Choice(
         title=u"Linked Source",
-        source=UUIDSourceBinder(portal_type="Sparql"),
+        vocabulary="bise.sparql_vocabulary",
         required=False,
     )
 
@@ -152,11 +159,16 @@ class IElasticSearchTile(IListingTile):
     """
     """
 
-    uuid = RelationChoice(
+    # uuid = RelationChoice(
+    #     title=u"Linked Source",
+    #     source=UUIDSourceBinder(
+    #         portal_type="ElasticSearch",
+    #     ),
+    #     required=False,
+    # )
+    uuid = Choice(
         title=u"Linked Source",
-        source=UUIDSourceBinder(
-            portal_type="ElasticSearch",
-        ),
+        vocabulary="bise.elasticsearch_vocabulary",
         required=False,
     )
 
