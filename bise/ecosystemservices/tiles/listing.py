@@ -62,6 +62,9 @@ class DavizListingTile(PersistentCoverTile):
         return self.cell_tpl(daviz=info)
 
     def children(self):
+        uuid = self.data.get('uuid')
+        if not uuid:
+            return []
         source = uuidToObject(self.data['uuid'])
         if not source:
             return []
@@ -74,7 +77,7 @@ class DavizListingTile(PersistentCoverTile):
             return []
         count = self.data.get('count', 6)
         try:
-            rows, cols = (data['result']['rows'][:count], 
+            rows, cols = (data['result']['rows'][:count],
                           data['result']['var_names'][:count])
         except Exception:
             logger.exception("No results in sparql %s", source)

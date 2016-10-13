@@ -8,6 +8,13 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="bise.ecosystemservices">
 
+	<browser:page
+		name="topdb"
+		class=".PDBView"
+		permission="cmf.ManagePortal"
+		for="*"
+		/>
+
     <plone:tile
         name="bise.folder_contents_listing"
         title="Folder Contents Listing"
