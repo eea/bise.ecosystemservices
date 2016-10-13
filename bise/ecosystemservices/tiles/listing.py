@@ -6,12 +6,12 @@ from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.cover.tiles.base import IPersistentCoverTile
 from collective.cover.tiles.base import PersistentCoverTile
-from collective.cover.tiles.configuration_view import IDefaultConfigureForm
 from plone.app.textfield import RichText
 from plone.app.uuid.utils import uuidToObject
-from plone.autoform import directives as form
+from plone.formwidget.contenttree import UUIDSourceBinder
 from plone.tiles.interfaces import ITileDataManager
 from plone.uuid.interfaces import IUUID
+from z3c.relationfield.schema import RelationChoice
 from zope.interface import implements
 from zope.schema import TextLine, Int
 import json
@@ -28,10 +28,11 @@ class IListingTile(IPersistentCoverTile):
         required=False,
     )
 
-    uuid = TextLine(
-        title=u'UUID',
+    uuid = RelationChoice(
+        title=u"Linked Source",
+        source=UUIDSourceBinder(),
         required=False,
-        readonly=True,
+        portal_type="Sparql",
     )
 
     text = RichText(title=u'Text', required=False)
@@ -152,6 +153,14 @@ class IElasticSearchTile(IListingTile):
     """
     """
 
+    uuid = RelationChoice(
+        title=u"Linked Source",
+        source=UUIDSourceBinder(
+            portal_type="ElasticSearch",
+        ),
+        required=False,
+    )
+
 
 class ElasticSearchBaseTile(PersistentCoverTile):
     """ ElasticSearch / Bise Catalogue Teaser tile
@@ -162,7 +171,10 @@ class ElasticSearchBaseTile(PersistentCoverTile):
         return self.data.get('title', 'Missing tile title')
 
     def children(self):
-        source = uuidToObject(self.data['uuid'])
+        uuid = self.data.get('uuid')
+        if not uuid:
+            return []
+        source = uuidToObject(uuid)
         if not source:
             return []
 
