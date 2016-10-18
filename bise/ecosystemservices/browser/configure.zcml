@@ -1,10 +1,67 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/five"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:grok="http://namespaces.zope.org/grok"
-    i18n_domain="bise.ecosystemservices">
+	xmlns="http://namespaces.zope.org/zope"
+	xmlns:browser="http://namespaces.zope.org/browser"
+	xmlns:i18n="http://namespaces.zope.org/i18n"
+	xmlns:grok="http://namespaces.zope.org/grok"
+	i18n_domain="bise.ecosystemservices">
 
-  <!-- -*- extra stuff goes here -*- -->	
+
+	<browser:page
+		name="view"
+		class=".views.ServiceView"
+		for="bise.ecosystemservices.service.IService"
+		permission="zope2.View"
+		template="templates/serviceview.pt"
+		/>
+
+	<browser:page
+		name="view"
+		class=".views.StudyView"
+		for="bise.ecosystemservices.study.IStudy"
+		permission="zope2.View"
+		template="templates/studyview.pt"
+		/>
+
+	<browser:page
+		name="view"
+		class=".views.EcosystemView"
+		for="bise.ecosystemservices.ecosystem.IEcosystem"
+		permission="zope2.View"
+		template="templates/ecosystemview.pt"
+		/>
+
+	<browser:page
+		name="maesgalleryview"
+		class=".maesgalleryview.MAESGalleryView"
+		for="*"
+		permission="zope2.View"
+		template="templates/maesgalleryview.pt"
+		/>
+
+	<browser:page
+		name="atlasview"
+		class=".atlasview.AtlasView"
+		for="*"
+		permission="zope2.View"
+		template="templates/atlasview.pt"
+		/>
+
+	<browser:page
+		name="create-advancedtopic"
+		class=".wizards.CreateAdvancedTopic"
+		for="Products.CMFCore.interfaces.IFolderish"
+		permission="cmf.AddPortalContent"
+		/>
+
+	<configure package="plone.app.content.browser">
+		<browser:page
+			for="*"
+			layer="bise.diazotheme.interfaces.IBiseDiazoLayer"
+			name="folder_factories"
+			class="bise.ecosystemservices.browser.precooked.OverrideFolderFactoriesView"
+			template="folderfactories.pt"
+			permission="cmf.AddPortalContent"
+			/>
+	</configure>
 
 </configure>

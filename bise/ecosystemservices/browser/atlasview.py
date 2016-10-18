@@ -1,18 +1,13 @@
 from Acquisition import aq_inner
-from five import grok
-from zope.interface import Interface
-
-grok.templatedir('templates')
+from Products.Five.browser import BrowserView
 
 
-class AtlasView(grok.View):
-    grok.context(Interface)
-    grok.require('zope2.View')
+class AtlasView(BrowserView):
 
     def get_ecosystems(self):
         context = aq_inner(self.context)
         ecosystems = context.getFolderContents({'portal_type': 'Ecosystem'},
-            full_objects=True)
+                                               full_objects=True)
         ret = []
         for ecosystem in ecosystems:
             data = {}
@@ -24,7 +19,7 @@ class AtlasView(grok.View):
     def get_services(self):
         context = aq_inner(self.context)
         services = context.getFolderContents({'portal_type': 'Service'},
-            full_objects=True)
+                                             full_objects=True)
         ret = []
         for Service in services:
             data = {}
