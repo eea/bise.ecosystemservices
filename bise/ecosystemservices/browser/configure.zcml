@@ -47,8 +47,15 @@
 		/>
 
 	<browser:page
-		name="create-advancedtopic"
-		class=".wizards.CreateAdvancedTopic"
+		name="create-maintopic"
+		class=".wizards.CreateMainTopic"
+		for="Products.CMFCore.interfaces.IFolderish"
+		permission="cmf.AddPortalContent"
+		/>
+
+	<browser:page
+		name="create-subtopic"
+		class=".wizards.CreateSubTopic"
 		for="Products.CMFCore.interfaces.IFolderish"
 		permission="cmf.AddPortalContent"
 		/>
@@ -58,7 +65,7 @@
 			for="*"
 			layer="bise.diazotheme.interfaces.IBiseDiazoLayer"
 			name="folder_factories"
-			class="bise.ecosystemservices.browser.precooked.OverrideFolderFactoriesView"
+			class="bise.ecosystemservices.browser.wizards.OverrideFolderFactoriesView"
 			template="folderfactories.pt"
 			permission="cmf.AddPortalContent"
 			/>

@@ -244,3 +244,9 @@ class ElasticSearchListingTile(ElasticSearchBaseTile):
                 continue
 
         return ""
+
+    def get_title(self, obj):
+        if 'title' in obj:
+            return obj['title']
+        if 'name' in obj:
+            return obj['name']

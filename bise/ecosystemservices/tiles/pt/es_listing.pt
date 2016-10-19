@@ -14,8 +14,9 @@
         <h4 tal:content="view/title" >Title here</h4>
       </div>
       <ul>
-        <li tal:repeat="obj view/children">
-          <a href="" tal:attributes="href python: view.get_url(obj)" tal:content="obj/title">Something</a>
+        <li tal:repeat="obj python: view.children()[:10]">
+          <a href="" tal:attributes="href python: view.get_url(obj)"
+            tal:content="python: view.get_title(obj)">Something</a>
         </li>
       </ul>
       <!-- <div class="cover&#45;elasticsearchlisting&#45;tile&#45;footer"> -->
