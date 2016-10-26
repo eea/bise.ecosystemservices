@@ -1,7 +1,6 @@
 """ Tiles to embed daviz
 """
 
-# from dateutile import parser
 from DateTime import DateTime
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from collective.cover.tiles.base import IPersistentCoverTile

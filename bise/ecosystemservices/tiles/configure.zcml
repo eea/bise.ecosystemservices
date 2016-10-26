@@ -8,20 +8,20 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="bise.ecosystemservices">
 
-	<utility
-		name="bise.sparql_vocabulary"
-		component=".vocabulary.sparql_vocabulary" />
+    <utility
+        name="bise.sparql_vocabulary"
+        component=".vocabulary.sparql_vocabulary" />
 
-	<utility
-		name="bise.elasticsearch_vocabulary"
-		component=".vocabulary.elasticsearch_vocabulary" />
+    <utility
+        name="bise.elasticsearch_vocabulary"
+        component=".vocabulary.elasticsearch_vocabulary" />
 
-	<browser:page
-		name="topdb"
-		class=".PDBView"
-		permission="cmf.ManagePortal"
-		for="*"
-		/>
+    <browser:page
+        name="topdb"
+        class=".PDBView"
+        permission="cmf.ManagePortal"
+        for="*"
+        />
 
     <plone:tile
         name="bise.folder_contents_listing"

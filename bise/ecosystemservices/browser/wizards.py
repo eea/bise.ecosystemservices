@@ -8,46 +8,66 @@ from plone.app.textfield import RichText
 from plone.directives import form
 from plone.uuid.interfaces import IUUID
 from z3c.form import button
+from zope.schema import List
 from zope.schema import Text
 from zope.schema import TextLine
 import json
 
 
-class ITopicWizardSchema(form.Schema):
+class IAdvancedTopicWizardSchema(form.Schema):
     """
     """
 
     title = TextLine(title=u"Title", required=True)
     description = RichText(title=u"Topic description", required=True)
 
+    subtopics = List(
+        title=u"Subtopics",
+        description=u"One per line",
+        value_type=TextLine(title=u"Subtopic title"),
+    )
+
     sparql_endpoint = TextLine(
         title=u"Sparql query endpoint",
         required=False,
-        default=u"http://semantic.eea.europa.eu/sparql")
-    sparql_query = Text(
-        title=u"Sparql query",
-        required=False)
+        default=u"http://semantic.eea.europa.eu/sparql"
+    )
+    graphs_sparql_query = Text(
+        title=u"Graph and Trends sparql query",
+        required=False
+    )
+    indicators_sparql_query = Text(
+        title=u"Relevant Indicators sparql query",
+        required=False
+    )
 
-    elasticsearch_query_endpoint = Text(
+    elasticsearch_query_endpoint = TextLine(
         title=u"ElasticSearch query endpoint",
         default=(u"http://localhost:9200/"
                  u"catalogue_development_articles/_search"),
-        required=False)
+        required=False
+    )
     elasticsearch_query = Text(
-        title=u"ElasticSearch query",
+        title=u"Further Links - ElasticSearch query",
         default=(u'{"from" : 0, "size" : 100, '
                  u'"query":{"match": {"_all":"test"}}}'),
-        required=False)
+        required=False
+    )
+    catalogue_teaser = TextLine(
+        title=u"Catalogue Teaser Subject",
+        required=False
+    )
+    catalogue_teaser_link = TextLine(
+        title=u"Catalogue Teaser link",
+        required=False
+    )
 
 
 class BaseCreateTopic(form.SchemaForm):
     """
     """
 
-    schema = ITopicWizardSchema
     ignoreContext = True
-
-    label = u"Advanced Topic wizard"
 
     def create(self, data):
         raise NotImplementedError
@@ -80,6 +100,9 @@ class CreateMainTopic(BaseCreateTopic):
     - TODO: change suptopics tile to allow creating subtopics
     """
 
+    schema = IAdvancedTopicWizardSchema
+    label = u"Advanced Topic wizard"
+
     def create(self, data):
         folder = create(
             container=self.context, type="Folder", title=data['title'])
@@ -96,44 +119,67 @@ class CreateMainTopic(BaseCreateTopic):
         info = {'title': u'Subtopics', 'uuid': IUUID(folder)}
         fc_tile = make_tile("bise.folder_contents_listing", cover, info)
 
+        # TODO: create a folder for each subtopic
+
         row_1 = make_row(make_group(12, desc_tile))
         row_2 = make_row(make_group(12, fc_tile))
 
         rows = [row_1, row_2]
 
-        if data.get('sparql_query'):
-            endpoint = data['sparql_endpoint']
-            sparql = create(container=folder,
-                            type="Sparql",
-                            title=data['title'] + u' Sparql Query',
-                            endpoint_url=endpoint,
-                            sparql_query=data['sparql_query']
-                            )
+        endpoint = data.get('sparql_endpoint', '').strip()
+        gsq = data.get('graphs_sparql_query', '').strip()
+        isq = data.get('indicators_sparql_query', '').strip()
 
-            info = {'title': 'Daviz full width', 'uuid': IUUID(sparql)}
+        if endpoint and gsq:
+            sparql = create(
+                container=folder,
+                type="Sparql",
+                title=data['title'] + u'Graphs and Trends Sparql Query',
+                endpoint_url=endpoint,
+                sparql_query=gsq
+            )
+            info = {'title': u'Graphs and Trends', 'uuid': IUUID(sparql)}
             dfw_tile = make_tile("bise.daviz_grid_listing", cover, info)
             row_3 = make_row(make_group(12, dfw_tile))
             rows.append(row_3)
 
-        if data.get('elasticsearch_query'):
-            endpoint = "http://10.0.30.44:9200/_search"
-            query = data['elasticsearch_query']
+        if endpoint and isq:
+            sparql = create(
+                container=folder,
+                type="Sparql",
+                title=data['title'] + u'Related Indicators Sparql Query',
+                endpoint_url=endpoint,
+                sparql_query=isq
+            )
+            info = {'title': u'Related Indicators', 'uuid': IUUID(sparql)}
+            dsr_tile = make_tile("bise.daviz_grid_listing", cover, info)
+            row_4 = make_row(make_group(12, dsr_tile))
+            rows.append(row_4)
+
+        es_query = data.get('elasticsearch_query', '').strip()
+        es_endpoint = data.get('elasticsearch_query_endpoint', '').strip()
+        teaser_subj = data.get('catalogue_teaser', '').strip()
+        teaser_link = data.get('catalogue_teaser_link', '').strip()
+
+        if es_query and es_endpoint:
+            groups = []
             es = create(container=folder,
                         type='ElasticSearch',
-                        title=data['title'] + u" ElasticSearch Query",
-                        endpoint=endpoint,
-                        query=query
+                        title=data['title'] + u"Further Links ES Query",
+                        endpoint=es_endpoint,
+                        query=es_query
                         )
             info = {'title': 'Further Links', 'uuid': IUUID(es)}
             es_list_tile = make_tile("bise.es_listing", cover, info)
-            g1 = make_group(9, es_list_tile)
+            groups.append(make_group(9, es_list_tile))
 
-            info = {'title': 'Teaser Tile', 'uuid': IUUID(es)}
-            es_teaser_tile = make_tile("bise.es_teaser", cover, info)
-            g2 = make_group(3, es_teaser_tile)
+            if teaser_subj and teaser_link:
+                info = {'title': 'Teaser Tile', 'uuid': IUUID(es)}
+                es_teaser_tile = make_tile("bise.es_teaser", cover, info)
+                groups.append(make_group(3, es_teaser_tile))
 
-            row_4 = make_row(g1, g2)
-            rows.append(row_4)
+            row_5 = make_row(*groups)
+            rows.append(row_5)
 
         layout = make_layout(*rows)
         layout = json.dumps(layout)
@@ -143,9 +189,61 @@ class CreateMainTopic(BaseCreateTopic):
         return cover
 
 
+class ISubTopicWizardSchema(form.Schema):
+    """
+    """
+
+    title = TextLine(title=u"Title", required=True)
+    introduction = RichText(title=u"Topic introduction", required=True)
+    highlight = RichText(
+        title=u"Subtopic details",
+        description=u"This text will be highlighted in green left border",
+        required=True
+    )
+
+    daviz_url = TextLine(
+        title=u"Graphs and trends Daviz link",
+        required=False
+    )
+
+    sparql_endpoint = TextLine(
+        title=u"Sparql query endpoint",
+        required=False,
+        default=u"http://semantic.eea.europa.eu/sparql"
+    )
+    indicators_sparql_query = Text(
+        title=u"Relevant Indicators sparql query",
+        required=False
+    )
+
+    elasticsearch_query_endpoint = TextLine(
+        title=u"ElasticSearch query endpoint",
+        default=(u"http://localhost:9200/"
+                 u"catalogue_development_articles/_search"),
+        required=False
+    )
+    elasticsearch_query = Text(
+        title=u"Further Links - ElasticSearch query",
+        default=(u'{"from" : 0, "size" : 100, '
+                 u'"query":{"match": {"_all":"test"}}}'),
+        required=False
+    )
+    catalogue_teaser = TextLine(
+        title=u"Catalogue Teaser Subject",
+        required=False
+    )
+    catalogue_teaser_link = TextLine(
+        title=u"Catalogue Teaser link",
+        required=False
+    )
+
+
 class CreateSubTopic(BaseCreateTopic):
     """
     """
+
+    schema = ISubTopicWizardSchema
+    label = u"SubTopic wizard"
 
     def create(self, data):
         folder = create(
@@ -155,6 +253,73 @@ class CreateSubTopic(BaseCreateTopic):
                        title=data['title'])
 
         folder.setDefaultPage(cover.getId())
+
+        info = {'title': u'Introduction Text',
+                'text': data['introduction'].raw}
+        desc_tile = make_tile("collective.cover.richtext", cover, info)
+        row_1 = make_row(make_group(12, desc_tile))
+
+        htext = u"<h1>{0}</h1>".format(data['title'] +
+                                       data['highlight'].raw)
+
+        info = {'title': u'Introduction Text', 'text': htext}
+        intro_tile = make_tile("collective.cover.richtext", cover, info)
+        row_2 = make_row(make_group(12, intro_tile))
+
+        rows = [row_1, row_2]
+
+        daviz_url = data.get('daviz_url', '').strip()
+        if daviz_url:
+            info = {'title': 'Graphs and trends', 'daviz_url': daviz_url}
+            daviz_tile = make_tile('bise.daviz_preview', cover, info)
+            row_3 = make_row(make_group(12, daviz_tile))
+            rows.append(row_3)
+
+        endpoint = data.get('sparql_endpoint', '').strip()
+        isq = data.get('indicators_sparql_query', '').strip()
+
+        if endpoint and isq:
+            sparql = create(
+                container=folder,
+                type="Sparql",
+                title=data['title'] + u'Related Indicators Sparql Query',
+                endpoint_url=endpoint,
+                sparql_query=isq
+            )
+            info = {'title': u'Related Indicators', 'uuid': IUUID(sparql)}
+            dsr_tile = make_tile("bise.daviz_grid_listing", cover, info)
+            row_4 = make_row(make_group(12, dsr_tile))
+            rows.append(row_4)
+
+        es_query = data.get('elasticsearch_query', '').strip()
+        es_endpoint = data.get('elasticsearch_query_endpoint', '').strip()
+        teaser_subj = data.get('catalogue_teaser', '').strip()
+        teaser_link = data.get('catalogue_teaser_link', '').strip()
+
+        if es_query and es_endpoint:
+            groups = []
+            es = create(container=folder,
+                        type='ElasticSearch',
+                        title=data['title'] + u"Further Links ES Query",
+                        endpoint=es_endpoint,
+                        query=es_query
+                        )
+            info = {'title': 'Further Links', 'uuid': IUUID(es)}
+            es_list_tile = make_tile("bise.es_listing", cover, info)
+            groups.append(make_group(9, es_list_tile))
+
+            if teaser_subj and teaser_link:
+                info = {'title': 'Teaser Tile', 'uuid': IUUID(es)}
+                es_teaser_tile = make_tile("bise.es_teaser", cover, info)
+                groups.append(make_group(3, es_teaser_tile))
+
+            row_5 = make_row(*groups)
+            rows.append(row_5)
+
+        layout = make_layout(*rows)
+        layout = json.dumps(layout)
+
+        cover.cover_layout = layout
 
         return cover
 
@@ -175,7 +340,7 @@ class OverrideFolderFactoriesView(FolderFactoriesView):
                 'selected': False,
                 'icon': 'folder_icon.png',
                 'extra': {
-                    'id': 'maintopic',
+                    'id': 'wizard-maintopic',
                     'separator': None,
                     'class': 'contenttype-maintopic'
                 },
@@ -189,7 +354,7 @@ class OverrideFolderFactoriesView(FolderFactoriesView):
                 'selected': False,
                 'icon': 'folder_icon.png',
                 'extra': {
-                    'id': 'maintopic',
+                    'id': 'wizard-subtopic',
                     'separator': None,
                     'class': 'contenttype-subtopic'
                 },

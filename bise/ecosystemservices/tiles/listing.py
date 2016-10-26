@@ -8,17 +8,17 @@ from collective.cover.tiles.base import IPersistentCoverTile
 from collective.cover.tiles.base import PersistentCoverTile
 from plone.app.textfield import RichText
 from plone.app.uuid.utils import uuidToObject
-# from plone.app.vocabularies.catalog import CatalogVocabulary
-# from plone.app.vocabularies.catalog import CatalogSource
-from plone.formwidget.contenttree import UUIDSourceBinder
 from plone.tiles.interfaces import ITileDataManager
 from plone.uuid.interfaces import IUUID
-from z3c.relationfield.schema import RelationChoice
 from zope.interface import implements
 from zope.schema import TextLine, Int, Choice
 import json
 import logging
 
+# from z3c.relationfield.schema import RelationChoice
+# from plone.formwidget.contenttree import UUIDSourceBinder
+# from plone.app.vocabularies.catalog import CatalogSource
+# from plone.app.vocabularies.catalog import CatalogVocabulary
 
 logger = logging.getLogger('eea.climateadapt')
 
