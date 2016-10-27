@@ -17,11 +17,14 @@
         <div class="text" tal:condition="text" tal:content="structure text/output">Text</div>
       </div>
 
-      <div class="cards">
-        <div tal:repeat="obj python:view.children()[:9]" tal:omit-tag="">
-          <div tal:replace="structure python: view.render_cell(obj)" />
-          </div>
+      <div class="cards" tal:define="children view/children">
+        <div tal:repeat="obj python:children[:9]" tal:omit-tag="">
+          <div tal:replace="structure python: view.render_cell(obj)" ></div>
         </div>
+        <div tal:condition="not: children">
+          Waiting for SPARQL data to arrive. Please reload page.
+        </div>
+      </div>
 
         <script>
           /* <[CDATA[ */

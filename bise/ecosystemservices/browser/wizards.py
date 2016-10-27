@@ -2,6 +2,7 @@ from bise.ecosystemservices.browser.utils import make_group
 from bise.ecosystemservices.browser.utils import make_layout
 from bise.ecosystemservices.browser.utils import make_row
 from bise.ecosystemservices.browser.utils import make_tile
+from eea.sparql.content.sparql import generateUniqueId
 from plone.api.content import create
 from plone.app.content.browser.folderfactories import FolderFactoriesView
 from plone.app.textfield import RichText
@@ -25,6 +26,7 @@ class IAdvancedTopicWizardSchema(form.Schema):
         title=u"Subtopics",
         description=u"One per line",
         value_type=TextLine(title=u"Subtopic title"),
+        required=False,
     )
 
     sparql_endpoint = TextLine(
@@ -89,6 +91,23 @@ class BaseCreateTopic(form.SchemaForm):
         """
 
 
+def create_sparql(container, title, query, endpoint):
+    """ Create a sparql query object
+    """
+    _id = generateUniqueId("Sparql")
+    _id = container.invokeFactory(type_name="Sparql", id=_id)
+    ob = container[_id]
+    ob.edit(
+        title=title,
+        endpoint_url=endpoint,
+        sparql_query=query,
+    )
+    ob._renameAfterCreation(check_auto_id=True)
+    ob.invalidateWorkingResult()
+
+    return ob
+
+
 class CreateMainTopic(BaseCreateTopic):
     """ Easily create an advanced topic
 
@@ -131,12 +150,11 @@ class CreateMainTopic(BaseCreateTopic):
         isq = data.get('indicators_sparql_query', '').strip()
 
         if endpoint and gsq:
-            sparql = create(
+            sparql = create_sparql(
                 container=folder,
-                type="Sparql",
                 title=data['title'] + u'Graphs and Trends Sparql Query',
-                endpoint_url=endpoint,
-                sparql_query=gsq
+                query=gsq,
+                endpoint=endpoint,
             )
             info = {'title': u'Graphs and Trends', 'uuid': IUUID(sparql)}
             dfw_tile = make_tile("bise.daviz_grid_listing", cover, info)
@@ -144,15 +162,14 @@ class CreateMainTopic(BaseCreateTopic):
             rows.append(row_3)
 
         if endpoint and isq:
-            sparql = create(
+            sparql = create_sparql(
                 container=folder,
-                type="Sparql",
                 title=data['title'] + u'Related Indicators Sparql Query',
-                endpoint_url=endpoint,
-                sparql_query=isq
+                query=isq,
+                endpoint=endpoint,
             )
             info = {'title': u'Related Indicators', 'uuid': IUUID(sparql)}
-            dsr_tile = make_tile("bise.daviz_grid_listing", cover, info)
+            dsr_tile = make_tile("bise.daviz_singlerow_listing", cover, info)
             row_4 = make_row(make_group(12, dsr_tile))
             rows.append(row_4)
 
@@ -279,12 +296,11 @@ class CreateSubTopic(BaseCreateTopic):
         isq = data.get('indicators_sparql_query', '').strip()
 
         if endpoint and isq:
-            sparql = create(
+            sparql = create_sparql(
                 container=folder,
-                type="Sparql",
                 title=data['title'] + u'Related Indicators Sparql Query',
-                endpoint_url=endpoint,
-                sparql_query=isq
+                query=isq,
+                endpoint=endpoint,
             )
             info = {'title': u'Related Indicators', 'uuid': IUUID(sparql)}
             dsr_tile = make_tile("bise.daviz_grid_listing", cover, info)
