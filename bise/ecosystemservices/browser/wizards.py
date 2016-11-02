@@ -9,22 +9,86 @@ from plone.app.textfield import RichText
 from plone.directives import form
 from plone.uuid.interfaces import IUUID
 from z3c.form import button
+from zope.schema import Choice
 from zope.schema import List
 from zope.schema import Text
 from zope.schema import TextLine
 import json
 
 
+MAIN_TOPICS = [
+    "Ecosystems and habitats",
+    "Species",
+    "Genetic resources",
+    "Ecosystem services",
+    "Threats",
+    "Climate change",
+    "Invasive species",
+    "Fragmentation",
+    "Land use change",
+    "Pollution",
+    "Overexploitation",
+    "Responses",
+    "Protected areas",
+    "The wider country side",
+    "LIFE+ Nature and Biodiversity Projects",
+    "Tipping points",
+]
+
+
+DEFAULT_DAVIZ_QUERY = u"""
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdfs2: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX pt: <http://www.eea.europa.eu/portal_types/Data#>
+PREFIX dc: <http://purl.org/dc/terms/>
+
+SELECT distinct (?s as ?item_url) ?item_title ?item_description ?item_published
+WHERE {
+ ?s ?p1 ?o1.
+
+  OPTIONAL {?s dc:title ?item_title} .
+  OPTIONAL {?s dc:abstract ?item_description} .
+  OPTIONAL {?s dc:issued ?item_published} .
+
+ filter(?p1 = <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>).
+ filter(?o1 = <http://www.eea.europa.eu/portal_types/DavizVisualization#DavizVisualization>)
+ } limit 15 offset 0
+"""
+
+DEFAULT_INDICATORS_QUERY = u"""
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdfs2: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX pt: <http://www.eea.europa.eu/portal_types/Data#>
+PREFIX dc: <http://purl.org/dc/terms/>
+
+SELECT distinct (?s as ?item_url) ?item_title ?item_description ?item_published
+WHERE {
+ ?s ?p1 ?o1.
+
+  OPTIONAL {?s dc:title ?item_title} .
+  OPTIONAL {?s dc:abstract ?item_description} .
+  OPTIONAL {?s dc:issued ?item_published} .
+
+ filter(?p1 = <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>).
+ filter(?o1 = <http://www.eea.europa.eu/portal_types/Assessment#Assessment>)
+} limit 15 offset 0
+"""
+
+
 class IAdvancedTopicWizardSchema(form.Schema):
     """
     """
 
-    title = TextLine(title=u"Title", required=True)
+    # title = TextLine(title=u"Title", required=True)
+    title = Choice(title=u"Main topic", required=True, values=MAIN_TOPICS)
     description = RichText(title=u"Topic description", required=True)
 
     subtopics = List(
         title=u"Subtopics",
-        description=u"One per line",
+        description=(u"One subtopic title per line. This will prepare a "
+                     u"separate folder for each one of them."),
         value_type=TextLine(title=u"Subtopic title"),
         required=False,
     )
@@ -34,12 +98,28 @@ class IAdvancedTopicWizardSchema(form.Schema):
         required=False,
         default=u"http://semantic.eea.europa.eu/sparql"
     )
-    graphs_sparql_query = Text(
-        title=u"Graph and Trends sparql query",
+    baseline_sparql_query = Text(
+        title=u"Baseline and Trends sparql query",
+        description=(u"Sparql Query to select a colection of Daviz "
+                     u"Vizualizations. This should be a sparql query "
+                     u"that exposes columns: ?item_url ?item_title "
+                     u"?item_description ?item_published"),
+        default=DEFAULT_DAVIZ_QUERY,
         required=False
     )
     indicators_sparql_query = Text(
         title=u"Relevant Indicators sparql query",
+        description=(u"Sparql Query to select a colection of Indicator "
+                     u"Assessments. This should be a sparql query "
+                     u"that exposes columns: ?item_url ?item_title "
+                     u"?item_description ?item_published"),
+        default=DEFAULT_INDICATORS_QUERY,
+        required=False
+    )
+
+    tableau_embed = Text(
+        title=u"Tableau embed code",
+        description=u"Optional tableau embeded vizualization. Some HTML code.",
         required=False
     )
 
@@ -57,10 +137,12 @@ class IAdvancedTopicWizardSchema(form.Schema):
     )
     catalogue_teaser = TextLine(
         title=u"Catalogue Teaser Subject",
+        description=u"If empty, will use selected topic word",
         required=False
     )
     catalogue_teaser_link = TextLine(
         title=u"Catalogue Teaser link",
+        default=u"http://biodiversity.europa.eu/bise-catalogue",
         required=False
     )
 
@@ -138,7 +220,8 @@ class CreateMainTopic(BaseCreateTopic):
         info = {'title': u'Subtopics', 'uuid': IUUID(folder)}
         fc_tile = make_tile("bise.folder_contents_listing", cover, info)
 
-        # TODO: create a folder for each subtopic
+        for line in filter(None, [l.strip() for l in data['subtopics']]):
+            create(container=folder, type="Folder", title=line)
 
         row_1 = make_row(make_group(12, desc_tile))
         row_2 = make_row(make_group(12, fc_tile))
@@ -146,17 +229,17 @@ class CreateMainTopic(BaseCreateTopic):
         rows = [row_1, row_2]
 
         endpoint = data.get('sparql_endpoint', '').strip()
-        gsq = data.get('graphs_sparql_query', '').strip()
+        gsq = data.get('baseline_sparql_query', '').strip()
         isq = data.get('indicators_sparql_query', '').strip()
 
         if endpoint and gsq:
             sparql = create_sparql(
                 container=folder,
-                title=data['title'] + u'Graphs and Trends Sparql Query',
+                title=data['title'] + u'Baseline and Trends Sparql Query',
                 query=gsq,
                 endpoint=endpoint,
             )
-            info = {'title': u'Graphs and Trends', 'uuid': IUUID(sparql)}
+            info = {'title': u'Baseline and Trends', 'uuid': IUUID(sparql)}
             dfw_tile = make_tile("bise.daviz_grid_listing", cover, info)
             row_3 = make_row(make_group(12, dfw_tile))
             rows.append(row_3)
@@ -175,7 +258,7 @@ class CreateMainTopic(BaseCreateTopic):
 
         es_query = data.get('elasticsearch_query', '').strip()
         es_endpoint = data.get('elasticsearch_query_endpoint', '').strip()
-        teaser_subj = data.get('catalogue_teaser', '').strip()
+        teaser_subj = (data.get('catalogue_teaser') or '').strip()
         teaser_link = data.get('catalogue_teaser_link', '').strip()
 
         if es_query and es_endpoint:

@@ -191,7 +191,10 @@ class ElasticSearchBaseTile(PersistentCoverTile):
 
         data = json.loads(source.cached_results.data)
 
-        rows = [x['_source'] for x in data['hits']['hits']]
+        try:
+            rows = [x['_source'] for x in data['hits']['hits']]
+        except KeyError:
+            return []
 
         return rows
 

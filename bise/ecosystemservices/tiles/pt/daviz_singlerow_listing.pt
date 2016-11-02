@@ -9,9 +9,7 @@
       Edit and select the source Sparql query from the portal.
     </p>
 
-    <div tal:condition="not: is_empty" class="cover-daviz-singlerow-tile tile-content">
-
-      <style></style>
+    <div tal:condition="not: is_empty" class="cover-daviz-singlerow-tile tile-content" tal:define="children view/children">
 
       <div class="singlerow-cards-container" tal:define="text python: view.data.get('text', '')">
         <h4 class="singlerow-title" tal:content="python: view.data.get('title', 'Untitled')">Relevant singlerows</h4>
@@ -25,7 +23,7 @@
         <div class="singlerow-cards-wrapper">
           <div class="singlerow-cards">
 
-            <div tal:repeat="obj view/children" class="singlerow-card">
+            <div tal:repeat="obj children" class="singlerow-card">
               <div class="singlerow-card__inner" tal:define="published python: view.format_date(obj['item_published'])">
                 <img tal:attributes="src string:${obj/item_url}/image_preview"/>
                 <p class="singlerow-desc">
@@ -35,6 +33,10 @@
                     Published on <span tal:replace="python: context.toLocalizedTime(published)">Aug</span>
                 </span>
               </div>
+            </div>
+
+            <div tal:condition="not:children">
+              Waiting for Sparql data to arrive. Please reload page.
             </div>
 
           </div>
