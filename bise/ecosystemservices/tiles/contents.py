@@ -48,7 +48,8 @@ class FolderContentsListingTile(PersistentCoverTile):
         source = uuidToObject(self.data['uuid'])
         if source is None:
             return []
-        return source.getFolderContents()
+        return source.getFolderContents(
+            contentFilter=dict(portal_type=['Folder', 'FolderishPage']))
 
     def title(self):
         return self.data.get('title', 'Missing tile title')
