@@ -85,7 +85,10 @@ WHERE {
  filter bif:contains(?o3, '"csi"')
 
 } limit 15 offset 0
+"""
 
+DEFAULT_EMBED = u"""
+<div class='tableauPlaceholder' id='viz1478163186645' style='position: relative'><noscript><a href='#'><img alt='Test page MAES ecosystems ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Te&#47;TestpageMAESecosystems&#47;Selectedecosystemsboard&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='site_root' value='' /><param name='name' value='TestpageMAESecosystems&#47;Selectedecosystemsboard' /><param name='tabs' value='no' /><param name='toolbar' value='no' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Te&#47;TestpageMAESecosystems&#47;Selectedecosystemsboard&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1478163186645');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='1004px';vizElement.style.height='869px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
 """
 
 
@@ -102,7 +105,7 @@ class IAdvancedTopicWizardSchema(form.Schema):
         description=(u"One subtopic title per line. This will prepare a "
                      u"separate folder for each one of them."),
         value_type=TextLine(title=u"Subtopic title"),
-        required=False,
+        required=True,
     )
 
     sparql_endpoint = TextLine(
@@ -132,19 +135,21 @@ class IAdvancedTopicWizardSchema(form.Schema):
     tableau_embed = Text(
         title=u"Tableau embed code",
         description=u"Optional tableau embeded vizualization. Some HTML code.",
+        default=DEFAULT_EMBED,
         required=False
     )
 
     elasticsearch_query_endpoint = TextLine(
         title=u"ElasticSearch query endpoint",
-        default=(u"http://localhost:9200/"
-                 u"catalogue_development_articles/_search"),
+        default=(u"http://10.128.0.50:9200/"
+                 u"catalogue_production_articles,"
+                 u"catalogue_production_documents/_search"),
         required=False
     )
     elasticsearch_query = Text(
         title=u"Further Links - ElasticSearch query",
-        default=(u'{"from" : 0, "size" : 100, '
-                 u'"query":{"match": {"_all":"test"}}}'),
+        default=(u'{"from" : 0, "size" : 10, '
+                 u'"query":{"match": {"_all":"ecosystem"}}}'),
         required=False
     )
     catalogue_teaser = TextLine(
@@ -232,7 +237,8 @@ class CreateMainTopic(BaseCreateTopic):
         info = {'title': u'Subtopics', 'uuid': IUUID(folder)}
         fc_tile = make_tile("bise.folder_contents_listing", cover, info)
 
-        for line in filter(None, [l.strip() for l in data['subtopics']]):
+        for line in filter(None,
+                           [l.strip() for l in (data.get('subtopics') or [])]):
             create(container=folder, type="Folder", title=line)
 
         row_1 = make_row(make_group(12, desc_tile))
@@ -256,6 +262,13 @@ class CreateMainTopic(BaseCreateTopic):
             row_3 = make_row(make_group(12, dfw_tile))
             rows.append(row_3)
 
+        tableau_embed = data.get('tableau_embed', '')
+        if tableau_embed:
+            info = {'title': u'Tableau embed', 'embed': tableau_embed}
+            t_tile = make_tile("bise.embed", cover, info)
+            row_3_1 = make_row(make_group(12, t_tile))
+            rows.append(row_3_1)
+
         if endpoint and isq:
             sparql = create_sparql(
                 container=folder,
@@ -271,6 +284,8 @@ class CreateMainTopic(BaseCreateTopic):
         es_query = data.get('elasticsearch_query', '').strip()
         es_endpoint = data.get('elasticsearch_query_endpoint', '').strip()
         teaser_subj = (data.get('catalogue_teaser') or '').strip()
+        if not teaser_subj:
+            teaser_subj = data['title']
         teaser_link = data.get('catalogue_teaser_link', '').strip()
 
         if es_query and es_endpoint:
@@ -330,7 +345,7 @@ class ISubTopicWizardSchema(form.Schema):
 
     elasticsearch_query_endpoint = TextLine(
         title=u"ElasticSearch query endpoint",
-        default=(u"http://localhost:9200/"
+        default=(u"http://10.128.0.50:9200/"
                  u"catalogue_development_articles/_search"),
         required=False
     )

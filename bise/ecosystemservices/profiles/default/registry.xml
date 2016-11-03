@@ -10,9 +10,10 @@
             <element>bise.daviz_grid_listing</element>
             <element>bise.daviz_fullwidth</element>
             <element>bise.daviz_preview</element>
+            <element>bise.embed</element>
         </value>
     </record>
-    
+
     <record name="collective.cover.controlpanel.ICoverSettings.available_tiles">
         <value purge="false">
             <element>bise.folder_contents_listing</element>
@@ -22,6 +23,7 @@
             <element>bise.daviz_grid_listing</element>
             <element>bise.daviz_fullwidth</element>
             <element>bise.daviz_preview</element>
+            <element>bise.embed</element>
         </value>
     </record>
 

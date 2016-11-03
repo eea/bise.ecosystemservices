@@ -112,6 +112,18 @@
         for="*"
         />
 
+  <plone:tile
+      name="bise.embed"
+      title="Bise Embedding Tile"
+      description="A tile to embed content from a remote source."
+      icon="++resource++collective.cover/img/tile-embed.png"
+      add_permission="cmf.ModifyPortalContent"
+      schema="collective.cover.tiles.embed.IEmbedTile"
+      class=".embed.EmbedTile"
+      permission="zope2.View"
+      for="*"
+      />
+
     <adapter factory=".daviz.DavizTileDataManager" />
 
 </configure>
