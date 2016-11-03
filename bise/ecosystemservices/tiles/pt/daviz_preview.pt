@@ -14,7 +14,8 @@
       </style>
       <h4 tal:content="python: view.data.get('title')">Tile title here</h4>
       <div class="cover-davizpreview-body" tal:define="url python: view.data.get('daviz_url')">
-        <div class="desc" tal:content="structure python:view.data.get('description').output"></div>
+        <div class="desc" tal:on-error="nothing"
+          tal:content="structure python:view.data.get('description').output"></div>
         <div class="content">
           <h5 tal:content="python: view.data.get('daviz_title')" >Title here</h5>
           <a href="" tal:attributes="href url" target="_blank">
