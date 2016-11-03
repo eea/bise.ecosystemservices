@@ -185,6 +185,7 @@ h4 {
 	font-size: 1em;
 	text-align: center;
 	transition: all 0.2s ease-in-out;
+    overflow: hidden;
 }
 
 .card__inner:after {

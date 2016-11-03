@@ -47,14 +47,16 @@ SELECT distinct (?s as ?item_url) ?item_title ?item_description ?item_published
 WHERE {
  ?s ?p1 ?o1.
 
-  OPTIONAL {?s dc:title ?item_title} .
-  OPTIONAL {?s dc:abstract ?item_description} .
-  OPTIONAL {?s dc:issued ?item_published} .
+ OPTIONAL {?s dc:title ?item_title} .
+ OPTIONAL {?s dc:abstract ?item_description} .
+ OPTIONAL {?s dc:issued ?item_published} .
 
  filter(?p1 = <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>).
- filter(?o1 = <http://www.eea.europa.eu/portal_types/DavizVisualization#DavizVisualization>)
- } limit 15 offset 0
+ filter(?o1 =
+ <http://www.eea.europa.eu/portal_types/DavizVisualization#DavizVisualization>)
+} limit 15 offset 0
 """
+
 
 DEFAULT_INDICATORS_QUERY = u"""
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -63,17 +65,27 @@ PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX pt: <http://www.eea.europa.eu/portal_types/Data#>
 PREFIX dc: <http://purl.org/dc/terms/>
 
-SELECT distinct (?s as ?item_url) ?item_title ?item_description ?item_published
+SELECT (?s as ?item_url) ?item_title ?item_description ?item_published
 WHERE {
  ?s ?p1 ?o1.
 
-  OPTIONAL {?s dc:title ?item_title} .
-  OPTIONAL {?s dc:abstract ?item_description} .
-  OPTIONAL {?s dc:issued ?item_published} .
+ OPTIONAL {?s dc:title ?item_title} .
+ OPTIONAL {?s dc:abstract ?item_description} .
+ OPTIONAL {?s dc:issued ?item_published} .
 
  filter(?p1 = <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>).
- filter(?o1 = <http://www.eea.europa.eu/portal_types/Assessment#Assessment>)
+ filter(?o1 = <http://www.eea.europa.eu/portal_types/Assessment#Assessment>).
+
+ ?s ?p2 ?o2.
+ filter(?p2 = <http://www.eea.europa.eu/portal_types/Assessment#themes>).
+ filter bif:contains(?o2, '"biodiversity"').
+
+ ?s ?p3 ?o3.
+ filter(?p3 = <http://purl.org/dc/terms/subject>).
+ filter bif:contains(?o3, '"csi"')
+
 } limit 15 offset 0
+
 """
 
 
@@ -235,7 +247,7 @@ class CreateMainTopic(BaseCreateTopic):
         if endpoint and gsq:
             sparql = create_sparql(
                 container=folder,
-                title=data['title'] + u'Baseline and Trends Sparql Query',
+                title=data['title'] + u' - Baseline and Trends Sparql Query',
                 query=gsq,
                 endpoint=endpoint,
             )
@@ -247,7 +259,7 @@ class CreateMainTopic(BaseCreateTopic):
         if endpoint and isq:
             sparql = create_sparql(
                 container=folder,
-                title=data['title'] + u'Related Indicators Sparql Query',
+                title=data['title'] + u' - Related Indicators Sparql Query',
                 query=isq,
                 endpoint=endpoint,
             )
