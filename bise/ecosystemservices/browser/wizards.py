@@ -260,6 +260,7 @@ class CreateMainTopic(BaseCreateTopic):
             info = {'title': u'Baseline and Trends', 'uuid': IUUID(sparql)}
             dfw_tile = make_tile("bise.daviz_grid_listing", cover, info)
             row_3 = make_row(make_group(12, dfw_tile))
+            row_3['css-class'] = "border-at-top"
             rows.append(row_3)
 
         tableau_embed = data.get('tableau_embed', '')
@@ -279,6 +280,7 @@ class CreateMainTopic(BaseCreateTopic):
             info = {'title': u'Related Indicators', 'uuid': IUUID(sparql)}
             dsr_tile = make_tile("bise.daviz_singlerow_listing", cover, info)
             row_4 = make_row(make_group(12, dsr_tile))
+            row_4['css-class'] = "border-at-top"
             rows.append(row_4)
 
         es_query = data.get('elasticsearch_query', '').strip()
@@ -301,11 +303,12 @@ class CreateMainTopic(BaseCreateTopic):
             groups.append(make_group(9, es_list_tile))
 
             if teaser_subj and teaser_link:
-                info = {'title': 'Teaser Tile', 'uuid': IUUID(es)}
+                info = {'title': data['title'], 'uuid': IUUID(es)}
                 es_teaser_tile = make_tile("bise.es_teaser", cover, info)
                 groups.append(make_group(3, es_teaser_tile))
 
             row_5 = make_row(*groups)
+            row_5['css-class'] = "border-at-top"
             rows.append(row_5)
 
         layout = make_layout(*rows)
