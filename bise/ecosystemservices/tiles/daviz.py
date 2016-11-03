@@ -67,6 +67,11 @@ class DavizPreviewTile(DavizTile):
     short_name = u'Daviz Preview'
     index = ViewPageTemplateFile('pt/daviz_preview.pt')
 
+    def cleanup_url(self, url):
+        if "#" in url:
+            url = url.split("#")[0]
+        return url
+
 
 @adapter(IDavizTile)
 class DavizTileDataManager(PersistentCoverTileDataManager):
@@ -76,7 +81,15 @@ class DavizTileDataManager(PersistentCoverTileDataManager):
 
     # _provider = """Data provided by <a href=${url}>${title}</a>"""
 
+    def cleanup_url(self, url):
+        if "#" in url:
+            url = url.split("#")[0]
+        return url
+
     def _get_daviz_details(self, url):
+        url = self.cleanup_url(url)
+        if not url.endswith('/@@rdf'):
+            url = url + '/@@rdf'
         resp = requests.get(url)
         text = resp.text
         e = lxml.etree.fromstring(str(text))

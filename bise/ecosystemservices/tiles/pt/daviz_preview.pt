@@ -18,7 +18,8 @@
         <div class="content">
           <h5 tal:content="python: view.data.get('daviz_title')" >Title here</h5>
           <a href="" tal:attributes="href url" target="_blank">
-            <img src="" tal:attributes="src string:${url}/image_preview" />
+            <img src=""
+            tal:attributes="src python:view.cleanup_url(url) + '/image_preview'" />
           </a>
         </div>
       </div>

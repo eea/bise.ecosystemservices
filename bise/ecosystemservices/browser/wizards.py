@@ -331,7 +331,9 @@ class ISubTopicWizardSchema(form.Schema):
     """
 
     title = TextLine(title=u"Title", required=True)
+
     introduction = RichText(title=u"Topic introduction", required=True)
+
     highlight = RichText(
         title=u"Subtopic details",
         description=u"This text will be highlighted in green left border",
@@ -340,7 +342,10 @@ class ISubTopicWizardSchema(form.Schema):
 
     daviz_url = TextLine(
         title=u"Graphs and trends Daviz link",
-        required=False
+        description=u"A DavizVizualization URL, from the EEA website",
+        default=(u"http://www.eea.europa.eu/data-and-maps/daviz/"
+                 u"primary-energy-consumption-of-nzeb#tab-chart_1"),
+        required=True
     )
 
     sparql_endpoint = TextLine(
@@ -350,27 +355,35 @@ class ISubTopicWizardSchema(form.Schema):
     )
     indicators_sparql_query = Text(
         title=u"Relevant Indicators sparql query",
+        description=(u"Sparql Query to select a colection of Indicator "
+                     u"Assessments. This should be a sparql query "
+                     u"that exposes columns: ?item_url ?item_title "
+                     u"?item_description ?item_published"),
+        default=DEFAULT_INDICATORS_QUERY,
         required=False
     )
 
     elasticsearch_query_endpoint = TextLine(
         title=u"ElasticSearch query endpoint",
         default=(u"http://10.128.0.50:9200/"
-                 u"catalogue_development_articles/_search"),
+                 u"catalogue_production_articles,"
+                 u"catalogue_production_documents/_search"),
         required=False
     )
     elasticsearch_query = Text(
         title=u"Further Links - ElasticSearch query",
         default=(u'{"from" : 0, "size" : 100, '
-                 u'"query":{"match": {"_all":"test"}}}'),
+                 u'"query":{"match": {"_all":"ecosystem"}}}'),
         required=False
     )
     catalogue_teaser = TextLine(
         title=u"Catalogue Teaser Subject",
+        description=u"If empty, will use selected topic word",
         required=False
     )
     catalogue_teaser_link = TextLine(
         title=u"Catalogue Teaser link",
+        default=u"http://biodiversity.europa.eu/bise-catalogue",
         required=False
     )
 
@@ -392,12 +405,12 @@ class CreateSubTopic(BaseCreateTopic):
         folder.setDefaultPage(cover.getId())
 
         info = {'title': u'Introduction Text',
-                'text': data['introduction'].raw}
+                'text': RichTextValue(data['introduction'].raw)}
         desc_tile = make_tile("collective.cover.richtext", cover, info)
         row_1 = make_row(make_group(12, desc_tile))
 
-        htext = u"<h1>{0}</h1>".format(data['title'] +
-                                       data['highlight'].raw)
+        htext = RichTextValue(u"<h1>{0}</h1>".format(data['title'] +
+                                                     data['highlight'].raw))
 
         info = {'title': u'Introduction Text', 'text': htext}
         intro_tile = make_tile("collective.cover.richtext", cover, info)
@@ -410,6 +423,7 @@ class CreateSubTopic(BaseCreateTopic):
             info = {'title': 'Graphs and trends', 'daviz_url': daviz_url}
             daviz_tile = make_tile('bise.daviz_preview', cover, info)
             row_3 = make_row(make_group(12, daviz_tile))
+            row_3['css-class'] = 'border-at-top'
             rows.append(row_3)
 
         endpoint = data.get('sparql_endpoint', '').strip()
@@ -425,16 +439,16 @@ class CreateSubTopic(BaseCreateTopic):
             info = {'title': u'Related Indicators', 'uuid': IUUID(sparql)}
             dsr_tile = make_tile("bise.daviz_grid_listing", cover, info)
             row_4 = make_row(make_group(12, dsr_tile))
+            row_3['css-class'] = 'border-at-top'
             rows.append(row_4)
 
         es_query = data.get('elasticsearch_query', '').strip()
         es_endpoint = data.get('elasticsearch_query_endpoint', '').strip()
-        teaser_subj = data.get('catalogue_teaser', '').strip()
+        teaser_subj = (data.get('catalogue_teaser') or '').strip()
         if not teaser_subj:
             teaser_subj = data['title']
         teaser_link = data.get('catalogue_teaser_link', '').strip()
 
-        import pdb; pdb.set_trace()
         if es_query and es_endpoint:
             groups = []
             es = create(container=folder,
@@ -448,15 +462,17 @@ class CreateSubTopic(BaseCreateTopic):
             groups.append(make_group(9, es_list_tile))
 
             if teaser_link:
-                info = {'title': 'Teaser Tile',
-                        'text': u"Learn more about <i>{}</i><br/> using Bise "
-                                u"Catalogue".format(teaser_subj),
+                text = u"Learn more about <i>{}</i><br/> using Bise Catalogue"
+                text = RichTextValue(text.format(teaser_subj))
+                info = {'title': teaser_subj,
+                        'text': text,
                         'view_more_url': teaser_link,
                         'uuid': IUUID(es)}
                 es_teaser_tile = make_tile("bise.es_teaser", cover, info)
                 groups.append(make_group(3, es_teaser_tile))
 
             row_5 = make_row(*groups)
+            row_3['css-class'] = 'border-at-top'
             rows.append(row_5)
 
         layout = make_layout(*rows)
