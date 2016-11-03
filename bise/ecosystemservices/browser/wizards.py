@@ -6,6 +6,7 @@ from eea.sparql.content.sparql import generateUniqueId
 from plone.api.content import create
 from plone.app.content.browser.folderfactories import FolderFactoriesView
 from plone.app.textfield import RichText
+from plone.app.textfield.value import RichTextValue
 from plone.directives import form
 from plone.uuid.interfaces import IUUID
 from z3c.form import button
@@ -302,8 +303,14 @@ class CreateMainTopic(BaseCreateTopic):
             es_list_tile = make_tile("bise.es_listing", cover, info)
             groups.append(make_group(9, es_list_tile))
 
-            if teaser_subj and teaser_link:
-                info = {'title': data['title'], 'uuid': IUUID(es)}
+            if teaser_link:
+                text = u"Learn more about <i>{}</i><br/> using Bise Catalogue"
+                text = text.format(teaser_subj)
+                text = RichTextValue(text or '', 'text/html', 'text/html')
+                info = {'title': teaser_subj,
+                        'text': text,
+                        'view_more_url': teaser_link,
+                        'uuid': IUUID(es)}
                 es_teaser_tile = make_tile("bise.es_teaser", cover, info)
                 groups.append(make_group(3, es_teaser_tile))
 
@@ -423,8 +430,11 @@ class CreateSubTopic(BaseCreateTopic):
         es_query = data.get('elasticsearch_query', '').strip()
         es_endpoint = data.get('elasticsearch_query_endpoint', '').strip()
         teaser_subj = data.get('catalogue_teaser', '').strip()
+        if not teaser_subj:
+            teaser_subj = data['title']
         teaser_link = data.get('catalogue_teaser_link', '').strip()
 
+        import pdb; pdb.set_trace()
         if es_query and es_endpoint:
             groups = []
             es = create(container=folder,
@@ -437,8 +447,12 @@ class CreateSubTopic(BaseCreateTopic):
             es_list_tile = make_tile("bise.es_listing", cover, info)
             groups.append(make_group(9, es_list_tile))
 
-            if teaser_subj and teaser_link:
-                info = {'title': 'Teaser Tile', 'uuid': IUUID(es)}
+            if teaser_link:
+                info = {'title': 'Teaser Tile',
+                        'text': u"Learn more about <i>{}</i><br/> using Bise "
+                                u"Catalogue".format(teaser_subj),
+                        'view_more_url': teaser_link,
+                        'uuid': IUUID(es)}
                 es_teaser_tile = make_tile("bise.es_teaser", cover, info)
                 groups.append(make_group(3, es_teaser_tile))
 

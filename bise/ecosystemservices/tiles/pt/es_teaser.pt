@@ -25,7 +25,8 @@
         </a>
       </div>
 
-      <div class="text" tal:condition="text" tal:content="structure text/output | nothing">Text</div>
+      <div class="teaser-text" tal:condition="text"
+        tal:content="structure text/output | nothing">Text</div>
 
     </div>
   </body>

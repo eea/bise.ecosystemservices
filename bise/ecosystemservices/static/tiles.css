@@ -137,7 +137,7 @@ h4 {
 	max-height: 200px;
 	display: flex;
     flex-grow: 1;
-	
+
 }
 
 .singlerow-card-date {
@@ -355,5 +355,9 @@ h4 {
 }
 .cover-elasticsearchteaser-tile .logo {
 	text-align: center;
+}
+.cover-elasticsearchteaser-tile .teaser-text {
+    text-align: center;
+    padding-top: 1em;
 }
 /* }}} */
