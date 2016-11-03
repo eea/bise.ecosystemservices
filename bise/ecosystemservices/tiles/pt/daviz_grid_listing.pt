@@ -94,15 +94,17 @@
       $('#left-button, #right-button').toggleClass('buttons-hide')
     });
 
-    var outer = $('.indicator-cards-wrapper');
-
+    var outer = $('.singlerow-cards-wrapper');
+console.log(outer);
     $('#left-button').click(function () {
       var leftPos = outer.scrollLeft();
       outer.animate({ scrollLeft: leftPos - 300 }, 300);
     });
 
     $('#right-button').click(function () {
+      console.log('click');
       var leftPos = outer.scrollLeft();
+      console.log(leftPos)
       outer.animate({ scrollLeft: leftPos + 300 }, 300);
     });
 
