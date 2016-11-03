@@ -31,10 +31,10 @@
 
   $(document).ready(function(){
 
-    var $cell = $('.card');
+    var $cell = $('.cardgraph');
     $cell.find('.js-expander').click(function() {
 
-      var $thisCell = $(this).closest('.card');
+      var $thisCell = $(this).closest('.cardgraph');
 
       if ($thisCell.hasClass('is-collapsed')) {
         $cell.not($thisCell).removeClass('is-expanded').addClass('is-collapsed').addClass('is-inactive');
@@ -60,12 +60,12 @@
     });
 
     $cell.find('.js-collapser').click(function() {
-      var $thisCell = $(this).closest('.card');
+      var $thisCell = $(this).closest('.cardgraph');
       $thisCell.removeClass('is-expanded').addClass('is-collapsed');
       $cell.not($thisCell).removeClass('is-inactive');
     });
 
-    $(".card").on('click', function(e){
+    $(".cardgraph").on('click', function(e){
       e.stopPropagation();
       var body=$('body')[0].getBoundingClientRect();
       var card=$(this)[0].getBoundingClientRect(),

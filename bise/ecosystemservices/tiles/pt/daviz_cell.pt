@@ -1,4 +1,4 @@
-<div class="card [ is-collapsed ]" 
+<div class="cardgraph [ is-collapsed ]" 
   tal:define="daviz options/daviz; href daviz/item_url; title daviz/item_title">
   <div class="card__inner [ js-expander ]">
     <h5 class="card-title" tal:content="title">Title</h5>

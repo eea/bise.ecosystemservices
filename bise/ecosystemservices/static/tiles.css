@@ -150,10 +150,11 @@ h4 {
 	flex-flow: row wrap;
 }
 
-.card {
+.cardgraph {
 	min-height: 300px;
 	width: calc((100% / 3) - 30px);
 	transition: all 0.2s ease-in-out;
+	margin: 1rem;
 }
 
 .card-desc-title {
@@ -162,13 +163,13 @@ h4 {
 }
 
 @media screen and (max-width: 991px) {
-	.card {
+	.cardgraph {
 		width: calc((100% / 2) - 30px);
 	}
 }
 
 @media screen and (max-width: 767px) {
-	.card {
+	.cardgraph {
 		width: 100%;
 	}
 }
@@ -176,8 +177,8 @@ h4 {
 /*  .card:hover .card__inner { transform: scale(1.05); } */
 .card__inner {
 	/* margin: 1rem; */
+	overflow: hidden;
 	border: 1px solid #eee;
-	width: 100%;
 	padding: .3em;
 	position: relative;
 	height: 290px;
@@ -255,12 +256,12 @@ h4 {
 	cursor: pointer;
 }
 
-.card.is-collapsed .card__inner:after {
+.cardgraph.is-collapsed .card__inner:after {
 	content: "";
 	opacity: 0;
 }
 
-.card.is-collapsed .card__expander {
+.cardgraph.is-collapsed .card__expander {
 	max-height: 0;
 	min-height: 0;
 	overflow: hidden;
@@ -268,7 +269,7 @@ h4 {
 	opacity: 0;
 }
 
-.card.is-expanded .card__inner:after {
+.cardgraph.is-expanded .card__inner:after {
 	content: "";
 	opacity: 1;
 	display: block;
@@ -282,11 +283,11 @@ h4 {
 	border-bottom: 15px solid #333a45;
 }
 
-.card.is-expanded .card__inner .fa:before {
+.cardgraph.is-expanded .card__inner .fa:before {
 	content: "\f115";
 }
 
-.card.is-expanded .card__expander {
+.cardgraph.is-expanded .card__expander {
 	z-index: 100;
 	max-height: 1000px;
 	min-height: 200px;
@@ -295,15 +296,15 @@ h4 {
 	opacity: 1;
 }
 
-/*    .card.is-expanded:hover .card__inner { transform: scale(1); }*/
+/*    .cardgraph.is-expanded:hover .card__inner { transform: scale(1); }*/
 
-.card.is-inactive .card__inner {
+.cardgraph.is-inactive .card__inner {
 	z-index: 1;
 	pointer-events: none;
 	opacity: 0.5;
 }
 
-.card.is-inactive {
+.cardgraph.is-inactive {
 	pointer-events: none;
 }
 
