@@ -493,8 +493,8 @@ class OverrideFolderFactoriesView(FolderFactoriesView):
         additional = [
             {
                 'id': 'MainTopic',
-                'title': u'Main Topic (advanced wizard)',
-                'description': u'A wizard for main topics',
+                'title': u'Topic Page (advanced wizard)',
+                'description': u'A wizard for topic pages',
                 'action': '@@create-maintopic',
                 'selected': False,
                 'icon': 'folder_icon.png',
