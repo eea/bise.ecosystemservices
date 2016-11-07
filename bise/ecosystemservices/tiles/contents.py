@@ -40,9 +40,9 @@ class FolderContentsListingTile(PersistentCoverTile):
     index = ViewPageTemplateFile('pt/folder_contents.pt')
 
     is_configurable = False
-    is_editable = True
+    is_editable = False
     is_droppable = True
-    short_name = u'Folder Contents'
+    short_name = u'Folder Listing'
 
     def children(self):
         source = uuidToObject(self.data['uuid'])
@@ -55,7 +55,8 @@ class FolderContentsListingTile(PersistentCoverTile):
         return self.data.get('title', 'Missing tile title')
 
     def is_empty(self):
-        return not (self.data.get('uuid', None))
+        return not self.children()
+        # return not (self.data.get('uuid', None))
 
     def accepted_ct(self):
         """Return an empty list as no content types are accepted."""

@@ -14,19 +14,19 @@
 
       <style></style>
 
-      <div class="title">
-        <span tal:content="python: len(results)" /> Records on
-        <span tal:content="view/title" />
-      </div>
+      <!-- <div class="title"> -->
+      <!--   <span tal:content="python: len(results)" /> Records on -->
+      <!--   <span tal:content="view/title" /> -->
+      <!-- </div> -->
+
+      <div class="teaser-text" tal:condition="text"
+        tal:content="structure text/output | nothing">Text</div>
 
       <div class="logo">
         <a href="" tal:attributes="href python: view.data.get('view_more_url', '')">
           <img src="++resource++bise.ecosystemservices/bise-catalogue.png" />
         </a>
       </div>
-
-      <div class="teaser-text" tal:condition="text"
-        tal:content="structure text/output | nothing">Text</div>
 
     </div>
   </body>

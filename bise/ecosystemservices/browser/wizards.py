@@ -1,40 +1,46 @@
+# from zope.schema import List
+# from plone.portlets.interfaces import IPortletAssignmentMapping
 from bise.ecosystemservices.browser.utils import make_group
 from bise.ecosystemservices.browser.utils import make_layout
 from bise.ecosystemservices.browser.utils import make_row
 from bise.ecosystemservices.browser.utils import make_tile
+from bise.ecosystemservices.tiles.vocabulary import get_tags
 from eea.sparql.content.sparql import generateUniqueId
 from plone.api.content import create
 from plone.app.content.browser.folderfactories import FolderFactoriesView
 from plone.app.textfield import RichText
 from plone.app.textfield.value import RichTextValue
 from plone.directives import form
+from plone.portlets.constants import CONTEXT_CATEGORY
+from plone.portlets.interfaces import ILocalPortletAssignmentManager
+from plone.portlets.interfaces import IPortletManager
 from plone.uuid.interfaces import IUUID
 from z3c.form import button
+from zope.component import getMultiAdapter, getUtility
 from zope.schema import Choice
-from zope.schema import List
 from zope.schema import Text
 from zope.schema import TextLine
 import json
 
 
-MAIN_TOPICS = [
-    "Ecosystems and habitats",
-    "Species",
-    "Genetic resources",
-    "Ecosystem services",
-    "Threats",
-    "Climate change",
-    "Invasive species",
-    "Fragmentation",
-    "Land use change",
-    "Pollution",
-    "Overexploitation",
-    "Responses",
-    "Protected areas",
-    "The wider country side",
-    "LIFE+ Nature and Biodiversity Projects",
-    "Tipping points",
-]
+# MAIN_TOPICS = [
+#     "Ecosystems and habitats",
+#     "Species",
+#     "Genetic resources",
+#     "Ecosystem services",
+#     "Threats",
+#     "Climate change",
+#     "Invasive species",
+#     "Fragmentation",
+#     "Land use change",
+#     "Pollution",
+#     "Overexploitation",
+#     "Responses",
+#     "Protected areas",
+#     "The wider country side",
+#     "LIFE+ Nature and Biodiversity Projects",
+#     "Tipping points",
+# ]
 
 
 DEFAULT_DAVIZ_QUERY = u"""
@@ -98,22 +104,24 @@ class IAdvancedTopicWizardSchema(form.Schema):
     """
 
     # title = TextLine(title=u"Title", required=True)
-    title = Choice(title=u"Main topic", required=True, values=MAIN_TOPICS)
+    title = Choice(title=u"Main topic", required=True,
+                   vocabulary=u'bise.catalogue.tagvocabulary_mainbranch')
+
     description = RichText(title=u"Topic description", required=True)
 
-    subtopics = List(
-        title=u"Subtopics",
-        description=(u"One subtopic title per line. This will prepare a "
-                     u"separate folder for each one of them."),
-        value_type=TextLine(title=u"Subtopic title"),
-        required=True,
-    )
+    # subtopics = List(
+    #     title=u"Subtopics",
+    #     description=(u"One subtopic title per line. This will prepare a "
+    #                  u"separate folder for each one of them."),
+    #     value_type=TextLine(title=u"Subtopic title"),
+    #     required=True,
+    # )
 
-    sparql_endpoint = TextLine(
-        title=u"Sparql query endpoint",
-        required=False,
-        default=u"http://semantic.eea.europa.eu/sparql"
-    )
+    # sparql_endpoint = TextLine(
+    #     title=u"Sparql query endpoint",
+    #     required=False,
+    #     default=u"http://semantic.eea.europa.eu/sparql"
+    # )
     baseline_sparql_query = Text(
         title=u"Baseline and Trends sparql query",
         description=(u"Sparql Query to select a colection of Daviz "
@@ -140,29 +148,29 @@ class IAdvancedTopicWizardSchema(form.Schema):
         required=False
     )
 
-    elasticsearch_query_endpoint = TextLine(
-        title=u"ElasticSearch query endpoint",
-        default=(u"http://10.128.0.50:9200/"
-                 u"catalogue_production_articles,"
-                 u"catalogue_production_documents/_search"),
-        required=False
-    )
+    # elasticsearch_query_endpoint = TextLine(
+    #     title=u"ElasticSearch query endpoint",
+    #     default=(u"http://10.128.0.50:9200/"
+    #              u"catalogue_production_articles,"
+    #              u"catalogue_production_documents/_search"),
+    #     required=False
+    # )
     elasticsearch_query = Text(
-        title=u"Further Links - ElasticSearch query",
+        title=u"ElasticSearch query parameters",
         default=(u'{"from" : 0, "size" : 10, '
                  u'"query":{"match": {"_all":"ecosystem"}}}'),
         required=False
     )
-    catalogue_teaser = TextLine(
-        title=u"Catalogue Teaser Subject",
-        description=u"If empty, will use selected topic word",
-        required=False
-    )
-    catalogue_teaser_link = TextLine(
-        title=u"Catalogue Teaser link",
-        default=u"http://biodiversity.europa.eu/bise-catalogue",
-        required=False
-    )
+    # catalogue_teaser = TextLine(
+    #     title=u"Catalogue Teaser Subject",
+    #     description=u"If empty, will use selected topic word",
+    #     required=False
+    # )
+    # catalogue_teaser_link = TextLine(
+    #     title=u"Catalogue Teaser link",
+    #     default=u"http://biodiversity.europa.eu/bise-catalogue",
+    #     required=False
+    # )
 
 
 class BaseCreateTopic(form.SchemaForm):
@@ -220,7 +228,14 @@ class CreateMainTopic(BaseCreateTopic):
     """
 
     schema = IAdvancedTopicWizardSchema
-    label = u"Advanced Topic wizard"
+    label = u"Add Topic Page"
+
+    def tweak_portlets(self, obj):
+        manager = "plone.leftcolumn"
+        portletManager = getUtility(IPortletManager, name=manager)
+        assignable = getMultiAdapter((obj, portletManager),
+                                     ILocalPortletAssignmentManager)
+        assignable.setBlacklistStatus(CONTEXT_CATEGORY, True)
 
     def create(self, data):
         folder = create(
@@ -228,26 +243,33 @@ class CreateMainTopic(BaseCreateTopic):
         cover = create(container=folder,
                        type="collective.cover.content",
                        title=data['title'])
-
+        cover.setLayout('standard')
         folder.setDefaultPage(cover.getId())
+        self.tweak_portlets(folder)
 
-        text = u"<h1>{0}</h1>".format(data['title']) + data['description'].raw
-        info = {'title': u'Main Text', 'text': text}
+        info = {'title': u'Main Text', 'text': data['description']}
         desc_tile = make_tile("collective.cover.richtext", cover, info)
 
         info = {'title': u'Subtopics', 'uuid': IUUID(folder)}
         fc_tile = make_tile("bise.folder_contents_listing", cover, info)
 
-        for line in filter(None,
-                           [l.strip() for l in (data.get('subtopics') or [])]):
-            create(container=folder, type="Folder", title=line)
+        all_tags = get_tags()
+        for tag in all_tags:
+            if tag.startswith(data['title'] + ': '):
+                subtopic = tag.split(':', 1)[1].strip()
+                create(container=folder, type="Folder", title=subtopic)
+
+        # for line in filter(None,
+        #              [l.strip() for l in (data.get('subtopics') or [])]):
+        #     create(container=folder, type="Folder", title=line)
 
         row_1 = make_row(make_group(12, desc_tile))
         row_2 = make_row(make_group(12, fc_tile))
 
         rows = [row_1, row_2]
 
-        endpoint = data.get('sparql_endpoint', '').strip()
+        # endpoint = data.get('sparql_endpoint', '').strip()
+        endpoint = "http://semantic.eea.europa.eu/sparql"
         gsq = data.get('baseline_sparql_query', '').strip()
         isq = data.get('indicators_sparql_query', '').strip()
 
@@ -274,28 +296,34 @@ class CreateMainTopic(BaseCreateTopic):
         if endpoint and isq:
             sparql = create_sparql(
                 container=folder,
-                title=data['title'] + u' - Related Indicators Sparql Query',
+                title=data['title'] + u' - Relevant Indicators Sparql Query',
                 query=isq,
                 endpoint=endpoint,
             )
-            info = {'title': u'Related Indicators', 'uuid': IUUID(sparql)}
+            info = {'title': u'Relevant Indicators', 'uuid': IUUID(sparql)}
             dsr_tile = make_tile("bise.daviz_singlerow_listing", cover, info)
             row_4 = make_row(make_group(12, dsr_tile))
             row_4['css-class'] = "border-at-top"
             rows.append(row_4)
 
         es_query = data.get('elasticsearch_query', '').strip()
-        es_endpoint = data.get('elasticsearch_query_endpoint', '').strip()
-        teaser_subj = (data.get('catalogue_teaser') or '').strip()
-        if not teaser_subj:
-            teaser_subj = data['title']
-        teaser_link = data.get('catalogue_teaser_link', '').strip()
+        es_endpoint = (u"http://10.128.0.50:9200/"
+                       u"catalogue_production_articles,"
+                       u"catalogue_production_documents/_search")
+        teaser_subj = data['title']
+        teaser_link = "http://biodiversity.europa.eu/search?q=" + teaser_subj
+
+        # es_endpoint = data.get('elasticsearch_query_endpoint', '').strip()
+        # teaser_subj = (data.get('catalogue_teaser') or '').strip()
+        # if not teaser_subj:
+        #     teaser_subj = data['title']
+        # teaser_link = data.get('catalogue_teaser_link', '').strip()
 
         if es_query and es_endpoint:
             groups = []
             es = create(container=folder,
                         type='ElasticSearch',
-                        title=data['title'] + u"Further Links ES Query",
+                        title=data['title'] + u" Further Links ES Query",
                         endpoint=es_endpoint,
                         query=es_query
                         )
@@ -304,8 +332,9 @@ class CreateMainTopic(BaseCreateTopic):
             groups.append(make_group(9, es_list_tile))
 
             if teaser_link:
-                text = u"Learn more about <i>{}</i><br/> using Bise Catalogue"
-                text = text.format(teaser_subj)
+                text = u"Search more about <br/>"\
+                       u"<a href='{}'><i>{}</i></a> <br/> on <br/>"
+                text = text.format(teaser_link, teaser_subj)
                 text = RichTextValue(text or '', 'text/html', 'text/html')
                 info = {'title': teaser_subj,
                         'text': text,
@@ -432,11 +461,11 @@ class CreateSubTopic(BaseCreateTopic):
         if endpoint and isq:
             sparql = create_sparql(
                 container=folder,
-                title=data['title'] + u'Related Indicators Sparql Query',
+                title=data['title'] + u'Relevant Indicators Sparql Query',
                 query=isq,
                 endpoint=endpoint,
             )
-            info = {'title': u'Related Indicators', 'uuid': IUUID(sparql)}
+            info = {'title': u'Relevant Indicators', 'uuid': IUUID(sparql)}
             dsr_tile = make_tile("bise.daviz_grid_listing", cover, info)
             row_4 = make_row(make_group(12, dsr_tile))
             row_3['css-class'] = 'border-at-top'
@@ -462,7 +491,8 @@ class CreateSubTopic(BaseCreateTopic):
             groups.append(make_group(9, es_list_tile))
 
             if teaser_link:
-                text = u"Learn more about <i>{}</i><br/> using Bise Catalogue"
+                text = u"Learn more about "\
+                       u"<br/> <i>{}</i> <br/> using Bise Catalogue"
                 text = RichTextValue(text.format(teaser_subj))
                 info = {'title': teaser_subj,
                         'text': text,

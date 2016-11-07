@@ -16,6 +16,10 @@
         name="bise.elasticsearch_vocabulary"
         component=".vocabulary.elasticsearch_vocabulary" />
 
+    <utility
+        name="bise.catalogue.tagvocabulary_mainbranch"
+        factory=".vocabulary.CatalogueTagVocabularyMainBranch" />
+
     <browser:page
         name="topdb"
         class=".PDBView"

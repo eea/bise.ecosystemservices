@@ -34,9 +34,10 @@ h4 {
 }
 .folder-contents-listing li {
 	border-left: 1px solid #CCC;
-	padding: 0 1rem;
-	min-width: 160px;
-	margin: 0 !important;
+	padding: 0 1rem 0.4rem 1rem;
+	min-width: 14rem;
+	max-width: 14rem;
+	/* margin: 0 !important; */
 	list-style-type: none;
 }
 .cover-foldercontentslisting-tile-title {
@@ -227,7 +228,7 @@ h4 {
 	font-size: 1.7rem;
 	margin: 2rem;
 	flex: 1;
-	min-height: 80.8%;
+	/* min-height: 80.8%; */
 }
 
 .card__expander .btn {
@@ -257,6 +258,12 @@ h4 {
 	box-sizing: border-box;
 	max-width: 39%;
 	display: inline-block;
+}
+
+.card-desc .card-desc-content {
+    margin: 2rem;
+    max-width: 36rem;
+    font-size: 1rem;
 }
 
 .card__expander .fa {
@@ -361,3 +368,9 @@ h4 {
     padding-top: 1em;
 }
 /* }}} */
+
+/* Cover stuff */
+.portaltype-collective-cover-content #viewlet-below-content-title {
+    display: none
+}
+
