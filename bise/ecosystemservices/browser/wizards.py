@@ -1,5 +1,7 @@
-# from zope.schema import List
+# from z3c.formwidget.optgroup.widget import OptgroupFieldWidget
 # from plone.portlets.interfaces import IPortletAssignmentMapping
+# from zope.schema import List
+from Products.CMFCore.interfaces import IFolderish
 from bise.ecosystemservices.browser.utils import make_group
 from bise.ecosystemservices.browser.utils import make_layout
 from bise.ecosystemservices.browser.utils import make_row
@@ -104,6 +106,7 @@ class IAdvancedTopicWizardSchema(form.Schema):
     """
 
     # title = TextLine(title=u"Title", required=True)
+    # form.widget(title=OptgroupFieldWidget)
     title = Choice(title=u"Main topic", required=True,
                    vocabulary=u'bise.catalogue.tagvocabulary_mainbranch')
 
@@ -519,6 +522,9 @@ class OverrideFolderFactoriesView(FolderFactoriesView):
 
     def addable_types(self, include=None):
         res = super(OverrideFolderFactoriesView, self).addable_types(include)
+
+        if not IFolderish.providedBy(self.context):
+            return res
 
         additional = [
             {
