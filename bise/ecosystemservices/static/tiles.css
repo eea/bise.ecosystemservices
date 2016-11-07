@@ -35,8 +35,8 @@ h4 {
 .folder-contents-listing li {
 	border-left: 1px solid #CCC;
 	padding: 0 1rem 0.4rem 1rem;
-	min-width: 14rem;
-	max-width: 14rem;
+	min-width: 15.6rem;
+	max-width: 16rem;
 	/* margin: 0 !important; */
 	list-style-type: none;
 }
