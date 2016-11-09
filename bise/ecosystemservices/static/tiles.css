@@ -374,3 +374,16 @@ h4 {
     display: none
 }
 
+#contentchooser-content-show-button {display:none}
+.edit_sparql_source {
+    /* modeled after .edit-tile-link.link-overlay */
+    font-size: 1.2rem;
+    line-height: 1em;
+    padding: .2rem;
+    border-radius: 3px;
+    position: absolute;
+    top: -1rem;
+    left: 4rem;
+    background: #41b664;
+    color: White;
+}

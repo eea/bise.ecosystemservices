@@ -6,7 +6,7 @@
 
   <body tal:define="is_empty view/is_empty">
     <p tal:condition="python: is_empty and view.is_compose_mode()" i18n:translate="">
-      Please select the folder by editing this tile.
+      Empty
     </p>
 
     <div tal:condition="not: is_empty" class="cover-foldercontentslisting-tile tile-content">
