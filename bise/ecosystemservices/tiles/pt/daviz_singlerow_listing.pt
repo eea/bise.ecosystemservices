@@ -9,7 +9,13 @@
       Edit and select the source Sparql query from the portal.
     </p>
 
-    <div tal:condition="not: is_empty" class="cover-daviz-singlerow-tile tile-content" tal:define="children view/children">
+    <div tal:condition="not: is_empty"
+      class="cover-daviz-singlerow-tile tile-content"
+      tal:define="children view/children;
+                  is_compose_mode python: view.is_compose_mode()">
+
+      <a tal:condition="is_compose_mode" href="" tal:attributes="href view/sparql_edit_url"
+        class="edit_sparql_source" target="_blank">Edit the Sparql Query</a>
 
       <div class="singlerow-cards-container" tal:define="text python: view.data.get('text', '')">
         <h4 class="singlerow-title" tal:content="python: view.data.get('title', 'Untitled')">Relevant singlerows</h4>

@@ -478,3 +478,20 @@ h4 {
 .portaltype-collective-cover-content #viewlet-below-content-title {
     display: none
 }
+<<<<<<< HEAD
+=======
+
+#contentchooser-content-show-button {display:none}
+.edit_sparql_source {
+    /* modeled after .edit-tile-link.link-overlay */
+    font-size: 1.2rem;
+    line-height: 1em;
+    padding: .2rem;
+    border-radius: 3px;
+    position: absolute;
+    top: -1rem;
+    left: 4rem;
+    background: #41b664;
+    color: White;
+}
+>>>>>>> 951ec38968f577bda5cdb1a0c6486a863c39dbbe
