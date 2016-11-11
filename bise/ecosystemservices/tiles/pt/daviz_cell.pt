@@ -15,7 +15,7 @@
     <div class="card-desc">
       <a href="" tal:attributes="href daviz/item_url" tal:content="title">Title</a>
       <p class="card-desc-content" tal:content="daviz/item_description">Lorem ipsum</p>
-      <a href="" tal:attributes="href daviz/item_url" target="_blank" class="btn btn-yellow">Go to source</a>
+      <a href="" tal:attributes="href daviz/item_url" target="_blank" class="btn btn-primary">Go to source</a>
     </div>
   </div>
 </div>

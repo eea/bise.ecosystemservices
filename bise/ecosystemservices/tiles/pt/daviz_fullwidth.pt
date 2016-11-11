@@ -30,7 +30,7 @@
           <div class="desc" tal:content="structure python:view.data.get('description').output">
           </div>
           <div class="foot">
-            <a href="" tal:attributes="href url" target="_blank" class="btn btn-yellow">Go to source</a>
+            <a href="" tal:attributes="href url" target="_blank" class="btn btn-primary">Go to source</a>
           </div>
         </div>
       </div>
