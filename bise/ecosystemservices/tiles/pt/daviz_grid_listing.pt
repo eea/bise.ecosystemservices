@@ -33,19 +33,37 @@
 
     var $cell = $('.cardgraph');
     $cell.find('.js-expander').click(function() {
-
+    
       var $thisCell = $(this).closest('.cardgraph');
 
+       
+      var $thiscard=$(this);
+      
+      
+
+
       if ($thisCell.hasClass('is-collapsed')) {
-        $cell.not($thisCell).removeClass('is-expanded').addClass('is-collapsed').addClass('is-inactive');
-        $thisCell.removeClass('is-collapsed').addClass('is-expanded');
+          $cell.not($thisCell).removeClass('is-expanded').addClass('is-collapsed').addClass('is-inactive');
+            $thisCell.removeClass('is-collapsed').addClass('is-expanded');
 
-        var $ifw = $thisCell.find('.iframe-wrapper');
+            var $ifw = $thisCell.find('.iframe-wrapper');
+            $ifw.html('');
+            var iurl = $ifw.data('iframe-url');
+            var width = $ifw.data('iframe-width');
+            var height = $ifw.data('iframe-height');
 
-        var iurl = $ifw.data('iframe-url');
-        var width = $ifw.data('iframe-width');
-        var height = $ifw.data('iframe-height');
-        $ifw.html("<iframe src='" + iurl + "' width=" + width + " height=" + height + " />");
+
+            var iframe = document.createElement('iframe');
+            iframe.src = iurl;
+            iframe.style.width = width + 'px';
+            iframe.style.height = height + 'px';
+            iframe.onload = function() {
+              iframe.parentNode.classList.remove('is-loading');
+            }
+
+            $ifw[0].appendChild(iframe);
+
+
 
         if ($cell.not($thisCell).hasClass('is-inactive')) {
           //do nothing
