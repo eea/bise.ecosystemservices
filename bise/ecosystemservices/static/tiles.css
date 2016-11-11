@@ -479,7 +479,6 @@ h4 {
     display: none
 }
 
-
 #contentchooser-content-show-button {display:none}
 .edit_sparql_source {
     /* modeled after .edit-tile-link.link-overlay */
@@ -493,4 +492,3 @@ h4 {
     background: #41b664;
     color: White;
 }
-

@@ -33,7 +33,6 @@
 
 $(document).ready(function(){
 
-<<<<<<< HEAD
     var $cell = $('.cardgraph');
     $cell.find('.js-expander').click(function() {
     
@@ -68,28 +67,6 @@ $(document).ready(function(){
 
 
 
-        if ($cell.not($thisCell).hasClass('is-inactive')) {
-          //do nothing
-        } else {
-          $cell.not($thisCell).addClass('is-inactive');
-        }
-=======
-  var $cell = $('.cardgraph');
-  $cell.find('.js-expander').click(function() {
-
-    var $thisCell = $(this).closest('.cardgraph');
-
-    if ($thisCell.hasClass('is-collapsed')) {
-      $cell.not($thisCell).removeClass('is-expanded').addClass('is-collapsed').addClass('is-inactive');
-      $thisCell.removeClass('is-collapsed').addClass('is-expanded');
-
-      var $ifw = $thisCell.find('.iframe-wrapper');
-
-      var iurl = $ifw.data('iframe-url');
-      var width = $ifw.data('iframe-width');
-      var height = $ifw.data('iframe-height');
-      $ifw.html("<iframe src='" + iurl + "' width=" + width + " height=" + height + " />");
->>>>>>> 951ec38968f577bda5cdb1a0c6486a863c39dbbe
 
       if ($cell.not($thisCell).hasClass('is-inactive')) {
         //do nothing
@@ -132,16 +109,19 @@ $(document).ready(function(){
     $('body').animate({ scrollTop: bodytop - 350 }, 300);
   });
 
+
   $('.expand').on('click', function(){
     $('.indicator-cards').toggleClass('flex-row-warp');
     $('#left-button, #right-button').toggleClass('buttons-hide')
   });
 
   var outer = $('.singlerow-cards-wrapper');
+
   $('#left-button').click(function () {
     var leftPos = outer.scrollLeft();
     outer.animate({ scrollLeft: leftPos - 300 }, 300);
   });
+
 
   $('#right-button').click(function () {
     var leftPos = outer.scrollLeft();
