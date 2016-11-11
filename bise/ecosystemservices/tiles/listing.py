@@ -65,6 +65,10 @@ class DavizListingTile(PersistentCoverTile):
 
     implements(IListingTile)
 
+    def sparql_edit_url(self):
+        source = self._get_sparql()
+        return source.absolute_url() + '/edit'
+
     def render_cell(self, info):
         return self.cell_tpl(daviz=info)
 
@@ -72,13 +76,19 @@ class DavizListingTile(PersistentCoverTile):
         """Return an empty list as no content types are accepted."""
         return ['Sparql']
 
-    def children(self):
+    def _get_sparql(self):
         uuid = self.data.get('uuid')
         if not uuid:
-            return []
+            return None
         source = uuidToObject(self.data['uuid'])
         if not source:
-            return []
+            return None
+
+        return source
+
+    def children(self):
+        source = self._get_sparql()
+
         data = None
         try:
             data = source.getSparqlCacheResults()

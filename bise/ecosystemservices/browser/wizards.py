@@ -1,6 +1,3 @@
-# from z3c.formwidget.optgroup.widget import OptgroupFieldWidget
-# from plone.portlets.interfaces import IPortletAssignmentMapping
-# from zope.schema import List
 from Products.CMFCore.interfaces import IFolderish
 from bise.ecosystemservices.browser.utils import make_group
 from bise.ecosystemservices.browser.utils import make_layout
@@ -23,26 +20,6 @@ from zope.schema import Choice
 from zope.schema import Text
 from zope.schema import TextLine
 import json
-
-
-# MAIN_TOPICS = [
-#     "Ecosystems and habitats",
-#     "Species",
-#     "Genetic resources",
-#     "Ecosystem services",
-#     "Threats",
-#     "Climate change",
-#     "Invasive species",
-#     "Fragmentation",
-#     "Land use change",
-#     "Pollution",
-#     "Overexploitation",
-#     "Responses",
-#     "Protected areas",
-#     "The wider country side",
-#     "LIFE+ Nature and Biodiversity Projects",
-#     "Tipping points",
-# ]
 
 
 DEFAULT_DAVIZ_QUERY = u"""
@@ -145,8 +122,8 @@ class IAdvancedTopicWizardSchema(form.Schema):
     )
 
     tableau_embed = Text(
-        title=u"Tableau embed code",
-        description=u"Optional tableau embeded vizualization. Some HTML code.",
+        title=u"Embed code from remote website",
+        description=u"Such as the EEA Tableau server",
         default=DEFAULT_EMBED,
         required=False
     )
