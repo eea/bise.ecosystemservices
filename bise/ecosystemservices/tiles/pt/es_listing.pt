@@ -14,7 +14,7 @@
       <div class="cover-elasticsearchlisting-tile-title">
         <h4 tal:content="view/title" >Title here</h4>
       </div>
-      <ul tal:condition="children">
+      <ul tal:condition="children" class="list-others">
         <li tal:repeat="obj python: children[:10]">
           <a href="" tal:attributes="href python: view.get_url(obj)"
             tal:content="python: view.get_title(obj)">Something</a>

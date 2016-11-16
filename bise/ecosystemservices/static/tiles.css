@@ -7,17 +7,7 @@
     z-index: 10000;
 }
 
-h2 {
-    margin-top: 1rem;
-}
 
-h4 {
-    font-weight: 400;
-    font-size: 1.6rem;
-    margin-top: 1rem;
-}
-
-.tile-header h4 {}
 
 #content .row:first {
     border: none;
@@ -479,6 +469,7 @@ h4 {
     display: none
 }
 
+
 #contentchooser-content-show-button {display:none}
 .edit_sparql_source {
     /* modeled after .edit-tile-link.link-overlay */
@@ -492,3 +483,4 @@ h4 {
     background: #41b664;
     color: White;
 }
+
