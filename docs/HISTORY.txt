@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0.dev0 - (unreleased)
------------------------
+2.0 - (2016-12-12)
+------------------
 * Initial development of the Topic pages
   [tiberich #74985]
 
