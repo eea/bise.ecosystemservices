@@ -11,7 +11,7 @@ from plone.app.uuid.utils import uuidToObject
 from plone.tiles.interfaces import ITileDataManager
 from plone.uuid.interfaces import IUUID
 from zope.interface import implements
-from zope.schema import TextLine, Int, Choice
+from zope.schema import TextLine, Int, Choice, Tuple
 import json
 import logging
 
@@ -35,11 +35,12 @@ class IListingTile(IPersistentCoverTile):
     #     source=UUIDSourceBinder(portal_type="Sparql"),
     #     required=False,
     # )
-    uuid = Choice(
-        title=u"Linked Source",
-        vocabulary="bise.sparql_vocabulary",
-        required=False,
-    )
+    uuid = Tuple(title=u"Linked Sources",
+                 value_type=Choice(
+                     title=u"Linked Source",
+                     vocabulary="bise.datasource_vocabulary",
+                     required=False,
+                 ))
 
     text = RichText(title=u'Text', required=False)
 
@@ -57,11 +58,13 @@ class IListingTile(IPersistentCoverTile):
 
 class DavizListingTile(PersistentCoverTile):
     """ Base class for Daviz listing tiles
+
+    It accepts both ElasticSearch and Sparql query objects.
     """
 
     is_configurable = False
     is_editable = True
-    is_droppable = True
+    is_droppable = False    # True
 
     implements(IListingTile)
 
@@ -77,46 +80,85 @@ class DavizListingTile(PersistentCoverTile):
         return ['Sparql']
 
     def _get_sparql(self):
-        uuid = self.data.get('uuid')
-        if not uuid:
-            return None
-        source = uuidToObject(self.data['uuid'])
-        if not source:
-            return None
+        uuids = self.data.get('uuid')
+        if not uuids:
+            raise StopIteration
+        for uuid in uuids:
+            source = uuidToObject(self.data['uuid'])
+            if not source:
+                logger.warning("Could not find object with uuid %s", uuid)
+                continue
+            yield source
 
-        return source
-
-    def children(self):
-        source = self._get_sparql()
-
-        data = None
+    def _extract_sparql_data(self, source, count):
+        result = []
         try:
             data = source.getSparqlCacheResults()
         except Exception:
             logger.exception("Error in getting cached data "
                              "for sparql %s", source)
             return []
-        count = self.data.get('count', 6)
         try:
             rows, cols = (data['result']['rows'][:count],
                           data['result']['var_names'][:count])
         except Exception:
             logger.exception("No results in sparql %s", source)
+            return []
 
-        return self._to_dict(rows, cols)
+        for row in self._to_dict(rows, cols):
+            row['thumb_url'] = "%s/image_preview" % row['item_url']
+            result.append(row)
+            # a row needs to have:
+            # thumb_url, item_url, item_title, item_published
+        return result
 
-    def populate_with_object(self, obj):
-        PersistentCoverTile.populate_with_object(self, obj)
+    def _extract_es_data(self, source, count):
+        cached = getattr(source, 'cached_results', None)
+        if cached is None:
+            return []
 
-        if obj.portal_type not in self.accepted_ct():
-            return
+        data = json.loads(cached.data)
 
-        data = {
-            'title': safe_unicode(obj.Title()),
-            'uuid': IUUID(obj),
-        }
-        data_mgr = ITileDataManager(self)
-        data_mgr.set(data)
+        try:
+            rows = [x['_source'] for x in data['hits']['hits']]
+        except KeyError:
+            return []
+
+        result = []
+        for row in rows[:count]:
+            row['item_title'] = row['title']
+            row['thumb_url'] = source.base_address + row['thumb']
+            row['item_url'] = row['url']
+            row['item_published'] = row['published_on']
+            result.append(row)
+
+        return result
+
+    def children(self):
+        count = self.data.get('count', 6)
+        sources = self._get_sparql()
+
+        result = []
+        for source in sources:
+            if source.portal_type == "Sparql":
+                result.extend(self._extract_sparql_data(source, count))
+            elif source.portal_type == 'ElasticSearch':
+                result.extend(self._extract_es_data(source, count))
+
+        return result
+
+    # def populate_with_object(self, obj):
+    #     PersistentCoverTile.populate_with_object(self, obj)
+    #
+    #     if obj.portal_type not in self.accepted_ct():
+    #         return
+    #
+    #     data = {
+    #         'title': safe_unicode(obj.Title()),
+    #         'uuid': IUUID(obj),
+    #     }
+    #     data_mgr = ITileDataManager(self)
+    #     data_mgr.set(data)
 
     def is_empty(self):
         return not (self.data.get('uuid', None))

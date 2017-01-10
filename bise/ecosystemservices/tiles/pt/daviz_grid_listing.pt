@@ -4,18 +4,20 @@
   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
   i18n:domain="collective.cover">
 
-  <body tal:define="is_empty view/is_empty; is_compose_mode python: view.is_compose_mode()">
+  <body tal:define="is_empty view/is_empty; is_compose_mode python:
+    view.is_compose_mode(); title python: view.data.get('title', '')">
     <p tal:condition="python: is_empty and is_compose_mode" i18n:translate="">
       Edit and select the source Sparql query from the portal.
     </p>
 
-    <a tal:condition="is_compose_mode" href="" tal:attributes="href view/sparql_edit_url"
-      class="edit_sparql_source" target="_blank">Edit the Sparql Query</a>
+    <a class="edit_sparql_source" target="_blank"
+      tal:condition="is_compose_mode" href="" tal:attributes="href view/sparql_edit_url"
+      >Edit the Sparql Query</a>
 
     <div tal:condition="not: is_empty" class="cover-foldercontentslisting-tile tile-content">
 
       <div class="tile-header" tal:define="text python: view.data.get('text', '')">
-        <h4 class="title" tal:content="python: view.data.get('title', 'Untitled')">Relevant singlerows</h4>
+        <h4 class="title" tal:content="title">Relevant singlerows</h4>
         <div class="text" tal:condition="text" tal:content="structure text/output">Text</div>
       </div>
 
@@ -31,104 +33,96 @@
       <script>
         /* <[CDATA[ */
 
-$(document).ready(function(){
+  $(document).ready(function(){
 
     var $cell = $('.cardgraph');
     $cell.find('.js-expander').click(function() {
-    
+
       var $thisCell = $(this).closest('.cardgraph');
-
-       
       var $thiscard=$(this);
-      
-      
-
 
       if ($thisCell.hasClass('is-collapsed')) {
-          $cell.not($thisCell).removeClass('is-expanded').addClass('is-collapsed').addClass('is-inactive');
-            $thisCell.removeClass('is-collapsed').addClass('is-expanded');
+        $cell.not($thisCell).removeClass('is-expanded').addClass('is-collapsed').addClass('is-inactive');
+        $thisCell.removeClass('is-collapsed').addClass('is-expanded');
 
-            var $ifw = $thisCell.find('.iframe-wrapper');
-            $ifw.html('');
-            var iurl = $ifw.data('iframe-url');
-            var width = $ifw.data('iframe-width');
-            var height = $ifw.data('iframe-height');
-
-
-            var iframe = document.createElement('iframe');
-            iframe.src = iurl;
-            iframe.style.width = width + 'px';
-            iframe.style.height = height + 'px';
-            iframe.onload = function() {
-              iframe.parentNode.classList.remove('is-loading');
-            }
-
-            $ifw[0].appendChild(iframe);
+        var $ifw = $thisCell.find('.iframe-wrapper');
+        $ifw.html('');
+        var iurl = $ifw.data('iframe-url');
+        var width = $ifw.data('iframe-width');
+        var height = $ifw.data('iframe-height');
 
 
+        var iframe = document.createElement('iframe');
+        iframe.src = iurl;
+        iframe.style.width = width + 'px';
+        iframe.style.height = height + 'px';
+        iframe.onload = function() {
+          iframe.parentNode.classList.remove('is-loading');
+        }
 
+        $ifw[0].appendChild(iframe);
 
-      if ($cell.not($thisCell).hasClass('is-inactive')) {
-        //do nothing
+        if ($cell.not($thisCell).hasClass('is-inactive')) {
+          //do nothing
+        } else {
+          $cell.not($thisCell).addClass('is-inactive');
+        }
+
       } else {
-        $cell.not($thisCell).addClass('is-inactive');
+        $thisCell.removeClass('is-expanded').addClass('is-collapsed');
+        $cell.not($thisCell).removeClass('is-inactive');
       }
+    });
 
-    } else {
+    $cell.find('.js-collapser').click(function() {
+      var $thisCell = $(this).closest('.cardgraph');
       $thisCell.removeClass('is-expanded').addClass('is-collapsed');
       $cell.not($thisCell).removeClass('is-inactive');
-    }
-  });
-
-  $cell.find('.js-collapser').click(function() {
-    var $thisCell = $(this).closest('.cardgraph');
-    $thisCell.removeClass('is-expanded').addClass('is-collapsed');
-    $cell.not($thisCell).removeClass('is-inactive');
-  });
-
-  $(".cardgraph").on('click', function(e){
-    e.stopPropagation();
-    var body=$('body')[0].getBoundingClientRect();
-    var card=$(this)[0].getBoundingClientRect(),
-
-      cardleft=card.left+($(this).outerWidth()-$(this).width())/2;
-    bodywidth=body.width+($(this).outerWidth()-$(this).width())/2-14;
-
-    $('.card__expander').css({
-      'left' : -cardleft,
-      'width': bodywidth
     });
-    if($(e.target).parent().hasClass('card__inner')){
+
+    $(".cardgraph").on('click', function(e){
+      e.stopPropagation();
+      var body=$('body')[0].getBoundingClientRect();
+      var card=$(this)[0].getBoundingClientRect(),
+
+        cardleft=card.left+($(this).outerWidth()-$(this).width())/2;
+      bodywidth=body.width+($(this).outerWidth()-$(this).width())/2-14;
+
+      $('.card__expander').css({
+        'left' : -cardleft,
+        'width': bodywidth
+      });
+      if($(e.target).parent().hasClass('card__inner')){
+        var bodytop = $('body').scrollTop();
+        $('body').animate({ scrollTop: bodytop + 350 }, 300);
+      }
+    });
+
+    $(".fa-close").on('click', function(){
       var bodytop = $('body').scrollTop();
-      $('body').animate({ scrollTop: bodytop + 350 }, 300);
-    }
+      $('body').animate({ scrollTop: bodytop - 350 }, 300);
+    });
+
+
+    $('.expand').on('click', function(){
+      $('.indicator-cards').toggleClass('flex-row-warp');
+      $('#left-button, #right-button').toggleClass('buttons-hide')
+    });
+
+    var outer = $('.singlerow-cards-wrapper');
+
+    $('#left-button').click(function () {
+      var leftPos = outer.scrollLeft();
+      outer.animate({ scrollLeft: leftPos - 300 }, 300);
+    });
+
+
+    $('#right-button').click(function () {
+      var leftPos = outer.scrollLeft();
+      outer.animate({ scrollLeft: leftPos + 300 }, 300);
+    });
+
   });
-
-  $(".fa-close").on('click', function(){
-    var bodytop = $('body').scrollTop();
-    $('body').animate({ scrollTop: bodytop - 350 }, 300);
-  });
-
-
-  $('.expand').on('click', function(){
-    $('.indicator-cards').toggleClass('flex-row-warp');
-    $('#left-button, #right-button').toggleClass('buttons-hide')
-  });
-
-  var outer = $('.singlerow-cards-wrapper');
-
-  $('#left-button').click(function () {
-    var leftPos = outer.scrollLeft();
-    outer.animate({ scrollLeft: leftPos - 300 }, 300);
-  });
-
-
-  $('#right-button').click(function () {
-    var leftPos = outer.scrollLeft();
-    outer.animate({ scrollLeft: leftPos + 300 }, 300);
-  });
-
-});
 /* ]]> */
       </script>
     </div>

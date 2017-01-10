@@ -24,6 +24,8 @@ class IElasticSearch(form.Schema):
         title=u'ElasticSearch Query in JSON format',
         required=True,
     )
+    base_address = schema.TextLine(title=u"Base address for domain-free URLs ",
+                                   required=True)
 
     form.omitted('cached_results')
     cached_results = namedfile.field.NamedBlobFile(title=u"Cached results",
@@ -34,7 +36,6 @@ class ElasticSearch(dexterity.Item):
     implements(IElasticSearch)
 
     def get_cached_results(self):
-        # TODO:
         return self.cached_results
 
     def precache_data(self):
@@ -44,6 +45,7 @@ class ElasticSearch(dexterity.Item):
         logger.info("Updating results cache for %s", self.absolute_url())
         resp = requests.post(self.endpoint, json=json.loads(self.query))
 
+        # TODO: make this a field
         self.cached_results = namedfile.NamedBlobFile(resp.text,
                                                       filename=u"data.json")
 

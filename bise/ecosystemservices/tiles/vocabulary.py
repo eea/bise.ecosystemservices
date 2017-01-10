@@ -1,5 +1,5 @@
+# from plone.memoize import ram
 from Products.CMFCore.utils import getToolByName
-from plone.memoize import ram
 from time import time
 from zope.interface import alsoProvides, implements
 from zope.schema.interfaces import IVocabularyFactory
@@ -9,37 +9,30 @@ import json
 import requests
 
 
-# TODO: make a generic factory, show site path in title
+def datasource_vocabulary_factory(ptype):
+    def factory(context):
+        try:
+            catalog = getToolByName(context, 'portal_catalog')
+        except AttributeError:
+            catalog = getToolByName(getSite(), 'portal_catalog')
+
+        brains = catalog(portal_type=ptype)
+        terms = [SimpleTerm(b.UID, b.UID, b.Title) for b in brains]
+
+        return SimpleVocabulary(terms)
+
+    return factory
 
 
-def sparql_vocabulary(context):
-
-    try:
-        catalog = getToolByName(context, 'portal_catalog')
-    except AttributeError:
-        catalog = getToolByName(getSite(), 'portal_catalog')
-
-    brains = catalog(portal_type="Sparql")
-    terms = [SimpleTerm(b.UID, b.UID, b.Title) for b in brains]
-
-    return SimpleVocabulary(terms)
-
+sparql_vocabulary = datasource_vocabulary_factory("Sparql")
 alsoProvides(sparql_vocabulary, IVocabularyFactory)
 
-
-def elasticsearch_vocabulary(context):
-
-    try:
-        catalog = getToolByName(context, 'portal_catalog')
-    except AttributeError:
-        catalog = getToolByName(getSite(), 'portal_catalog')
-
-    brains = catalog(portal_type="ElasticSearch")
-    terms = [SimpleTerm(b.UID, b.UID, b.Title) for b in brains]
-
-    return SimpleVocabulary(terms)
-
+elasticsearch_vocabulary = datasource_vocabulary_factory('ElasticSearch')
 alsoProvides(elasticsearch_vocabulary, IVocabularyFactory)
+
+datasource_vocabulary = datasource_vocabulary_factory(['Sparql',
+                                                       'ElasticSearch'])
+alsoProvides(datasource_vocabulary, IVocabularyFactory)
 
 
 def _cache_key(fun, *args):

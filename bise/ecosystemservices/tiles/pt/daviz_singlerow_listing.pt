@@ -5,6 +5,7 @@
   i18n:domain="collective.cover">
 
   <body tal:define="is_empty view/is_empty">
+    <script src="/++resource++orderedselect_input.js"></script>
     <p tal:condition="python: is_empty and view.is_compose_mode()" i18n:translate="">
       Edit and select the source Sparql query from the portal.
     </p>
@@ -12,10 +13,11 @@
     <div tal:condition="not: is_empty"
       class="cover-daviz-singlerow-tile tile-content"
       tal:define="children view/children;
-                  is_compose_mode python: view.is_compose_mode()">
+                  is_compose_mode python: view.is_compose_mode()"
+                  >
 
-      <a tal:condition="is_compose_mode" href="" tal:attributes="href view/sparql_edit_url"
-        class="edit_sparql_source" target="_blank">Edit the Sparql Query</a>
+      <!-- <a tal:condition="is_compose_mode" href="" tal:attributes="href view/sparql_edit_url" -->
+      <!--   class="edit_sparql_source" target="_blank">Edit the Sparql Query</a> -->
 
       <div class="singlerow-cards-container" tal:define="text python: view.data.get('text', '')">
         <h4 class="singlerow-title" tal:content="python: view.data.get('title', 'Untitled')">Relevant singlerows</h4>
@@ -23,6 +25,7 @@
         <span class="show_more">
             <a href="" tal:attributes="href python:view.data.get('view_more_url', '')">Show more</a>
         </span>
+
         <button type="button" id="right-button"><i class="fa fa-chevron-right" aria-hidden="true"></i></button>
         <button type="button" id="left-button"><i class="fa fa-chevron-left" aria-hidden="true"></i></button>
 
@@ -31,7 +34,7 @@
 
             <div tal:repeat="obj children" class="singlerow-card">
               <div class="singlerow-card__inner" tal:define="published python: view.format_date(obj['item_published'])">
-                <img tal:attributes="src string:${obj/item_url}/image_preview"/>
+                <img tal:attributes="src obj/thumb_url" />
                 <p class="singlerow-desc">
                 <a href="" tal:attributes="href obj/item_url" tal:content="obj/item_title">Item Title</a>
                 </p>
@@ -42,7 +45,7 @@
             </div>
 
             <div tal:condition="not:children">
-              Waiting for Sparql data to arrive. Please reload page.
+              Waiting for data to arrive. Please reload page.
             </div>
 
           </div>

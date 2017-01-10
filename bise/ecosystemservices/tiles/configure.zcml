@@ -17,6 +17,10 @@
         component=".vocabulary.elasticsearch_vocabulary" />
 
     <utility
+        name="bise.datasource_vocabulary"
+        component=".vocabulary.datasource_vocabulary" />
+
+    <utility
         name="bise.catalogue.tagvocabulary_mainbranch"
         factory=".vocabulary.CatalogueTagVocabularyMainBranch" />
 
