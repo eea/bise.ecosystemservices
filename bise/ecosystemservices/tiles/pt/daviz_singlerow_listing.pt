@@ -16,8 +16,10 @@
                   is_compose_mode python: view.is_compose_mode()"
                   >
 
-      <!-- <a tal:condition="is_compose_mode" href="" tal:attributes="href view/sparql_edit_url" -->
-      <!--   class="edit_sparql_source" target="_blank">Edit the Sparql Query</a> -->
+      <a tal:repeat="source view/get_sources"
+        tal:condition="is_compose_mode" href=""
+        tal:attributes="href string:${source/absolute_url}/edit"
+        class="edit_sparql_source" target="_blank">Edit source</a>
 
       <div class="singlerow-cards-container" tal:define="text python: view.data.get('text', '')">
         <h4 class="singlerow-title" tal:content="python: view.data.get('title', 'Untitled')">Relevant singlerows</h4>

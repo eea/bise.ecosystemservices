@@ -50,7 +50,7 @@ class IListingTile(IPersistentCoverTile):
     )
 
     count = Int(
-        title=u'Number of items to display',
+        title=u'Number of items to display, per source',
         required=False,
         default=6,
     )
@@ -68,10 +68,6 @@ class DavizListingTile(PersistentCoverTile):
 
     implements(IListingTile)
 
-    def sparql_edit_url(self):
-        source = self._get_sparql()
-        return source.absolute_url() + '/edit'
-
     def render_cell(self, info):
         return self.cell_tpl(daviz=info)
 
@@ -79,12 +75,12 @@ class DavizListingTile(PersistentCoverTile):
         """Return an empty list as no content types are accepted."""
         return ['Sparql']
 
-    def _get_sparql(self):
+    def get_sources(self):
         uuids = self.data.get('uuid')
         if not uuids:
             raise StopIteration
         for uuid in uuids:
-            source = uuidToObject(self.data['uuid'])
+            source = uuidToObject(uuid)
             if not source:
                 logger.warning("Could not find object with uuid %s", uuid)
                 continue
@@ -127,16 +123,17 @@ class DavizListingTile(PersistentCoverTile):
         result = []
         for row in rows[:count]:
             row['item_title'] = row['title']
-            row['thumb_url'] = source.base_address + row['thumb']
-            row['item_url'] = row['url']
-            row['item_published'] = row['published_on']
+            row['thumb_url'] = (source.base_address or '') + \
+                row.get('thumb', '')
+            row['item_url'] = row.get('url', '')
+            row['item_published'] = row.get('published_on', '')
             result.append(row)
 
         return result
 
     def children(self):
         count = self.data.get('count', 6)
-        sources = self._get_sparql()
+        sources = self.get_sources()
 
         result = []
         for source in sources:
