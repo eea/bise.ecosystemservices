@@ -24,6 +24,8 @@
         name="bise.ecosystemservices"
         directory="static"
         />
+    <browser:resource name="maintopic.svg" file="static/maintopic.svg" />
+    <browser:resource name="subtopic.svg" file="static/subtopic.svg" />
 
     <!-- Register an extension profile to make the product installable in Plone -->
 

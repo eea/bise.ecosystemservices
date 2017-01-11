@@ -219,7 +219,7 @@ class CreateMainTopic(BaseCreateTopic):
 
     def create(self, data):
         folder = create(
-            container=self.context, type="Folder", title=data['title'])
+            container=self.context, type="MainTopic", title=data['title'])
         cover = create(container=folder,
                        type="collective.cover.content",
                        title=data['title'])
@@ -407,7 +407,7 @@ class CreateSubTopic(BaseCreateTopic):
 
     def create(self, data):
         folder = create(
-            container=self.context, type="Folder", title=data['title'])
+            container=self.context, type="SubTopic", title=data['title'])
         cover = create(container=folder,
                        type="collective.cover.content",
                        title=data['title'])

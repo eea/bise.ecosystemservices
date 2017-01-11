@@ -1,6 +1,4 @@
 Introduction
 ============
 
-
-
-This product may contain traces of nuts.
+"Paper Icons" by Sam Hewitt is licensed under CC-SA-4.0
