@@ -201,7 +201,7 @@ class DavizSingleRowListingTile(DavizListingTile):
     index = ViewPageTemplateFile('pt/daviz_singlerow_listing.pt')
     cell_tpl = ViewPageTemplateFile('pt/daviz_cell.pt')
 
-    short_name = u'Daviz Row'
+    short_name = "Visualizations Row"
 
 
 class IElasticSearchTile(IListingTile):
@@ -273,6 +273,7 @@ class ElasticSearchTeaserTile(ElasticSearchBaseTile):
     """
 
     index = ViewPageTemplateFile('pt/es_teaser.pt')
+    short_name = "Catalogue Teaser"
 
 
 class ElasticSearchListingTile(ElasticSearchBaseTile):
@@ -280,6 +281,7 @@ class ElasticSearchListingTile(ElasticSearchBaseTile):
     """
 
     index = ViewPageTemplateFile('pt/es_listing.pt')
+    short_name = "Catalogue Listing"
 
     def get_url(self, obj):
         # try different strategies to get the source url from the catalogue

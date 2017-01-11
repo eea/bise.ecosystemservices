@@ -237,6 +237,7 @@ class CreateMainTopic(BaseCreateTopic):
         for tag in all_tags:
             if tag.startswith(data['title'] + ': '):
                 subtopic = tag.split(':', 1)[1].strip()
+                print "Creating subtopic", subtopic
                 create(container=folder, type="Folder", title=subtopic)
 
         # for line in filter(None,
@@ -260,7 +261,7 @@ class CreateMainTopic(BaseCreateTopic):
                 query=gsq,
                 endpoint=endpoint,
             )
-            info = {'title': u'Baseline and Trends', 'uuid': IUUID(sparql)}
+            info = {'title': u'Baseline and Trends', 'uuid': [IUUID(sparql)]}
             dfw_tile = make_tile("bise.daviz_grid_listing", cover, info)
             row_3 = make_row(make_group(12, dfw_tile))
             row_3['css-class'] = "border-at-top"
@@ -280,7 +281,7 @@ class CreateMainTopic(BaseCreateTopic):
                 query=isq,
                 endpoint=endpoint,
             )
-            info = {'title': u'Relevant Indicators', 'uuid': IUUID(sparql)}
+            info = {'title': u'Relevant Indicators', 'uuid': [IUUID(sparql)]}
             dsr_tile = make_tile("bise.daviz_singlerow_listing", cover, info)
             row_4 = make_row(make_group(12, dsr_tile))
             row_4['css-class'] = "border-at-top"
@@ -441,11 +442,11 @@ class CreateSubTopic(BaseCreateTopic):
         if endpoint and isq:
             sparql = create_sparql(
                 container=folder,
-                title=data['title'] + u'Relevant Indicators Sparql Query',
+                title=data['title'] + u' - Relevant Indicators Sparql Query',
                 query=isq,
                 endpoint=endpoint,
             )
-            info = {'title': u'Relevant Indicators', 'uuid': IUUID(sparql)}
+            info = {'title': u'Relevant Indicators', 'uuid': [IUUID(sparql)]}
             dsr_tile = make_tile("bise.daviz_grid_listing", cover, info)
             row_4 = make_row(make_group(12, dsr_tile))
             row_3['css-class'] = 'border-at-top'
@@ -462,7 +463,7 @@ class CreateSubTopic(BaseCreateTopic):
             groups = []
             es = create(container=folder,
                         type='ElasticSearch',
-                        title=data['title'] + u"Further Links ES Query",
+                        title=data['title'] + u" - Catalogue Listing Query",
                         endpoint=es_endpoint,
                         query=es_query
                         )

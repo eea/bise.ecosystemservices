@@ -32,6 +32,7 @@ class IDavizTile(IPersistentCoverTile):
 
     form.omitted('daviz_title')
     form.omitted('published')
+    # TODO: implement chart name
 
 
 class DavizTile(PersistentCoverTile):
@@ -56,7 +57,7 @@ class DavizFullWidthTile(DavizTile):
     """ Daviz viewed in a big (fullwidth) tile
     """
 
-    short_name = u'Daviz FullWidth'
+    short_name = u'Daviz Embed'
     index = ViewPageTemplateFile('pt/daviz_fullwidth.pt')
 
 
@@ -87,7 +88,6 @@ class DavizTileDataManager(PersistentCoverTileDataManager):
         return url
 
     def _get_daviz_details(self, url):
-        url = self.cleanup_url(url)
         if not url.endswith('/@@rdf'):
             url = url + '/@@rdf'
         resp = requests.get(url)
@@ -105,9 +105,7 @@ class DavizTileDataManager(PersistentCoverTileDataManager):
         return res
 
     def set(self, data):
-        url = data.get('daviz_url')
-        if url:
-            url = url + '/@@rdf'
+        url = self.cleanup_url(data.get('daviz_url'))
 
         try:
             extracted = self._get_daviz_details(url)
