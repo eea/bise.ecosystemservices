@@ -14,11 +14,14 @@
     <h3 tal:condition="is_compose"
       tal:content="python: view.data.get('title')">Title here</h3>
 
-    <div tal:condition="is_compose"
-      tal:replace="python:view.data.get('embed')" ></div>
+    <div class="well" tal:condition="is_compose">
+      <p><strong>Embed code:</strong></p>
+      <pre>
+        <code tal:content="python:view.data.get('embed')" ></code>
+      </pre>
+    </div>
 
-    <div tal:condition="not: is_compose"
-      tal:replace="structure python:view.data.get('embed')" ></div>
+    <div tal:replace="structure python:view.data.get('embed')" ></div>
 
     <div class="visualClear"><!-- --></div>
   </div>

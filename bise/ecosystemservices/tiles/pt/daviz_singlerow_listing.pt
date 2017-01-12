@@ -16,9 +16,8 @@
                   is_compose_mode python: view.is_compose_mode()"
                   >
 
-      <div class="edit_sparql_source">
+      <div class="edit_sparql_source" tal:condition="is_compose_mode" >
         <a tal:repeat="source view/get_sources"
-          tal:condition="is_compose_mode" href=""
           tal:attributes="href string:${source/absolute_url}/edit"
           target="_blank">Edit source</a>
       </div>
