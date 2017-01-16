@@ -287,10 +287,25 @@ class CreateMainTopic(BaseCreateTopic):
             row_4['css-class'] = "border-at-top"
             rows.append(row_4)
 
-        es_query = data.get('elasticsearch_query', '').strip()
-        es_endpoint = (u"http://10.128.0.50:9200/"
-                       u"catalogue_production_articles,"
-                       u"catalogue_production_documents/_search")
+        # es_query = data.get('elasticsearch_query', '').strip()
+        es_qd = {}
+        es_qd['size'] = 10
+        es_qd['query'] = {"match": {"_all": data['title']}}
+        es_query = json.dumps(es_qd)
+
+        indeces = [
+            'catalogue_production_articles',
+            'catalogue_production_countries',
+            'catalogue_production_documents',
+            'catalogue_production_graphs',
+            'catalogue_production_habitats',
+            'catalogue_production_indicators',
+            'catalogue_production_links',
+            'catalogue_production_news',
+        ]
+        es_endpoint = u"http://10.128.0.50:9200/%s/_search" % ",".join(indeces)
+        # u"catalogue_production_articles,"
+        # u"catalogue_production_documents/_search")
         teaser_subj = data['title']
         teaser_link = "http://biodiversity.europa.eu/search?q=" + teaser_subj
 
