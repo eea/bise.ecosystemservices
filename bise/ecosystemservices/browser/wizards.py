@@ -128,19 +128,18 @@ class IAdvancedTopicWizardSchema(form.Schema):
         required=False
     )
 
-    # elasticsearch_query_endpoint = TextLine(
-    #     title=u"ElasticSearch query endpoint",
-    #     default=(u"http://10.128.0.50:9200/"
-    #              u"catalogue_production_articles,"
-    #              u"catalogue_production_documents/_search"),
-    #     required=False
-    # )
-    elasticsearch_query = Text(
-        title=u"ElasticSearch query parameters",
-        default=(u'{"from" : 0, "size" : 10, '
-                 u'"query":{"match": {"_all":"ecosystem"}}}'),
+    elasticsearch_query_endpoint = TextLine(
+        title=u"ElasticSearch Server Endpoint",
+        default=(u"http://10.128.0.50:9200"),
         required=False
     )
+
+    # elasticsearch_query = Text(
+    #     title=u"ElasticSearch query parameters",
+    #     default=(u'{"from" : 0, "size" : 10, '
+    #              u'"query":{"match": {"_all":"ecosystem"}}}'),
+    #     required=False
+    # )
     # catalogue_teaser = TextLine(
     #     title=u"Catalogue Teaser Subject",
     #     description=u"If empty, will use selected topic word",
@@ -303,7 +302,10 @@ class CreateMainTopic(BaseCreateTopic):
             'catalogue_production_links',
             'catalogue_production_news',
         ]
-        es_endpoint = u"http://10.128.0.50:9200/%s/_search" % ",".join(indeces)
+        es_endpoint = data.get('elasticsearch_query_endpoint', '').strip()
+        es_endpoint = u"%s/%s/_search" % (
+            es_endpoint, ",".join(indeces)
+        )
         # u"catalogue_production_articles,"
         # u"catalogue_production_documents/_search")
         teaser_subj = data['title']
@@ -389,18 +391,16 @@ class ISubTopicWizardSchema(form.Schema):
     )
 
     elasticsearch_query_endpoint = TextLine(
-        title=u"ElasticSearch query endpoint",
-        default=(u"http://10.128.0.50:9200/"
-                 u"catalogue_production_articles,"
-                 u"catalogue_production_documents/_search"),
+        title=u"ElasticSearch Server Endpoint",
+        default=(u"http://10.128.0.50:9200"),
         required=False
     )
-    elasticsearch_query = Text(
-        title=u"Further Links - ElasticSearch query",
-        default=(u'{"from" : 0, "size" : 100, '
-                 u'"query":{"match": {"_all":"ecosystem"}}}'),
-        required=False
-    )
+    # elasticsearch_query = Text(
+    #     title=u"Further Links - ElasticSearch query",
+    #     default=(u'{"from" : 0, "size" : 100, '
+    #              u'"query":{"match": {"_all":"ecosystem"}}}'),
+    #     required=False
+    # )
     catalogue_teaser = TextLine(
         title=u"Catalogue Teaser Subject",
         description=u"If empty, will use selected topic word",
@@ -467,8 +467,28 @@ class CreateSubTopic(BaseCreateTopic):
             row_3['css-class'] = 'border-at-top'
             rows.append(row_4)
 
-        es_query = data.get('elasticsearch_query', '').strip()
         es_endpoint = data.get('elasticsearch_query_endpoint', '').strip()
+
+        # es_query = data.get('elasticsearch_query', '').strip()
+        es_qd = {}
+        es_qd['size'] = 10
+        es_qd['query'] = {"match": {"_all": data['title']}}
+        es_query = json.dumps(es_qd)
+
+        indeces = [
+            'catalogue_production_articles',
+            'catalogue_production_countries',
+            'catalogue_production_documents',
+            'catalogue_production_graphs',
+            'catalogue_production_habitats',
+            'catalogue_production_indicators',
+            'catalogue_production_links',
+            'catalogue_production_news',
+        ]
+        es_endpoint = u"%s/%s/_search" % (
+            es_endpoint, ",".join(indeces)
+        )
+
         teaser_subj = (data.get('catalogue_teaser') or '').strip()
         if not teaser_subj:
             teaser_subj = data['title']

@@ -12,6 +12,7 @@
     <includeDependencies package="." />
 
     <include file="permissions.zcml" />
+    <include file="workflow.zcml" />
     <include package=".browser" />
     <include package=".tiles" />
 

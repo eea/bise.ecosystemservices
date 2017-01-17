@@ -486,6 +486,10 @@
 
 
 .list-others {
-    margin: 0em;
+    margin-left: 1.3em !important;
     padding-left: 0em;
+}
+
+.list-others li {
+    display: list-item
 }
