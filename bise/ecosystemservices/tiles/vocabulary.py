@@ -1,5 +1,5 @@
-# from plone.memoize import ram
 from Products.CMFCore.utils import getToolByName
+from plone.memoize import ram
 from time import time
 from zope.interface import alsoProvides, implements
 from zope.schema.interfaces import IVocabularyFactory
@@ -39,7 +39,7 @@ def _cache_key(fun, *args):
     return (fun.__name__, time() // (20 * 60),)
 
 
-# @ram.cache(_cache_key)
+@ram.cache(_cache_key)
 def get_tags():
     url = 'http://catalogue.biodiversity.europa.eu/api/v1/shared_tags'
     data = requests.get(url)
@@ -61,5 +61,22 @@ class CatalogueTagVocabularyMainBranch(object):
 
     def __call__(self, context):
         tags = get_tags()
-        terms = [SimpleTerm(tag, tag, tag) for tag in tags if ':' not in tag]
+        tm = {}
+        for t in tags:
+            if ':' in t:
+                mt, st = t.split(':', 1)
+                tm[mt] = tm.get(mt, []) + [st]
+            else:
+                tm[t] = []
+
+        terms = []
+        for t in sorted(tm):
+            if tm[t]:
+                title = u"{0} ({1} subtopics)".format(t, len(tm[t]))
+                term = SimpleTerm(value=t, token=t, title=title)
+                terms.append(term)
+            else:
+                term = SimpleTerm(value=t, token=t, title=t)
+                terms.append(term)
+
         return SimpleVocabulary(terms)

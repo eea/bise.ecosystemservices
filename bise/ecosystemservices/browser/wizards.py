@@ -130,7 +130,7 @@ class IAdvancedTopicWizardSchema(form.Schema):
 
     elasticsearch_query_endpoint = TextLine(
         title=u"ElasticSearch Server Endpoint",
-        default=(u"http://10.128.0.50:9200"),
+        default=(u"http://10.128.0.50:9200"),   # NOTE: 9200 demo server port
         required=False
     )
 
