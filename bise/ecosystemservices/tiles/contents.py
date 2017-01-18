@@ -26,7 +26,8 @@ class IFolderContentsListingTile(IPersistentCoverTile):
 
     uuid = RelationChoice(
         title=u"Folder Root",
-        source=UUIDSourceBinder(portal_type=['Folder', 'FolderishPage']),
+        source=UUIDSourceBinder(portal_type=['Folder', 'FolderishPage',
+                                             'SubTopic', 'MainTopic']),
         required=False,
     )
 
@@ -49,7 +50,8 @@ class FolderContentsListingTile(PersistentCoverTile):
         if source is None:
             return []
         return source.getFolderContents(
-            contentFilter=dict(portal_type=['Folder', 'FolderishPage']))
+            contentFilter=dict(portal_type=['Folder', 'FolderishPage',
+                                            'SubTopic', 'MainTopic']))
 
     def title(self):
         return self.data.get('title', 'Missing tile title')

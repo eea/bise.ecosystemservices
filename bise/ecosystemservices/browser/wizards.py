@@ -216,6 +216,27 @@ class CreateMainTopic(BaseCreateTopic):
                                      ILocalPortletAssignmentManager)
         assignable.setBlacklistStatus(CONTEXT_CATEGORY, True)
 
+    def create_subtopic(self, parent, subtopic, maintopic_data):
+
+        view = CreateSubTopic(parent, self.request)
+        data = {}
+        data['title'] = subtopic
+        data['introduction'] = RichTextValue(u"Fill in introduction",
+                                             'text/html', 'text/html')
+        data['highlight'] = RichTextValue(u"Fill in highlight",
+                                          'text/html', 'text/html')
+        data['sparql_endpoint'] = "http://semantic.eea.europa.eu/sparql"
+        data['daviz_url'] = u"http://www.eea.europa.eu/data-and-maps/daviz/"\
+            u"primary-energy-consumption-of-nzeb#tab-chart_1"
+        data['indicators_sparql_query'] = \
+            maintopic_data['indicators_sparql_query']
+        data['elasticsearch_query_endpoint'] = \
+            maintopic_data['elasticsearch_query_endpoint']
+        data['catalog_teaser_link'] = "http://biodiversity.europa.eu/search"
+
+        st = view.create(data)
+        return st
+
     def create(self, data):
         folder = create(
             container=self.context, type="MainTopic", title=data['title'])
@@ -237,7 +258,8 @@ class CreateMainTopic(BaseCreateTopic):
             if tag.startswith(data['title'] + ': '):
                 subtopic = tag.split(':', 1)[1].strip()
                 print "Creating subtopic", subtopic
-                create(container=folder, type="Folder", title=subtopic)
+                # create(container=folder, type="SubTopic", title=subtopic)
+                self.create_subtopic(folder, subtopic, data)
 
         # for line in filter(None,
         #              [l.strip() for l in (data.get('subtopics') or [])]):
@@ -429,15 +451,22 @@ class CreateSubTopic(BaseCreateTopic):
 
         folder.setDefaultPage(cover.getId())
 
-        info = {'title': u'Introduction Text',
-                'text': RichTextValue(data['introduction'].raw)}
-        desc_tile = make_tile("collective.cover.richtext", cover, info)
+        intro = {'title': u'MainTopic Introduction Text',
+                 'text': RichTextValue(
+                     u"<h2>{0}</h2><p>Replace with a short introduction "
+                     u"about the main topic</p>".format(self.context.Title()),
+                     'text/html', 'text/html'
+                 )}
+        desc_tile = make_tile("collective.cover.richtext", cover, intro)
         row_1 = make_row(make_group(12, desc_tile))
 
-        htext = RichTextValue(u"<h1>{0}</h1>".format(data['title'] +
-                                                     data['highlight'].raw))
+        htext = RichTextValue(
+            u"<h1>{0}</h1><div>{1}</div>".format(data['title'],
+                                                 data['highlight'].raw),
+            'text/html', 'text/html'
+        )
 
-        info = {'title': u'Introduction Text', 'text': htext}
+        info = {'title': u'SubTopic Introduction Text', 'text': htext}
         intro_tile = make_tile("collective.cover.richtext", cover, info)
         row_2 = make_row(make_group(12, intro_tile))
 
@@ -509,7 +538,8 @@ class CreateSubTopic(BaseCreateTopic):
             if teaser_link:
                 text = u"Learn more about "\
                        u"<br/> <i>{}</i> <br/> using Bise Catalogue"
-                text = RichTextValue(text.format(teaser_subj))
+                text = RichTextValue(text.format(teaser_subj),
+                                     'text/html', 'text/html')
                 info = {'title': teaser_subj,
                         'text': text,
                         'view_more_url': teaser_link,
