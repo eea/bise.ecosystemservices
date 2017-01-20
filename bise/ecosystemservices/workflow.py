@@ -49,7 +49,6 @@ class WorkflowTransitionMessage(form.SchemaForm):
     content rule event type and the interpolation variable, ${workflow_message}
     """
 
-    context = Interface
     schema = IWorkflowMessageSchema
     ignoreContext = True
 
