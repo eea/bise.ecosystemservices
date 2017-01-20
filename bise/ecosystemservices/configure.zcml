@@ -11,6 +11,7 @@
     <!-- Include configuration for dependencies listed in setup.py -->
     <includeDependencies package="." />
 
+    <include file="workflow.zcml" />
     <include file="permissions.zcml" />
     <include package=".browser" />
     <include package=".tiles" />
