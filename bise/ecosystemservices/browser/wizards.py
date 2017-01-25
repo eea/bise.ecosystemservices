@@ -569,22 +569,10 @@ class OverrideFolderFactoriesView(FolderFactoriesView):
         if not IFolderish.providedBy(self.context):
             return res
 
-        additional = [
-            {
-                'id': 'MainTopic',
-                'title': u'Topic Page (advanced wizard)',
-                'description': u'A wizard for topic pages',
-                'action': '@@create-maintopic',
-                'selected': False,
-                'icon': 'folder_icon.png',
-                'extra': {
-                    'id': 'wizard-maintopic',
-                    'separator': None,
-                    'class': 'contenttype-maintopic'
-                },
-                'submenu': None,
-            },
-            {
+        blacklist = ['SubTopic', 'MainTopic']
+        res = [x for x in res if x['id'] not in blacklist]
+        if self.context.portal_type == 'MainTopic':
+            res.append({
                 'id': 'SubTopic',
                 'title': u'Subtopic (advanced wizard)',
                 'description': u'A wizard for subtopics',
@@ -597,8 +585,21 @@ class OverrideFolderFactoriesView(FolderFactoriesView):
                     'class': 'contenttype-subtopic'
                 },
                 'submenu': None,
-            },
-        ]
+            })
+        else:
+            res.append({
+                'id': 'MainTopic',
+                'title': u'Topic Page (advanced wizard)',
+                'description': u'A wizard for topic pages',
+                'action': '@@create-maintopic',
+                'selected': False,
+                'icon': 'folder_icon.png',
+                'extra': {
+                    'id': 'wizard-maintopic',
+                    'separator': None,
+                    'class': 'contenttype-maintopic'
+                },
+                'submenu': None,
+            })
 
-        res.extend(additional)
         return res
