@@ -9,7 +9,7 @@ from plone.app.iterate.permissions import CheckinPermission
 from plone.app.iterate.permissions import CheckoutPermission
 import logging
 
-logger = logging.getLogger('eea.climateadapt')
+logger = logging.getLogger('bise.ecosystemservices')
 
 
 class IterateControl(Control):
