@@ -20,7 +20,7 @@ import logging
 # from plone.app.vocabularies.catalog import CatalogSource
 # from plone.app.vocabularies.catalog import CatalogVocabulary
 
-logger = logging.getLogger('eea.climateadapt')
+logger = logging.getLogger('bise.ecosystemservices')
 
 
 class IListingTile(IPersistentCoverTile):
