@@ -13,6 +13,7 @@
 
     <include file="workflow.zcml" />
     <include file="permissions.zcml" />
+    <include file="profiles.zcml" />
     <include package=".browser" />
     <include package=".tiles" />
 
@@ -27,16 +28,6 @@
         />
     <browser:resource name="maintopic.svg" file="static/maintopic.svg" />
     <browser:resource name="subtopic.svg" file="static/subtopic.svg" />
-
-    <!-- Register an extension profile to make the product installable in Plone -->
-
-    <genericsetup:registerProfile
-        name="default"
-        title="bise.ecosystemservices: Content-types"
-        directory="profiles/default"
-        description="Content-types for bise.ecosystemservices. Example Dexterity Product"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
 
     <!-- -*- extra stuff goes here -*- -->
 

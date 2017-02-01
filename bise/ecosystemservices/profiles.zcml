@@ -1,0 +1,42 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="bise.ecosystemservices">
+
+    <!-- Register an extension profile to make the product installable in Plone -->
+
+    <genericsetup:registerProfile
+        name="default"
+        title="bise.ecosystemservices: Content-types"
+        directory="profiles/default"
+        description="Content-types for bise.ecosystemservices. Example Dexterity Product"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+
+    <!-- v2 upgrade -->
+    <genericsetup:registerProfile
+        name="bise_ecosystemservices_to_2"
+        title="Upgrade profile for bise.ecosystemservices v2"
+        description=""
+        directory="profiles/upgrades/to_2"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:upgradeSteps
+        source="*"
+        destination="2"
+        profile="bise.ecosystemservices:default">
+        <genericsetup:upgradeDepends
+            title="Upgrade profile bise.ecosystemservices to v2"
+            import_profile="bise.ecosystemservices:bise_ecosystemservices_to_2"
+            />
+    </genericsetup:upgradeSteps>
+
+</configure>
