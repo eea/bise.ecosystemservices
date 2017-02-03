@@ -21,22 +21,12 @@
 
 
     <!-- v2 upgrade -->
-    <genericsetup:registerProfile
-        name="bise_ecosystemservices_to_2"
-        title="Upgrade profile for bise.ecosystemservices v2"
+    <gs:upgradeStep
+        title="Upgrade bise.ecosystemservices to v2"
         description=""
-        directory="profiles/upgrades/to_2"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <genericsetup:upgradeSteps
         source="*"
         destination="2"
-        profile="bise.ecosystemservices:default">
-        <genericsetup:upgradeDepends
-            title="Upgrade profile bise.ecosystemservices to v2"
-            import_profile="bise.ecosystemservices:bise_ecosystemservices_to_2"
-            />
-    </genericsetup:upgradeSteps>
+        handler=".upgrades.upgrade_to_2"
+        profile="bise.ecosystemservices:default" />
 
 </configure>
