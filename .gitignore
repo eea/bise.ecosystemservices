@@ -23,12 +23,12 @@ build/
 develop-eggs/
 downloads/
 eggs/
+.eggs/
 fake-eggs/
 parts/
 dist/
 var/
-
-
+.ropeproject/
 
 # OSX
 .DS_Store

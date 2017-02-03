@@ -478,10 +478,13 @@
     padding: .2rem;
     border-radius: 3px;
     position: absolute;
-    top: -1rem;
+    top: -0.9rem !important;
     left: 4rem;
     background: #41b664;
-    color: White;
+    color: white;
+}
+.edit_sparql_source a {
+    color: white;
 }
 
 

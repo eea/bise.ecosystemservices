@@ -43,4 +43,10 @@
         handler=".elasticsearch.handle_es_change"
         />
 
+    <subscriber
+        for="plone.app.iterate.interfaces.ICheckoutEvent"
+        handler=".events.handle_checkout_event"
+        />
+
+
 </configure>
