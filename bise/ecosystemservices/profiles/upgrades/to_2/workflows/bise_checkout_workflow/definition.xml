@@ -4,8 +4,6 @@
  <permission>Add portal content</permission>
  <permission>Delete objects</permission>
  <permission>Modify portal content</permission>
- <permission>Modify view template</permission>
- <permission>Request review</permission>
  <permission>Review portal content</permission>
  <permission>Sharing page: Delegate roles</permission>
  <permission>View</permission>
@@ -34,17 +32,11 @@
    <permission-role>Manager</permission-role>
    <permission-role>Site Administrator</permission-role>
   </permission-map>
-  <permission-map name="Modify view template" acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>Site Administrator</permission-role>
-  </permission-map>
-  <permission-map name="Request review" acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>Site Administrator</permission-role>
-  </permission-map>
   <permission-map name="Review portal content" acquired="False">
    <permission-role>Contributor</permission-role>
+   <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
+   <permission-role>Reviewer</permission-role>
    <permission-role>Site Administrator</permission-role>
   </permission-map>
   <permission-map name="Sharing page: Delegate roles" acquired="False">
@@ -97,22 +89,12 @@
   <permission-map name="Modify portal content" acquired="False">
    <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
-   <permission-role>Owner</permission-role>
    <permission-role>Reviewer</permission-role>
-   <permission-role>Site Administrator</permission-role>
-  </permission-map>
-  <permission-map name="Modify view template" acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>Site Administrator</permission-role>
-  </permission-map>
-  <permission-map name="Request review" acquired="False">
-   <permission-role>Manager</permission-role>
    <permission-role>Site Administrator</permission-role>
   </permission-map>
   <permission-map name="Review portal content" acquired="False">
    <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
-   <permission-role>Owner</permission-role>
    <permission-role>Reviewer</permission-role>
    <permission-role>Site Administrator</permission-role>
   </permission-map>
@@ -168,14 +150,6 @@
    <permission-role>Reviewer</permission-role>
    <permission-role>Site Administrator</permission-role>
   </permission-map>
-  <permission-map name="Modify view template" acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>Site Administrator</permission-role>
-  </permission-map>
-  <permission-map name="Request review" acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>Site Administrator</permission-role>
-  </permission-map>
   <permission-map name="Review portal content" acquired="False">
    <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
@@ -224,10 +198,6 @@
    <permission-role>Manager</permission-role>
    <permission-role>Site Administrator</permission-role>
   </permission-map>
-  <permission-map name="Change portal events" acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>Site Administrator</permission-role>
-  </permission-map>
   <permission-map name="Delete objects" acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>Site Administrator</permission-role>
@@ -248,6 +218,7 @@
   <permission-map name="Review portal content" acquired="False">
    <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
+   <permission-role>Reviewer</permission-role>
    <permission-role>Site Administrator</permission-role>
   </permission-map>
   <permission-map name="Sharing page: Delegate roles" acquired="False">
@@ -276,6 +247,7 @@
  </state>
  <state state_id="published" title="Published">
   <description>Visible to everyone, editable by the owner.</description>
+  <exit-transition transition_id="bwd_to_ec_review"/>
   <permission-map name="Access contents information" acquired="True">
    <permission-role>Manager</permission-role>
    <permission-role>Reviewer</permission-role>
@@ -326,12 +298,19 @@
   <permission-map name="iterate : Check out content" acquired="False">
    <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
+   <permission-role>Owner</permission-role>
    <permission-role>Reviewer</permission-role>
    <permission-role>Site Administrator</permission-role>
   </permission-map>
  </state>
  <transition transition_id="bwd_to_country_draft" title="Send back to country representatives" new_state="country_draft" trigger="USER" before_script="" after_script="">
   <action url="%(content_url)s/@@set_workflow_message?form.widgets.workflow_action=bwd_to_country_draft" category="workflow" icon="">Send back to country representatives</action>
+  <guard>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+ </transition>
+ <transition transition_id="bwd_to_ec_review" title="" new_state="ec_eea_review" trigger="USER" before_script="" after_script="">
+  <action url="%(content_url)s/@@set_workflow_message?form.widgets.workflow_action=bwd_to_ec_review" category="workflow" icon="">Send back to EEA representatives</action>
   <guard>
    <guard-permission>Review portal content</guard-permission>
   </guard>
@@ -343,19 +322,19 @@
   </guard>
  </transition>
  <transition transition_id="fwd_to_country_draft" title="Send to country representatives" new_state="country_draft" trigger="USER" before_script="" after_script="">
-  <action url="%(content_url)s/@@set_workflow_message?form.widgets.workflow_action=fwd_to_country_draft" category="workflow" icon="">Send to country representatives</action>
+  <action url="%(content_url)s/content_status_modify?workflow_action=fwd_to_country_draft" category="workflow" icon="">Send to country representatives</action>
   <guard>
    <guard-permission>Review portal content</guard-permission>
   </guard>
  </transition>
  <transition transition_id="fwd_to_ec_eea_review" title="Send to EC/EEA representatives" new_state="ec_eea_review" trigger="USER" before_script="" after_script="">
-  <action url="%(content_url)s/@@set_workflow_message?form.widgets.workflow_action=fwd_to_ec_eea_review" category="workflow" icon="">Send to EC/EEA representatives</action>
+  <action url="%(content_url)s/content_status_modify?workflow_action=fwd_to_ec_eea_review" category="workflow" icon="">Send to EC/EEA representatives</action>
   <guard>
    <guard-permission>Review portal content</guard-permission>
   </guard>
  </transition>
  <transition transition_id="fwd_to_etc_review" title="Send to ETC representatives" new_state="etc_review" trigger="USER" before_script="" after_script="">
-  <action url="%(content_url)s/@@set_workflow_message?form.widgets.workflow_action=fwd_to_etc_review" category="workflow" icon="">Send to ETC representatives</action>
+  <action url="%(content_url)s/content_status_modify?workflow_action=fwd_to_etc_review" category="workflow" icon="">Send to ETC representatives</action>
   <guard>
    <guard-permission>Review portal content</guard-permission>
   </guard>
