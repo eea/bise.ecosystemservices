@@ -9,8 +9,10 @@ def upgrade_to_2(context):
     logger.info("Upgrading to 2")
 
     # need to reimport plone.app.iterate, it has updated registry settings
-    context.runImportStepFromProfile('profile-plone.app.iterate:default',
-                                     'plone.app.registry')
+    context.runImportStepFromProfile(
+        'profile-plone.app.iterate:plone.app.iterate',
+        'plone.app.registry'
+    )
 
     for name in [
         'plone.app.registry',       # collective.cover tiles
