@@ -21,7 +21,7 @@
 
 
     <!-- v2 upgrade -->
-    <gs:upgradeStep
+    <genericsetup:upgradeStep
         title="Upgrade bise.ecosystemservices to v2"
         description=""
         source="*"
