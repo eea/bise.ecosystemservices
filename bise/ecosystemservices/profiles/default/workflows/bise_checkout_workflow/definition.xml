@@ -203,14 +203,6 @@
    <permission-role>Reviewer</permission-role>
    <permission-role>Site Administrator</permission-role>
   </permission-map>
-  <permission-map name="Modify view template" acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>Site Administrator</permission-role>
-  </permission-map>
-  <permission-map name="Request review" acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>Site Administrator</permission-role>
-  </permission-map>
   <permission-map name="Review portal content" acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>Reviewer</permission-role>
@@ -231,6 +223,7 @@
    <permission-role>Site Administrator</permission-role>
   </permission-map>
   <permission-map name="iterate : Check out content" acquired="False">
+   <permission-role>Contributor</permission-role>
    <permission-role>Editor</permission-role>
    <permission-role>Manager</permission-role>
    <permission-role>Owner</permission-role>
