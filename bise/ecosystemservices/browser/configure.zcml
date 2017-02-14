@@ -1,84 +1,86 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:grok="http://namespaces.zope.org/grok"
-    i18n_domain="bise.ecosystemservices">
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:i18n="http://namespaces.zope.org/i18n"
+  xmlns:grok="http://namespaces.zope.org/grok"
+  i18n_domain="bise.ecosystemservices">
 
 
+  <browser:page
+    name="view"
+    class=".views.ServiceView"
+    for="bise.ecosystemservices.service.IService"
+    permission="zope2.View"
+    template="templates/serviceview.pt"
+    />
+
+  <browser:page
+    name="view"
+    class=".views.StudyView"
+    for="bise.ecosystemservices.study.IStudy"
+    permission="zope2.View"
+    template="templates/studyview.pt"
+    />
+
+  <browser:page
+    name="view"
+    class=".views.EcosystemView"
+    for="bise.ecosystemservices.ecosystem.IEcosystem"
+    permission="zope2.View"
+    template="templates/ecosystemview.pt"
+    />
+
+  <browser:page
+    name="maesgalleryview"
+    class=".maesgalleryview.MAESGalleryView"
+    for="*"
+    permission="zope2.View"
+    template="templates/maesgalleryview.pt"
+    />
+
+  <browser:page
+    name="atlasview"
+    class=".atlasview.AtlasView"
+    for="*"
+    permission="zope2.View"
+    template="templates/atlasview.pt"
+    />
+
+  <browser:page
+    name="create-maintopic"
+    class=".wizards.CreateMainTopic"
+    for="Products.CMFCore.interfaces.IFolderish"
+    permission="cmf.AddPortalContent"
+    />
+
+  <browser:page
+    name="create-subtopic"
+    class=".wizards.CreateSubTopic"
+    for="Products.CMFCore.interfaces.IFolderish"
+    permission="cmf.AddPortalContent"
+    />
+
+  <configure package="plone.app.content.browser">
+    <!-- bise.diazotheme.interfaces.IBiseDiazoLayer -->
     <browser:page
-        name="view"
-        class=".views.ServiceView"
-        for="bise.ecosystemservices.service.IService"
-        permission="zope2.View"
-        template="templates/serviceview.pt"
-        />
+      for="*"
+      layer="bise.theme.browser.interfaces.IThemeSpecific"
+      name="folder_factories"
+      class="bise.ecosystemservices.browser.wizards.OverrideFolderFactoriesView"
+      template="folderfactories.pt"
+      permission="cmf.AddPortalContent"
+      />
+  </configure>
 
-    <browser:page
-        name="view"
-        class=".views.StudyView"
-        for="bise.ecosystemservices.study.IStudy"
-        permission="zope2.View"
-        template="templates/studyview.pt"
-        />
+  <browser:page
+    for="*"
+    name="iterate_control"
+    class=".iterate.IterateControl"
+    permission="zope2.View"
+    layer="bise.theme.browser.interfaces.IThemeSpecific"
+    allowed_attributes="checkin_allowed checkout_allowed cancel_allowed is_checkout"
+    />
 
-    <browser:page
-        name="view"
-        class=".views.EcosystemView"
-        for="bise.ecosystemservices.ecosystem.IEcosystem"
-        permission="zope2.View"
-        template="templates/ecosystemview.pt"
-        />
-
-    <browser:page
-        name="maesgalleryview"
-        class=".maesgalleryview.MAESGalleryView"
-        for="*"
-        permission="zope2.View"
-        template="templates/maesgalleryview.pt"
-        />
-
-    <browser:page
-        name="atlasview"
-        class=".atlasview.AtlasView"
-        for="*"
-        permission="zope2.View"
-        template="templates/atlasview.pt"
-        />
-
-    <browser:page
-        name="create-maintopic"
-        class=".wizards.CreateMainTopic"
-        for="Products.CMFCore.interfaces.IFolderish"
-        permission="cmf.AddPortalContent"
-        />
-
-    <browser:page
-        name="create-subtopic"
-        class=".wizards.CreateSubTopic"
-        for="Products.CMFCore.interfaces.IFolderish"
-        permission="cmf.AddPortalContent"
-        />
-
-    <configure package="plone.app.content.browser">
-        <!-- bise.diazotheme.interfaces.IBiseDiazoLayer -->
-        <browser:page
-            for="*"
-            layer="bise.theme.browser.interfaces.IThemeSpecific"
-            name="folder_factories"
-            class="bise.ecosystemservices.browser.wizards.OverrideFolderFactoriesView"
-            template="folderfactories.pt"
-            permission="cmf.AddPortalContent"
-            />
-    </configure>
-
-    <browser:page
-        for="*"
-        name="iterate_control"
-        class=".iterate.IterateControl"
-        permission="zope2.View"
-        layer="bise.theme.browser.interfaces.IThemeSpecific"
-        allowed_attributes="checkin_allowed checkout_allowed cancel_allowed is_checkout"
-        />
+  <adapter factory=".iterate.CheckoutFolderLocator" />
 
 </configure>

@@ -1,12 +1,19 @@
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
+from Products.CMFCore.interfaces import IDynamicType
+from Products.CMFCore.permissions import AddPortalContent
+from plone.app.iterate import PloneMessageFactory as _
 from plone.app.iterate.browser.control import Control
 from plone.app.iterate.interfaces import ICheckinCheckoutPolicy
 from plone.app.iterate.interfaces import IIterateAware
 from plone.app.iterate.interfaces import IObjectArchiver
+from plone.app.iterate.interfaces import IWCContainerLocator
 from plone.app.iterate.interfaces import IWorkingCopy
 from plone.app.iterate.permissions import CheckinPermission
 from plone.app.iterate.permissions import CheckoutPermission
+from zope.component import adapter
+from zope.component import hooks
+from zope.interface import implementer
 import logging
 
 logger = logging.getLogger('bise.ecosystemservices')
@@ -95,3 +102,37 @@ class IterateControl(Control):
             return False
 
         return True
+
+
+@implementer(IWCContainerLocator)
+@adapter(IDynamicType)
+class CheckoutFolderLocator(object):
+    """Locate the parent of the context, if the user has the
+    Add portal content permission.
+    """
+
+    def __init__(self, context):
+        self.context = context
+
+    title = _(u'Special Checkout location')
+
+    def checkout_location(self):
+        site = hooks.getSite()
+        if 'checkout-folder' in site.contentIds():
+            return site['checkout-folder']
+
+    @property
+    def available(self):
+        folder = self.checkout_location()
+        if folder is None:
+            return False
+        return bool(
+            getSecurityManager().checkPermission(
+                AddPortalContent,
+                aq_inner(folder)
+            ))
+
+    def __call__(self):
+        if not self.available:
+            return None
+        return aq_inner(self.checkout_location())
