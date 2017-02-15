@@ -11,6 +11,7 @@ from plone.app.iterate.interfaces import IWCContainerLocator
 from plone.app.iterate.interfaces import IWorkingCopy
 from plone.app.iterate.permissions import CheckinPermission
 from plone.app.iterate.permissions import CheckoutPermission
+from plone.memoize.view import memoize
 from zope.component import adapter
 from zope.component import hooks
 from zope.interface import implementer
@@ -102,6 +103,23 @@ class IterateControl(Control):
             return False
 
         return True
+
+    @memoize
+    def cancel_allowed(self):
+        """Check to see if the user can cancel the checkout on the
+        given working copy
+        """
+        policy = ICheckinCheckoutPolicy(self.context, None)
+        if policy is None:
+            return False
+        wc = policy.getWorkingCopy()
+
+        if wc is None:
+            return False
+
+        has_wc = (wc is not None)
+        is_wc = (self.context.aq_inner.aq_self is wc.aq_inner.aq_self)
+        return has_wc and is_wc
 
 
 @implementer(IWCContainerLocator)
