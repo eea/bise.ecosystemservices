@@ -72,15 +72,4 @@
       />
   </configure>
 
-  <browser:page
-    for="*"
-    name="iterate_control"
-    class=".iterate.IterateControl"
-    permission="zope2.View"
-    layer="bise.theme.browser.interfaces.IThemeSpecific"
-    allowed_attributes="checkin_allowed checkout_allowed cancel_allowed is_checkout"
-    />
-
-  <adapter factory=".iterate.CheckoutFolderLocator" />
-
 </configure>

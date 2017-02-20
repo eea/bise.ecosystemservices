@@ -569,6 +569,9 @@ class OverrideFolderFactoriesView(FolderFactoriesView):
         if not IFolderish.providedBy(self.context):
             return res
 
+        if not res:     # don't want to add when user can't add anything
+            return res
+
         blacklist = ['SubTopic', 'MainTopic']
         res = [x for x in res if x['id'] not in blacklist]
         if self.context.portal_type == 'MainTopic':

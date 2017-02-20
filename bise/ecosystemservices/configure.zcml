@@ -1,52 +1,40 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    xmlns:grok="http://namespaces.zope.org/grok"
-    xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="bise.ecosystemservices">
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:five="http://namespaces.zope.org/five"
+  xmlns:i18n="http://namespaces.zope.org/i18n"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  xmlns:grok="http://namespaces.zope.org/grok"
+  xmlns:plone="http://namespaces.plone.org/plone"
+  i18n_domain="bise.ecosystemservices">
 
-    <!-- Include configuration for dependencies listed in setup.py -->
-    <includeDependencies package="." />
+  <!-- Include configuration for dependencies listed in setup.py -->
+  <includeDependencies package="." />
 
-    <include file="workflow.zcml" />
-    <include file="permissions.zcml" />
-    <include file="profiles.zcml" />
-    <include package=".browser" />
-    <include package=".tiles" />
+  <include file="permissions.zcml" />
+  <include file="profiles.zcml" />
+  <include package=".browser" />
+  <include package=".tiles" />
 
-    <!-- Grok the package to initialise schema interfaces and content classes -->
-    <!-- <grok:grok package="." /> -->
+  <i18n:registerTranslations directory="locales" />
 
-    <i18n:registerTranslations directory="locales" />
+  <browser:resourceDirectory
+    name="bise.ecosystemservices"
+    directory="static"
+    />
+  <browser:resource name="maintopic.svg" file="static/maintopic.svg" />
+  <browser:resource name="subtopic.svg" file="static/subtopic.svg" />
 
-    <browser:resourceDirectory
-        name="bise.ecosystemservices"
-        directory="static"
-        />
-    <browser:resource name="maintopic.svg" file="static/maintopic.svg" />
-    <browser:resource name="subtopic.svg" file="static/subtopic.svg" />
+  <subscriber
+    for=".elasticsearch.IElasticSearch
+    zope.lifecycleevent.interfaces.IObjectAddedEvent"
+    handler=".elasticsearch.handle_es_change"
+    />
 
-    <!-- -*- extra stuff goes here -*- -->
-
-    <subscriber
-        for=".elasticsearch.IElasticSearch
-        zope.lifecycleevent.interfaces.IObjectAddedEvent"
-        handler=".elasticsearch.handle_es_change"
-        />
-
-    <subscriber
-        for=".elasticsearch.IElasticSearch
-        zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-        handler=".elasticsearch.handle_es_change"
-        />
-
-    <subscriber
-        for="plone.app.iterate.interfaces.ICheckoutEvent"
-        handler=".events.handle_checkout_event"
-        />
-
+  <subscriber
+    for=".elasticsearch.IElasticSearch
+    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+    handler=".elasticsearch.handle_es_change"
+    />
 
 </configure>

@@ -1,24 +1,21 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
-    i18n_domain="bise.ecosystemservices">
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:i18n="http://namespaces.zope.org/i18n"
+  i18n_domain="bise.ecosystemservices">
 
-    
-      <!-- -*- extra stuff goes here -*- -->
-       <permission
-          id="bise.ecosystemservices.AddService"
-	  title="bise.ecosystemservices: Add Service"
-	  />       
+  <permission
+    id="bise.ecosystemservices.AddService"
+    title="bise.ecosystemservices: Add Service"
+    />
 
+  <permission
+    id="bise.ecosystemservices.AddEcosystem"
+    title="bise.ecosystemservices: Add Ecosystem"
+    />
 
-       <permission
-          id="bise.ecosystemservices.AddEcosystem"
-	  title="bise.ecosystemservices: Add Ecosystem"
-	  />       
-
-       <permission
-          id="bise.ecosystemservices.AddStudy"
+  <permission
+    id="bise.ecosystemservices.AddStudy"
     title="bise.ecosystemservices: Add Study"
-    /> 
+    />
 
 </configure>

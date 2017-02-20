@@ -17,7 +17,7 @@ def upgrade_to_2(context):
     for name in [
         'plone.app.registry',       # collective.cover tiles
         'typeinfo',                 # the MainTopic, SubTopic types
-        'workflow',                 # bise_checkout_workflow
-        'placeful_workflow',        # countries policy
+        # 'workflow',                 # bise_checkout_workflow
+        # 'placeful_workflow',        # countries policy
     ]:
         context.runImportStepFromProfile(default_profile, name)
