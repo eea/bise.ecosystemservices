@@ -121,13 +121,22 @@ class DavizListingTile(PersistentCoverTile):
             return []
 
         result = []
-        for row in rows[:count]:
-            row['item_title'] = row['title']
+        c = 0
+
+        for row in rows:
+            title = row.get('title', row.get('name'))
+            if not title:
+                logger.warning("Could not extract row information for %r", row)
+                continue
+            row['item_title'] = title
             row['thumb_url'] = (source.base_address or '') + \
                 row.get('thumb', '')
             row['item_url'] = row.get('url', '')
             row['item_published'] = row.get('published_on', '')
             result.append(row)
+            c += 1
+            if c > count:
+                break
 
         return result
 
