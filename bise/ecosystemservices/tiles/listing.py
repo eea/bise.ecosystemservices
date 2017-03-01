@@ -276,6 +276,15 @@ class ElasticSearchBaseTile(PersistentCoverTile):
     def is_empty(self):
         return not (self.data.get('uuid', None))
 
+    def get_sources(self):
+        uuid = self.data.get('uuid')
+        if not uuid:
+            return []
+        source = uuidToObject(uuid)
+        if not source:
+            logger.warning("Could not find object with uuid %s", uuid)
+        return [source]
+
 
 class ElasticSearchTeaserTile(ElasticSearchBaseTile):
     """ ElasticSearch / Bise Catalogue Teaser tile
