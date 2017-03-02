@@ -14,6 +14,10 @@
     <h3 tal:condition="is_compose"
       tal:content="python: view.data.get('title')">Title here</h3>
 
+    <tal:def tal:define="text python: view.data['description']">
+      <div class="text" tal:condition="text" tal:content="text">Text</div>
+    </tal:def>
+
     <div class="well" tal:condition="is_compose">
       <p><strong>Embed code:</strong></p>
       <pre>
