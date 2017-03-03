@@ -1,0 +1,74 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="bise.ecosystemservices">
+
+  <body>
+
+    <metal:content-title fill-slot="content-title">
+    <h3>Remap result columns to required Bise columns</h3>
+    </metal:content-title>
+
+    <metal:main fill-slot="content-core">
+
+    <metal:content-core define-macro="content-core" tal:define="data view/results" >
+
+    <form method="POST" action="./@@sparql-data-wizard" style="">
+      <label>Query
+        <textarea
+          name='query'
+          cols="60"
+          rows="10"
+          placeholder='Enter query'
+          tal:content="view/query">
+        </textarea>
+      </label>
+      <div>
+        <input type="submit" name="get_data" value="Get data" />
+        <input type="submit" name="save" tal:condition="view/can_save" value="Save the query to the Sparql object" />
+      </div>
+
+      <div style="padding-top:1rem" tal:condition="data">
+        <p class="discreet">
+        You need to map ALL fields in the dropdown to a column in the data!
+        </p>
+        <div tal:condition="python: len(data['properties']) != len(view.choices)"
+           style="background-color: red; color:white; padding: 1rem; margin-bottom: 1rem;">
+          You don't have enough columns to map the results!
+        </div>
+        <table class="sparql-results" tal:condition="data">
+          <thead>
+            <tr>
+              <th tal:repeat="propname data/properties">
+                <div>Result Label: <span tal:content="propname">Prop name</span></div>
+                <div>Bise Mapping:
+                  <select name="" tal:attributes="name propname">
+                    <option tal:repeat="ch view/choices" tal:attributes="selected python: propname == ch" tal:content="ch">var name</option>
+                  </select>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr tal:repeat="row python: data['items'][:10]" tal:attributes="class string:row_${repeat/row/index}">
+              <td tal:repeat="propname data/properties" tal:content="row/?propname">val</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div>
+          <input type="submit" name="relabel" value="Apply field mapping to the query" />
+        </div>
+      </div>
+
+    </form>
+
+    </metal:content-core>
+
+    </metal:main>
+  </body>
+</html>
+

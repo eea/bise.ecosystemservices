@@ -72,4 +72,12 @@
       />
   </configure>
 
+  <browser:page
+    name="sparql-data-wizard"
+    class=".datawizards.SparqlQueryWizard"
+    for="eea.sparql.interfaces.ISparql"
+    permission="cmf.ModifyPortalContent"
+    template="templates/sparql.pt"
+    />
+
 </configure>
