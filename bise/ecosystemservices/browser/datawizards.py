@@ -43,7 +43,7 @@ class SparqlQueryWizard(BrowserView):
             blacklist = ['query', 'relabel', 'save']
             remap = [(k, v)
                      for k, v in self.request.form.items()
-                     if k not in blacklist]
+                     if (v and (k not in blacklist))]
 
             query = self.request.form.get('query')
             sm = IStatusMessage(self.request)
