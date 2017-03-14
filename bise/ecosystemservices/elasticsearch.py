@@ -1,14 +1,16 @@
 """ A content type to define an cache an ElasticSearch query
 """
 
+from eea.cache import cache
+from plone import namedfile
 from plone.directives import dexterity
 from plone.directives import form
-from plone import namedfile
+from plone.uuid.interfaces import IUUID
 from zope import schema
 from zope.interface import implements
 import json
-import requests
 import logging
+import requests
 
 logger = logging.getLogger('bise.ecosystemservices.elasticsearch')
 
@@ -32,26 +34,35 @@ class IElasticSearch(form.Schema):
                                                    required=False)
 
 
+def cache_key(fun, context):
+    return IUUID(context)
+
+
 class ElasticSearch(dexterity.Item):
     implements(IElasticSearch)
 
     def get_cached_results(self):
-        return self.cached_results
+        return self._cached_results()
 
-    def precache_data(self):
+    @cache(cache_key, lifetime=60*60*8)     # 8 hours cache
+    def _cached_results(self):
+        print('getting results', IUUID(self))
         if not (self.endpoint and self.query):
             return
 
         logger.info("Updating results cache for %s", self.absolute_url())
-        resp = requests.post(self.endpoint, json=json.loads(self.query))
+        try:
+            resp = requests.post(self.endpoint, json=json.loads(self.query))
+        except Exception, e:
+            logger.error("Error in updating results for ES: %s", e)
+            return []
 
-        # TODO: make this a field
-        self.cached_results = namedfile.NamedBlobFile(resp.text,
-                                                      filename=u"data.json")
+        return resp.text
 
 
 def handle_es_change(obj, event):
-    obj.precache_data()
+    return
+    # obj.precache_data()
 
 
 # import DateTime

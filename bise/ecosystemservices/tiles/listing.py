@@ -109,6 +109,8 @@ class DavizListingTile(PersistentCoverTile):
         return result
 
     def _extract_es_data(self, source, count):
+        data = json.loads(source.get_cached_results())
+        # TODO: fix here
         cached = getattr(source, 'cached_results', None)
         if cached is None:
             return []
@@ -247,7 +249,7 @@ class ElasticSearchBaseTile(PersistentCoverTile):
         if not source:
             return []
 
-        data = json.loads(source.cached_results.data)
+        data = json.loads(source.get_cached_results())
 
         try:
             rows = [x['_source'] for x in data['hits']['hits']]
@@ -304,14 +306,21 @@ class ElasticSearchListingTile(ElasticSearchBaseTile):
     def get_url(self, obj):
         # try different strategies to get the source url from the catalogue
         # info
-        base = 'http://catalogue.biodiversity.europa.eu'
+        source = self.get_sources()[0]
+        base = source.base_address
+        fallback = 'http://catalogue.biodiversity.europa.eu'
+
         strategies = [
+            lambda o: o['url'],
             lambda o: o['source_url'],
-            lambda o: base + obj['file_name']
+            lambda o: base + obj['file_name'],
+            lambda o: fallback + obj['file_name'],
         ]
-        for l in strategies:
+        for (i, s) in enumerate(strategies):
             try:
-                return l(obj)
+                val = s(obj)
+                if val:
+                    return val
             except KeyError:
                 continue
 
