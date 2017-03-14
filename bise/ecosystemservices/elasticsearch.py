@@ -52,10 +52,14 @@ class ElasticSearch(dexterity.Item):
 
         logger.info("Updating results cache for %s", self.absolute_url())
         try:
-            resp = requests.post(self.endpoint, json=json.loads(self.query))
+            resp = requests.post(
+                self.endpoint,
+                json=json.loads(self.query),
+                timeout=2
+            )
         except Exception, e:
             logger.error("Error in updating results for ES: %s", e)
-            return []
+            return ""
 
         return resp.text
 
