@@ -46,7 +46,6 @@ class ElasticSearch(dexterity.Item):
 
     @cache(cache_key, lifetime=60*60*8)     # 8 hours cache
     def _cached_results(self):
-        print('getting results', IUUID(self))
         if not (self.endpoint and self.query):
             return
 

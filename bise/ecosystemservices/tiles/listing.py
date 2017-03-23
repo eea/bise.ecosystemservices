@@ -112,13 +112,12 @@ class DavizListingTile(PersistentCoverTile):
         text = source.get_cached_results()
         if not text:
             return []
-        data = json.loads()
-        # TODO: fix here
-        cached = getattr(source, 'cached_results', None)
-        if cached is None:
-            return []
-
-        data = json.loads(cached.data)
+        data = json.loads(text)
+        # cached = getattr(source, 'cached_results', None)
+        # if cached is None:
+        #     return []
+        #
+        # data = json.loads(cached.data)
 
         try:
             rows = [x['_source'] for x in data['hits']['hits']]
@@ -255,7 +254,7 @@ class ElasticSearchBaseTile(PersistentCoverTile):
         data = {}
         text = source.get_cached_results()
         if text:
-            data = json.loads()
+            data = json.loads(text)
         else:
             return []
 
