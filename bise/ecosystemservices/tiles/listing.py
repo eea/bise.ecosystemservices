@@ -321,7 +321,7 @@ class ElasticSearchListingTile(ElasticSearchBaseTile):
         strategies = [
             lambda o: o['url'],
             lambda o: o['source_url'],
-            lambda o: base + obj['file_name'],
+            lambda o: (base or '') + obj['file_name'],
             lambda o: fallback + obj['file_name'],
         ]
         for (i, s) in enumerate(strategies):
