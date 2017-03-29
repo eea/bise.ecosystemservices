@@ -4,7 +4,6 @@ Changelog
 2.1.dev0 - (unreleased)
 -----------------------
 - Further implementation "precooked topic pages"
-- Added bise_checkout_workflow, to allow countries to edit their own content
 
 2.0 - (2016-12-12)
 ------------------
