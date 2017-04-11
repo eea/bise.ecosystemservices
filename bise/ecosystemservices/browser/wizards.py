@@ -3,7 +3,7 @@ from bise.ecosystemservices.browser.utils import make_group
 from bise.ecosystemservices.browser.utils import make_layout
 from bise.ecosystemservices.browser.utils import make_row
 from bise.ecosystemservices.browser.utils import make_tile
-from bise.ecosystemservices.tiles.vocabulary import get_tags
+from bise.ecosystemservices.vocabulary import get_tags
 from eea.sparql.content.sparql import generateUniqueId
 from plone.api.content import create
 from plone.app.content.browser.folderfactories import FolderFactoriesView
