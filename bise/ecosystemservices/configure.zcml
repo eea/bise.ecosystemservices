@@ -14,7 +14,6 @@
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
   <include package=".browser" />
-  <include package=".tiles" />
 
   <i18n:registerTranslations directory="locales" />
 
@@ -25,16 +24,8 @@
   <browser:resource name="maintopic.svg" file="static/maintopic.svg" />
   <browser:resource name="subtopic.svg" file="static/subtopic.svg" />
 
-  <subscriber
-    for=".elasticsearch.IElasticSearch
-    zope.lifecycleevent.interfaces.IObjectAddedEvent"
-    handler=".elasticsearch.handle_es_change"
-    />
-
-  <subscriber
-    for=".elasticsearch.IElasticSearch
-    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-    handler=".elasticsearch.handle_es_change"
-    />
+  <utility
+    name="bise.catalogue.tagvocabulary_mainbranch"
+    factory=".vocabulary.CatalogueTagVocabularyMainBranch" />
 
 </configure>
