@@ -3,6 +3,7 @@ Changelog
 
 2.2.dev0 - (unreleased)
 -----------------------
+* Split precooked into bise.datatiles
 
 2.1 - (2017-03-29)
 ------------------
