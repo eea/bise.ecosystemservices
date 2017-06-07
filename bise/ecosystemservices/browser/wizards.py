@@ -24,18 +24,20 @@ import json
 
 DEFAULT_DAVIZ_QUERY = u"""
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX rdfs2: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX pt: <http://www.eea.europa.eu/portal_types/Data#>
 PREFIX dc: <http://purl.org/dc/terms/>
 
 SELECT distinct (?s as ?item_url) ?item_title ?item_description ?item_published
+?item_type
 WHERE {
  ?s ?p1 ?o1.
 
  OPTIONAL {?s dc:title ?item_title} .
  OPTIONAL {?s dc:abstract ?item_description} .
  OPTIONAL {?s dc:issued ?item_published} .
+ OPTIONAL {?s rdf:type ?item_type} .
 
  filter(?p1 = <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>).
  filter(?o1 =
@@ -52,12 +54,14 @@ PREFIX pt: <http://www.eea.europa.eu/portal_types/Data#>
 PREFIX dc: <http://purl.org/dc/terms/>
 
 SELECT (?s as ?item_url) ?item_title ?item_description ?item_published
+?item_type
 WHERE {
  ?s ?p1 ?o1.
 
  OPTIONAL {?s dc:title ?item_title} .
  OPTIONAL {?s dc:abstract ?item_description} .
  OPTIONAL {?s dc:issued ?item_published} .
+ OPTIONAL {?s rdf:type ?item_type} .
 
  filter(?p1 = <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>).
  filter(?o1 = <http://www.eea.europa.eu/portal_types/Assessment#Assessment>).
@@ -107,7 +111,7 @@ class IAdvancedTopicWizardSchema(form.Schema):
         description=(u"Sparql Query to select a colection of Daviz "
                      u"Vizualizations. This should be a sparql query "
                      u"that exposes columns: ?item_url ?item_title "
-                     u"?item_description ?item_published"),
+                     u"?item_description ?item_published ?item_type"),
         default=DEFAULT_DAVIZ_QUERY,
         required=False
     )
@@ -116,7 +120,7 @@ class IAdvancedTopicWizardSchema(form.Schema):
         description=(u"Sparql Query to select a colection of Indicator "
                      u"Assessments. This should be a sparql query "
                      u"that exposes columns: ?item_url ?item_title "
-                     u"?item_description ?item_published"),
+                     u"?item_description ?item_published ?item_type"),
         default=DEFAULT_INDICATORS_QUERY,
         required=False
     )
