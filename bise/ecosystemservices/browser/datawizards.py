@@ -18,7 +18,8 @@ class SparqlQueryWizard(BrowserView):
         'item_url': 'URL',
         'item_title': 'Title',
         'item_description': 'Description',
-        'item_published': 'Published'
+        'item_published': 'Published',
+        'item_type': 'Item type',
     }
 
     def __call__(self):
