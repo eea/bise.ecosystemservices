@@ -29,15 +29,20 @@ PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX pt: <http://www.eea.europa.eu/portal_types/Data#>
 PREFIX dc: <http://purl.org/dc/terms/>
 
-SELECT distinct (?s as ?item_url) ?item_title ?item_description ?item_published
-?item_type
+SELECT distinct
+    (?s as ?item_url)
+    ?item_title
+    ?item_description
+    ?item_published
+    sql:GROUP_CONCAT(?itype, ' ') as ?item_type
+
 WHERE {
- ?s ?p1 ?o1.
+ ?s ?p1 ?o1 .
 
  OPTIONAL {?s dc:title ?item_title} .
  OPTIONAL {?s dc:abstract ?item_description} .
  OPTIONAL {?s dc:issued ?item_published} .
- OPTIONAL {?s rdf:type ?item_type} .
+ OPTIONAL {?s rdf:type ?itype } .
 
  filter(?p1 = <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>).
  filter(?o1 =
@@ -53,15 +58,18 @@ PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX pt: <http://www.eea.europa.eu/portal_types/Data#>
 PREFIX dc: <http://purl.org/dc/terms/>
 
-SELECT (?s as ?item_url) ?item_title ?item_description ?item_published
-?item_type
+SELECT (?s as ?item_url)
+    ?item_title
+    ?item_description
+    ?item_published
+    sql:GROUP_CONCAT(?itype, ' ') as ?item_type
 WHERE {
  ?s ?p1 ?o1.
 
  OPTIONAL {?s dc:title ?item_title} .
  OPTIONAL {?s dc:abstract ?item_description} .
  OPTIONAL {?s dc:issued ?item_published} .
- OPTIONAL {?s rdf:type ?item_type} .
+ OPTIONAL {?s rdf:type ?itype } .
 
  filter(?p1 = <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>).
  filter(?o1 = <http://www.eea.europa.eu/portal_types/Assessment#Assessment>).
