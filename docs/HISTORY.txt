@@ -1,8 +1,10 @@
 Changelog
 =========
 
-2.3.dev0 - (unreleased)
------------------------
+2.3 - (2017-09-20)
+------------------
+* Feature: Added item_type to sparql queries
+  [tiberich #74985]:
 
 2.2 - (2017-04-14)
 ------------------
