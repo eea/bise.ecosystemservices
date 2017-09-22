@@ -1,8 +1,7 @@
-from Products.CMFCore.interfaces import IFolderish
-from bise.ecosystemservices.browser.utils import make_group
-from bise.ecosystemservices.browser.utils import make_layout
-from bise.ecosystemservices.browser.utils import make_row
-from bise.ecosystemservices.browser.utils import make_tile
+import json
+
+from bise.ecosystemservices.browser.utils import (make_group, make_layout,
+                                                  make_row, make_tile)
 from bise.ecosystemservices.vocabulary import get_tags
 from eea.sparql.content.sparql import generateUniqueId
 from plone.api.content import create
@@ -11,15 +10,15 @@ from plone.app.textfield import RichText
 from plone.app.textfield.value import RichTextValue
 from plone.directives import form
 from plone.portlets.constants import CONTEXT_CATEGORY
-from plone.portlets.interfaces import ILocalPortletAssignmentManager
-from plone.portlets.interfaces import IPortletManager
+from plone.portlets.interfaces import (ILocalPortletAssignmentManager,
+                                       IPortletManager)
 from plone.uuid.interfaces import IUUID
+from Products.CMFCore.interfaces import IFolderish
 from z3c.form import button
 from zope.component import getMultiAdapter, getUtility
-from zope.schema import Choice
-from zope.schema import Text
-from zope.schema import TextLine
-import json
+from zope.event import notify
+from zope.lifecycleevent import ObjectModifiedEvent
+from zope.schema import Choice, Text, TextLine
 
 
 DEFAULT_DAVIZ_QUERY = u"""
@@ -176,8 +175,10 @@ class BaseCreateTopic(form.SchemaForm):
     @button.buttonAndHandler(u'Ok')
     def handleApply(self, action):
         data, errors = self.extractData()
+
         if errors:
             self.status = self.formErrorsMessage
+
             return
 
         obj = self.create(data)
@@ -247,6 +248,7 @@ class CreateMainTopic(BaseCreateTopic):
         data['catalog_teaser_link'] = "http://biodiversity.europa.eu/search"
 
         st = view.create(data)
+
         return st
 
     def create(self, data):
@@ -266,6 +268,7 @@ class CreateMainTopic(BaseCreateTopic):
         fc_tile = make_tile("bise.folder_contents_listing", cover, info)
 
         all_tags = get_tags()
+
         for tag in all_tags:
             if tag.startswith(data['title'] + ': '):
                 subtopic = tag.split(':', 1)[1].strip()
@@ -301,6 +304,7 @@ class CreateMainTopic(BaseCreateTopic):
             rows.append(row_3)
 
         tableau_embed = data.get('tableau_embed', '')
+
         if tableau_embed:
             info = {'title': u'Tableau embed', 'embed': tableau_embed}
             t_tile = make_tile("bise.embed", cover, info)
@@ -359,6 +363,7 @@ class CreateMainTopic(BaseCreateTopic):
                         endpoint=es_endpoint,
                         query=es_query
                         )
+            notify(ObjectModifiedEvent(es))
             info = {'title': 'Further Links', 'uuid': IUUID(es)}
             es_list_tile = make_tile("bise.es_listing", cover, info)
             groups.append(make_group(9, es_list_tile))
@@ -426,7 +431,7 @@ class ISubTopicWizardSchema(form.Schema):
 
     elasticsearch_query_endpoint = TextLine(
         title=u"ElasticSearch Server Endpoint",
-        default=(u"http://10.128.0.50:19200"),
+        default=(u"http://10.128.0.50:29200"),
         required=False
     )
     # elasticsearch_query = Text(
@@ -485,6 +490,7 @@ class CreateSubTopic(BaseCreateTopic):
         rows = [row_1, row_2]
 
         daviz_url = data.get('daviz_url', '').strip()
+
         if daviz_url:
             info = {'title': 'Graphs and trends', 'daviz_url': daviz_url}
             daviz_tile = make_tile('bise.daviz_preview', cover, info)
@@ -531,6 +537,7 @@ class CreateSubTopic(BaseCreateTopic):
         )
 
         teaser_subj = (data.get('catalogue_teaser') or '').strip()
+
         if not teaser_subj:
             teaser_subj = data['title']
         teaser_link = data.get('catalogue_teaser_link', '').strip()
@@ -543,6 +550,7 @@ class CreateSubTopic(BaseCreateTopic):
                         endpoint=es_endpoint,
                         query=es_query
                         )
+            notify(ObjectModifiedEvent(es))
             info = {'title': 'Further Links', 'uuid': IUUID(es)}
             es_list_tile = make_tile("bise.es_listing", cover, info)
             groups.append(make_group(9, es_list_tile))
@@ -586,6 +594,7 @@ class OverrideFolderFactoriesView(FolderFactoriesView):
 
         blacklist = ['SubTopic', 'MainTopic']
         res = [x for x in res if x['id'] not in blacklist]
+
         if self.context.portal_type == 'MainTopic':
             res.append({
                 'id': 'SubTopic',

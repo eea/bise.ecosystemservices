@@ -3,6 +3,8 @@ Changelog
 
 2.4.dev0 - (unreleased)
 -----------------------
+* Bug fix: trigger ObjectModifiedEvent for ES objects in wizard
+  [tiberich #85852]
 
 2.3 - (2017-09-20)
 ------------------
