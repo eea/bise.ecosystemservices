@@ -283,7 +283,7 @@ class CreateMainTopic(BaseCreateTopic):
         row_1 = make_row(make_group(12, desc_tile))
         row_2 = make_row(make_group(12, fc_tile))
 
-        rows = [row_1, row_2]
+        rows = [row_1]
 
         # endpoint = data.get('sparql_endpoint', '').strip()
         endpoint = "http://semantic.eea.europa.eu/sparql"
@@ -302,6 +302,7 @@ class CreateMainTopic(BaseCreateTopic):
             row_3 = make_row(make_group(12, dfw_tile))
             row_3['css-class'] = "border-at-top"
             rows.append(row_3)
+            rows.append(row_2)
 
         tableau_embed = data.get('tableau_embed', '')
 
@@ -487,7 +488,7 @@ class CreateSubTopic(BaseCreateTopic):
         intro_tile = make_tile("collective.cover.richtext", cover, info)
         row_2 = make_row(make_group(12, intro_tile))
 
-        rows = [row_1, row_2]
+        rows = [row_1]
 
         daviz_url = data.get('daviz_url', '').strip()
 
@@ -497,6 +498,7 @@ class CreateSubTopic(BaseCreateTopic):
             row_3 = make_row(make_group(12, daviz_tile))
             row_3['css-class'] = 'border-at-top'
             rows.append(row_3)
+            rows.append(row_2)
 
         endpoint = data.get('sparql_endpoint', '').strip()
         isq = data.get('indicators_sparql_query', '').strip()
