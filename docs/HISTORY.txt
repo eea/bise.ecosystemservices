@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.5.dev0 - (unreleased)
------------------------
+2.5 - (2018-01-23)
+------------------
 * Subtopics moved down on the page
   [krisztina #85852]
 
@@ -43,3 +43,4 @@ Changelog
 -------------------
 - Initial release
   [erral]
+
